@@ -1,0 +1,193 @@
+@layer components {
+  /* ---------- Checkout form ---------- */
+  .co {
+    display: grid;
+    gap: 2.25rem;
+
+    & .co__alert {
+      padding: 0.9rem 1rem;
+      border: 1.5px solid var(--rose);
+      background: rgb(168 95 103 / 0.07);
+      color: var(--rose-deep);
+      font-size: 0.8125rem;
+    }
+
+    & .co__section {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    & .co__legend {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.25rem;
+      border-bottom: 2px solid var(--rule);
+      color: var(--ink);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+
+      & span {
+        color: var(--rose);
+      }
+    }
+
+    /* COD option card */
+    & .co__pay {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 1rem 1.1rem;
+      border: 2px solid var(--slate);
+      background: var(--paper);
+
+      & input {
+        margin-top: 0.2rem;
+        accent-color: var(--slate);
+      }
+
+      & strong {
+        display: block;
+        color: var(--ink);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      & small {
+        display: block;
+        margin-top: 0.2rem;
+        color: var(--taupe-dark);
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  /* ---------- Field (label + input + error) ---------- */
+  .co-field {
+    display: grid;
+    gap: 0.4rem;
+
+    & label {
+      color: var(--taupe-dark);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    & input,
+    & select,
+    & textarea {
+      width: 100%;
+      min-height: 2.9rem;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid var(--rule);
+      background: #fff;
+      color: var(--ink);
+      font-size: 0.9375rem; /* mobile zoom aakaathirikkaan ≥ 15px */
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+
+      &:focus {
+        border-color: var(--slate);
+        box-shadow: 0 0 0 3px rgb(23 37 42 / 0.08);
+      }
+
+      &[aria-invalid="true"] {
+        border-color: var(--rose);
+      }
+    }
+
+    & textarea {
+      resize: vertical;
+    }
+
+    & .co-field__error {
+      color: var(--rose);
+      font-size: 0.75rem;
+    }
+
+    & .co-field__hint {
+      color: var(--taupe);
+      font-size: 0.6875rem;
+    }
+  }
+
+  /* ---------- Summary items ---------- */
+  .co-items {
+    display: grid;
+    gap: 0.9rem;
+    max-height: 18rem;
+    overflow-y: auto;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--rule);
+
+    & li {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    & .co-items__img {
+      position: relative;
+      flex-shrink: 0;
+      width: 3.5rem;
+      aspect-ratio: 4 / 5;
+      border: 1px solid var(--rule);
+      background: var(--ivory);
+
+      & img {
+        overflow: hidden;
+      }
+    }
+
+    /* qty badge (image-inte mukalil) */
+    & .co-items__qty {
+      position: absolute;
+      top: -0.45rem;
+      right: -0.45rem;
+      display: grid;
+      place-items: center;
+      min-width: 1.2rem;
+      height: 1.2rem;
+      padding-inline: 0.25rem;
+      border-radius: 9999px;
+      background: var(--slate);
+      color: var(--ivory);
+      font-size: 0.625rem;
+      font-weight: 600;
+    }
+  }
+
+  /* ---------- Primary button ---------- */
+  .co-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
+    background: var(--rose);
+    color: var(--ivory);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-variant-numeric: lining-nums;
+    cursor: pointer;
+    transition: background 0.25s, opacity 0.25s;
+
+    &:hover:not(:disabled) {
+      background: var(--rose-deep);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+  }
+}

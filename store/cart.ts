@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-// ---------- Shipping rule (checkout-ilum ithu thanne use cheyyum) ----------
-export const FREE_SHIPPING_MIN = 5000; // ₹5,000-um athinu mukalilum free
-export const SHIPPING_FEE = 150;
-export const MAX_QTY = 10;
+import { MAX_QTY } from "@/lib/pricing";
+
+// pricing rules lib/pricing.ts-il (server-um use cheyyunnu) — ivide ninnu re-export
+export { FREE_SHIPPING_MIN, MAX_QTY, SHIPPING_FEE, shippingFor } from "@/lib/pricing";
 
 export type CartItem = {
   key: string; // productId + size — same product, vere size = vere line
@@ -70,5 +70,3 @@ export const useCart = create<CartState>()(
 // ---------- Derived values (store-il save cheyyunnilla — items-il ninnu calculate) ----------
 export const cartCount = (items: CartItem[]) => items.reduce((n, i) => n + i.qty, 0);
 export const cartSubtotal = (items: CartItem[]) => items.reduce((n, i) => n + i.price * i.qty, 0);
-export const shippingFor = (subtotal: number) =>
-  subtotal === 0 || subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE;
