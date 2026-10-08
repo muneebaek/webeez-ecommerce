@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import CartDrawer from "@/components/cart/CartDrawer";
 import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import Footer from "@/components/layout/Footer";
@@ -15,7 +16,10 @@ export default function StoreLayout({
       <Header />
       <main>{children}</main>
       <Footer />
-      <MobileTabBar />
+      {/* usePathname (active tab) — dynamic URL-il Suspense venam (Cache Components rule) */}
+      <Suspense fallback={null}>
+        <MobileTabBar />
+      </Suspense>
       <CartDrawer />
     </>
   );

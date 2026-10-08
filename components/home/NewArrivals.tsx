@@ -1,9 +1,9 @@
 import ProductCard from "@/components/product/ProductCard";
-import { getProductsByCollection } from "@/lib/products";
+import { getProductsByCollection } from "@/lib/data/products";
 
-export default function NewArrivals() {
+export default async function NewArrivals() {
   // aadyathe product = flagship (valiya card), baaki 2 normal
-  const [flagship, ...rest] = getProductsByCollection("new-arrivals").slice(0, 3);
+  const [flagship, ...rest] = (await getProductsByCollection("new-arrivals")).slice(0, 3);
 
   return (
     <section className="bg-paper py-14 lg:py-20">

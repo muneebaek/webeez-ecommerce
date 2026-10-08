@@ -6,6 +6,7 @@ import Pagination from "@/components/catalog/Pagination";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ProductCard from "@/components/product/ProductCard";
 import { filterProducts, hrefWith, paginate, parseFilters, titleFor, type Filters } from "@/lib/catalog";
+import { getAllProducts } from "@/lib/data/products";
 
 export const metadata: Metadata = {
   title: "Collections — Neythra",
@@ -48,7 +49,7 @@ const sorts = [
 async function Results({ searchParams }: Pick<PageProps<"/products">, "searchParams">) {
   const filters = parseFilters(await searchParams);
   // filter → sort → current page-inte 8 items
-  const pg = paginate(filterProducts(filters), filters.page);
+  const pg = paginate(filterProducts(await getAllProducts(), filters), filters.page);
   const items = pg.items;
 
   const title = titleFor(filters);

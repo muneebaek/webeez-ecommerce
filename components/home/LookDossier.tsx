@@ -1,4 +1,4 @@
-import { getProductsByCollection } from "@/lib/products";
+import { getProductsByCollection } from "@/lib/data/products";
 import LookInteractive from "./LookInteractive";
 
 // Image-il oro piece-um evide aanu (% — image box-inte left / top)
@@ -8,9 +8,9 @@ const hotspots: Record<string, { x: number; y: number }> = {
   lk03: { x: 43, y: 40 }, // brass cuff — wrist
 };
 
-export default function LookDossier() {
+export default async function LookDossier() {
   // server-il data edukkunnu; click / hover ulla bhaagam mathram client component
-  const items = getProductsByCollection("look-01").map((p) => ({
+  const items = (await getProductsByCollection("look-01")).map((p) => ({
     id: p.id,
     name: p.name,
     subtitle: p.subtitle,

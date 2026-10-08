@@ -1,8 +1,8 @@
 import ProductCard from "@/components/product/ProductCard";
-import { getProductsByCollection } from "@/lib/products";
+import { getProductsByCollection } from "@/lib/data/products";
 
-export default function TrendingNow() {
-  const items = getProductsByCollection("trending").slice(0, 4);
+export default async function TrendingNow() {
+  const items = (await getProductsByCollection("trending")).slice(0, 4);
 
   return (
     <section className="border-t-2 border-rule bg-paper py-14 lg:py-20">

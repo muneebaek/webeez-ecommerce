@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
@@ -6,16 +7,16 @@ import ProductGallery from "@/components/product/ProductGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
 import Stars from "@/components/product/Stars";
 import { formatINR } from "@/lib/format";
-import { getProductBySlug, getSimilarProducts, products } from "@/lib/products";
-import { averageRating, getReviews } from "@/lib/reviews";
+import { getProductBySlug, getProductSlugs, getReviews, getSimilarProducts } from "@/lib/data/products";
+import { averageRating } from "@/lib/reviews";
 
 // Ella product pages-um build time-il static aayi undakkum (Cache Components-il ithu venam)
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getProductSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/products/[slug]">): Promise<Metadata> {
-  const product = getProductBySlug((await params).slug);
+  const product = await getProductBySlug((await params).slug);
   if (!product) return { title: "Not found — Neythra" };
   return {
     title: `${product.name} — Neythra`,
@@ -26,13 +27,23 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
 
 const CATEGORY_LABEL = { women: "Women", men: "Men", essentials: "Essentials" } as const;
 
-export default async function ProductPage({ params }: PageProps<"/products/[slug]">) {
-  const product = getProductBySlug((await params).slug);
+// await params Suspense-inte ullil — ariyaatha slug-inu fallback shell prerender aakaan (Cache Components rule).
+// generateStaticParams-il ulla 18 products build-il full static thanne.
+export default function ProductPage({ params }: PageProps<"/products/[slug]">) {
+  return (
+    <Suspense fallback={<ProductSkeleton />}>
+      <ProductDetail params={params} />
+    </Suspense>
+  );
+}
+
+async function ProductDetail({ params }: Pick<PageProps<"/products/[slug]">, "params">) {
+  const product = await getProductBySlug((await params).slug);
   if (!product) notFound(); // illaatha slug → styled 404
 
-  const reviews = getReviews(product.id);
+  const reviews = await getReviews(product.id);
   const rating = averageRating(reviews);
-  const similar = getSimilarProducts(product);
+  const similar = await getSimilarProducts(product);
   const lowStock = product.stock > 0 && product.stock <= 5;
   const categoryLabel = CATEGORY_LABEL[product.category];
 
@@ -183,6 +194,22 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
             ))}
           </div>
         </section>
+      </div>
+    </div>
+  );
+}
+
+// Load aakumbol kaanikkunna placeholder (gallery + info shape)
+function ProductSkeleton() {
+  return (
+    <div className="bg-ivory">
+      <div className="page-shell grid gap-10 py-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16 lg:py-14" aria-busy="true">
+        <div className="catalog-skeleton aspect-4/5" />
+        <div className="space-y-4 pt-10">
+          <div className="catalog-skeleton h-4 w-1/3 aspect-auto" />
+          <div className="catalog-skeleton h-12 w-3/4 aspect-auto" />
+          <div className="catalog-skeleton h-10 w-1/2 aspect-auto" />
+        </div>
       </div>
     </div>
   );

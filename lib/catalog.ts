@@ -1,4 +1,4 @@
-import { products, type Category, type Product } from "./products";
+import type { Category, Product } from "./products";
 
 // URL query (?category=women&sort=price-asc) → validated filters → filtered list
 
@@ -39,8 +39,9 @@ export function parseFilters(params: RawParams): Filters {
   };
 }
 
-export function filterProducts(f: Filters): Product[] {
-  let list = products.filter((p) => {
+/** list = database-il ninnu vanna products (getAllProducts) */
+export function filterProducts(all: Product[], f: Filters): Product[] {
+  let list = all.filter((p) => {
     if (f.category && p.category !== f.category) return false;
     if (f.collection && !p.collections.includes(f.collection)) return false;
     if (f.under && p.price > f.under) return false;

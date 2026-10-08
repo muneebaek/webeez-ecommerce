@@ -1,0 +1,115 @@
+// Neythra database schema
+// npx prisma migrate dev → ithil ninnu Neon-il tables undaakum
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // pooled — app runtime (Vercel serverless)
+  directUrl = env("DIRECT_URL") // direct — migrations
+}
+
+enum Category {
+  women
+  men
+  essentials
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+// ---------- Products — lib/products.ts-ile athe shape ----------
+model Product {
+  id           String      @id
+  slug         String      @unique
+  code         String
+  name         String
+  subtitle     String
+  fabric       String
+  category     Category
+  collections  String[]
+  price        Int // ₹, whole rupees
+  images       String[]
+  sizes        String[]
+  stock        Int
+  badgeLabel   String?
+  badgeTone    String? // "dark" | "rose" | "sage"
+  status       String? // "Restocked", "New" …
+  statusAccent Boolean     @default(false)
+  eyebrow      String? // "Foundation 01"
+  description  String
+  sortOrder    Int         @default(0) // home / listing order
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  reviews      Review[]
+  orderItems   OrderItem[]
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String
+  city      String
+  rating    Int // 1–5
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+// ---------- Orders (COD checkout) ----------
+model Order {
+  id            String      @id @default(cuid())
+  orderNumber   String      @unique // NYT-260001
+  customerName  String
+  email         String
+  phone         String
+  address1      String
+  address2      String?
+  city          String
+  state         String
+  pincode       String
+  notes         String?
+  paymentMethod String      @default("COD")
+  status        OrderStatus @default(CONFIRMED)
+  subtotal      Int
+  shipping      Int
+  total         Int
+  emailSent     Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  items         OrderItem[]
+
+  @@index([createdAt])
+}
+
+// Order samayathe name / price snapshot — product pinne maariyaalum order maarilla
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  name      String
+  image     String
+  size      String
+  qty       Int
+  unitPrice Int
+
+  @@index([orderId])
+}
+
+// Newsletter "Keep in Touch"
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}

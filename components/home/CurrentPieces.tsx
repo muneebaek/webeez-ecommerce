@@ -1,10 +1,10 @@
 import Link from "next/link";
 import ProductCard from "@/components/product/ProductCard";
-import { getProductsByCollection } from "@/lib/products";
+import { getProductsByCollection } from "@/lib/data/products";
 
-export default function CurrentPieces() {
+export default async function CurrentPieces() {
   // eppozhum 4 mathram — oru row-il nilkkaan; baaki "Browse All" vazhi
-  const items = getProductsByCollection("current").slice(0, 4);
+  const items = (await getProductsByCollection("current")).slice(0, 4);
 
   return (
     <section className="bg-paper py-14 lg:py-20">

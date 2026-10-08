@@ -1,5 +1,5 @@
-// Product data — ippo static. Database (Prisma + Neon) step-il ithe shape-il DB-il ninnu varum,
-// appo components maattenda.
+// Product TYPE (app muzhuvan) + seed data.
+// App data ippo database-il ninnu (lib/data/products.ts). Ee array prisma/seed.ts mathram use cheyyunnu.
 
 export type Category = "women" | "men" | "essentials";
 
@@ -347,19 +347,3 @@ products.push(
     description: "A stack of hand-carved sand-cast brass bangles, finished by artisans in Moradabad.",
   },
 );
-
-export function getProductsByCollection(collection: string) {
-  return products.filter((p) => p.collections.includes(collection));
-}
-
-export function getProductBySlug(slug: string) {
-  return products.find((p) => p.slug === slug);
-}
-
-/** Same category-ile mattu products (ithu ozhike); kuravaanenkil vere category-il ninnu fill */
-export function getSimilarProducts(product: Product, limit = 4) {
-  const visible = products.filter((p) => p.id !== product.id && !p.collections.includes("look-01"));
-  const same = visible.filter((p) => p.category === product.category);
-  const rest = visible.filter((p) => p.category !== product.category);
-  return [...same, ...rest].slice(0, limit);
-}

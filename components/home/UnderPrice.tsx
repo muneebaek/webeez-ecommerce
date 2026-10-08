@@ -1,9 +1,9 @@
 import Link from "next/link";
 import ProductCard from "@/components/product/ProductCard";
-import { getProductsByCollection } from "@/lib/products";
+import { getProductsByCollection } from "@/lib/data/products";
 
-export default function UnderPrice() {
-  const items = getProductsByCollection("under-2999").slice(0, 4);
+export default async function UnderPrice() {
+  const items = (await getProductsByCollection("under-2999")).slice(0, 4);
 
   return (
     <section className="border-y-2 border-rule bg-sage py-14 lg:py-20">
