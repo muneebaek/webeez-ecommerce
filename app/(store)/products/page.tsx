@@ -2,9 +2,10 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import ChipScroller from "@/components/catalog/ChipScroller";
+import Pagination from "@/components/catalog/Pagination";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ProductCard from "@/components/product/ProductCard";
-import { filterProducts, hrefWith, parseFilters, titleFor, type Filters } from "@/lib/catalog";
+import { filterProducts, hrefWith, paginate, parseFilters, titleFor, type Filters } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Collections — Neythra",
@@ -46,7 +47,9 @@ const sorts = [
 
 async function Results({ searchParams }: Pick<PageProps<"/products">, "searchParams">) {
   const filters = parseFilters(await searchParams);
-  const items = filterProducts(filters);
+  // filter → sort → current page-inte 8 items
+  const pg = paginate(filterProducts(filters), filters.page);
+  const items = pg.items;
 
   const title = titleFor(filters);
   const isAll = title === "All Pieces";
@@ -64,7 +67,9 @@ async function Results({ searchParams }: Pick<PageProps<"/products">, "searchPar
           {title}
         </h1>
         <p className="text-[0.625rem] font-semibold uppercase tracking-[0.2em] text-taupe-dark">
-          {items.length} {items.length === 1 ? "Piece" : "Pieces"}
+          {pg.totalPages > 1
+            ? `Showing ${pg.from}–${pg.to} of ${pg.total}`
+            : `${pg.total} ${pg.total === 1 ? "Piece" : "Pieces"}`}
         </p>
       </header>
 
@@ -118,6 +123,8 @@ async function Results({ searchParams }: Pick<PageProps<"/products">, "searchPar
           </Link>
         </div>
       )}
+
+      <Pagination filters={filters} page={pg.page} totalPages={pg.totalPages} />
     </>
   );
 }

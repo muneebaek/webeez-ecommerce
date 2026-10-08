@@ -8,11 +8,14 @@ export const SORTS = ["featured", "price-asc", "price-desc"] as const;
 
 export type Sort = (typeof SORTS)[number];
 
+export const PAGE_SIZE = 8; // ore page-il ethra products
+
 export type Filters = {
   category?: Category;
   collection?: string;
   under?: number;
   sort: Sort;
+  page: number; // 1-il thudangum
 };
 
 type RawParams = Record<string, string | string[] | undefined>;
@@ -25,12 +28,14 @@ export function parseFilters(params: RawParams): Filters {
   const collection = first(params.collection);
   const under = Number(first(params.under));
   const sort = first(params.sort);
+  const page = Number(first(params.page));
 
   return {
     category: CATEGORIES.includes(category as Category) ? (category as Category) : undefined,
     collection: COLLECTIONS.includes(collection as (typeof COLLECTIONS)[number]) ? collection : undefined,
     under: Number.isFinite(under) && under > 0 ? under : undefined,
     sort: SORTS.includes(sort as Sort) ? (sort as Sort) : "featured",
+    page: Number.isInteger(page) && page > 0 ? page : 1,
   };
 }
 
@@ -65,6 +70,22 @@ export function titleFor(f: Filters) {
   return "All Pieces";
 }
 
+/** Filtered list-il ninnu current page-inte items + page info.
+ *  ?page=99 pole range-inu purathu aanenkil last page-ilekku clamp cheyyum */
+export function paginate<T>(list: T[], page: number, size = PAGE_SIZE) {
+  const totalPages = Math.max(1, Math.ceil(list.length / size));
+  const current = Math.min(page, totalPages);
+  const start = (current - 1) * size;
+  return {
+    items: list.slice(start, start + size),
+    page: current,
+    totalPages,
+    from: list.length === 0 ? 0 : start + 1,
+    to: Math.min(start + size, list.length),
+    total: list.length,
+  };
+}
+
 /** Current filters-il ninnu oru value maatti puthiya URL — chips / sort links-inu */
 export function hrefWith(f: Filters, patch: Partial<Record<keyof Filters, string | number | undefined>>) {
   const merged: Record<string, string | number | undefined> = {
@@ -72,10 +93,14 @@ export function hrefWith(f: Filters, patch: Partial<Record<keyof Filters, string
     collection: f.collection,
     under: f.under,
     sort: f.sort === "featured" ? undefined : f.sort,
+    page: undefined, // filter / sort maarumbol page 1-ilekku reset
     ...patch,
   };
   const qs = new URLSearchParams();
-  for (const [k, v] of Object.entries(merged)) if (v !== undefined && v !== "") qs.set(k, String(v));
+  for (const [k, v] of Object.entries(merged)) {
+    if (v === undefined || v === "" || (k === "page" && v === 1)) continue; // page=1 URL-il venda
+    qs.set(k, String(v));
+  }
   const s = qs.toString();
   return s ? `/products?${s}` : "/products";
 }
