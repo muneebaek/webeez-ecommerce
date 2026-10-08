@@ -47,7 +47,7 @@ export default function CartLine({
 
         <div className="mt-auto flex items-center justify-between pt-3">
           {/* qty stepper — 1 to MAX_QTY */}
-          <div className="cart-line__qty" role="group" aria-label={`Quantity for ${item.name}`}>
+          <div className="qty-stepper cart-line__qty" role="group" aria-label={`Quantity for ${item.name}`}>
             <button
               type="button"
               aria-label="Decrease quantity"

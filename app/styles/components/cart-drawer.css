@@ -269,38 +269,6 @@
       text-transform: uppercase;
     }
 
-    & .cart-line__qty {
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid var(--rule);
-
-      & button {
-        display: grid;
-        place-items: center;
-        width: 2rem;
-        height: 2rem;
-        color: var(--ink);
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background 0.2s;
-
-        &:hover:not(:disabled) {
-          background: var(--paper);
-        }
-        &:disabled {
-          opacity: 0.3;
-          cursor: not-allowed;
-        }
-      }
-
-      & span {
-        min-width: 1.75rem;
-        color: var(--ink);
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-align: center;
-      }
-    }
 
     & .cart-line__remove {
       color: var(--taupe);
@@ -315,6 +283,40 @@
       &:hover {
         color: var(--rose);
       }
+    }
+  }
+
+  /* ---------- Qty stepper (cart line + product page) ---------- */
+  .qty-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--rule);
+
+    & button {
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      color: var(--ink);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover:not(:disabled) {
+        background: var(--paper);
+      }
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+
+    & span {
+      min-width: 1.75rem;
+      color: var(--ink);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
     }
   }
 

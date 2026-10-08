@@ -1,0 +1,277 @@
+@layer components {
+  /* ---------- Stars (partial fill) ---------- */
+  .stars {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    letter-spacing: 0.1em;
+
+    & .stars__base {
+      color: var(--rule);
+    }
+
+    & .stars__fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      overflow: hidden;
+      color: var(--rose);
+      white-space: nowrap;
+    }
+  }
+
+  /* ---------- Gallery ---------- */
+  .pdp-gallery {
+    & .pdp-gallery__main {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border: 2px solid var(--rule);
+      background: var(--paper);
+      cursor: zoom-in;
+    }
+
+    & .pdp-gallery__img {
+      object-fit: cover;
+      object-position: 50% 20%;
+      transition: transform 0.35s ease;
+    }
+
+    /* mouse ulla device-il mathram zoom (mobile tap-il alla) */
+    @media (hover: hover) {
+      & .pdp-gallery__main:hover .pdp-gallery__img {
+        transform: scale(1.6);
+      }
+    }
+
+    & .pdp-gallery__thumbs {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.75rem;
+
+      & button {
+        position: relative;
+        width: 4.5rem;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border: 2px solid var(--rule);
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.2s, border-color 0.2s;
+
+        &.is-active,
+        &:hover {
+          border-color: var(--ink);
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  /* ---------- Buy panel ---------- */
+  .pdp-buy {
+    & .pdp-buy__label {
+      color: var(--taupe-dark);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    & .pdp-buy__guide {
+      color: var(--taupe);
+      font-size: 0.625rem;
+      letter-spacing: 0.15em;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-transform: uppercase;
+    }
+
+    /* product page-il valiya qty buttons (mobile touch) */
+    & .qty-stepper button {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+
+    & .pdp-buy__error {
+      margin-top: 0.6rem;
+      color: var(--rose);
+      font-size: 0.75rem;
+    }
+
+    & .pdp-buy__btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.25rem;
+      padding-inline: 1.5rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+
+      &:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      &.pdp-buy__btn--solid {
+        background: var(--slate);
+        color: var(--ivory);
+        &:hover:not(:disabled) {
+          background: var(--ink);
+        }
+      }
+      &.pdp-buy__btn--rose {
+        background: var(--rose);
+        color: var(--ivory);
+        &:hover:not(:disabled) {
+          background: var(--rose-deep);
+        }
+      }
+    }
+
+    & .pdp-buy__wish {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      min-height: 3.25rem;
+      min-width: 3.25rem;
+      border: 2px solid var(--rule);
+      color: var(--ink);
+      fill: transparent;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, fill 0.2s;
+
+      &:hover {
+        border-color: var(--ink);
+      }
+      &.is-saved {
+        border-color: var(--rose);
+        color: var(--rose);
+        fill: var(--rose);
+      }
+    }
+  }
+
+  /* ---------- Size buttons ---------- */
+  .pdp-sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+
+    & .pdp-sizes__btn {
+      min-width: 3.25rem;
+      height: 2.75rem;
+      padding-inline: 0.9rem;
+      border: 1.5px solid var(--rule);
+      color: var(--ink);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+
+      &:hover {
+        border-color: var(--ink);
+      }
+      &.is-active {
+        border-color: var(--slate);
+        background: var(--slate);
+        color: var(--ivory);
+      }
+    }
+
+    /* size choose cheyyaathe Add amarthiyaal — rose border + cheriya shake */
+    &.has-error .pdp-sizes__btn {
+      border-color: var(--rose);
+      animation: pdp-shake 0.35s ease;
+    }
+  }
+
+  @keyframes pdp-shake {
+    25% {
+      transform: translateX(-3px);
+    }
+    75% {
+      transform: translateX(3px);
+    }
+  }
+
+  /* ---------- Perks ---------- */
+  .pdp-perks {
+    display: grid;
+    gap: 0.45rem;
+    color: var(--taupe-dark);
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    & li::before {
+      content: "■";
+      margin-right: 0.6rem;
+      color: var(--rose);
+      font-size: 0.5rem;
+    }
+  }
+
+  /* ---------- Accordion (<details>) ---------- */
+  .pdp-acc {
+    border-top: 2px solid var(--rule);
+
+    & details {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    & summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: 1.1rem;
+      color: var(--ink);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      list-style: none;
+      cursor: pointer;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      /* + / − icon */
+      &::after {
+        content: "+";
+        color: var(--rose);
+        font-size: 1rem;
+        font-weight: 400;
+        transition: transform 0.3s;
+      }
+    }
+
+    & details[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    & p {
+      padding-bottom: 1.25rem;
+      color: var(--taupe-dark);
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pdp-sizes.has-error .pdp-sizes__btn {
+      animation: none;
+    }
+  }
+}
