@@ -1,0 +1,292 @@
+@layer components {
+  /* Reusable product card — parent-child classes */
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0.625rem;
+    background: var(--ivory);
+    border: 2px solid var(--rule);
+    box-shadow: 0 1px 3px rgb(15 30 34 / 0.05);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    @media (min-width: 640px) {
+      padding: 1rem;
+    }
+
+    &:hover {
+      box-shadow: 0 12px 28px -12px rgb(15 30 34 / 0.18);
+      transform: translateY(-2px);
+
+      & .product-card__image {
+        transform: scale(1.04);
+      }
+    }
+
+    /* ---------- Image area ---------- */
+    & .product-card__media {
+      position: relative;
+      aspect-ratio: 4 / 5; /* PDF: 154×192 */
+      overflow: hidden;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+    }
+
+    & .product-card__image {
+      object-fit: cover;
+      object-position: 50% 20%;
+      transition: transform 0.7s ease;
+    }
+
+    & .product-card__wish {
+      position: absolute;
+      top: 0.625rem;
+      right: 0.625rem;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      background: #faf8f2;
+      border: 2px solid #c4c0b8;
+      box-shadow: 0 1px 3px rgb(15 30 34 / 0.12);
+      color: var(--ink);
+      fill: transparent;
+      cursor: pointer;
+      transition: color 0.2s, fill 0.2s, transform 0.2s;
+
+      &:hover {
+        transform: scale(1.08);
+      }
+      &.is-saved {
+        color: var(--rose);
+        fill: var(--rose);
+      }
+    }
+
+    & .product-card__badge {
+      position: absolute;
+      left: 0.625rem;
+      bottom: 0.75rem;
+      padding: 0.4rem 0.55rem;
+      color: var(--ivory);
+      font-size: 0.5rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+
+      @media (min-width: 640px) {
+        font-size: 0.5625rem;
+      }
+
+      &.product-card__badge--dark {
+        background: var(--slate);
+      }
+      &.product-card__badge--rose {
+        background: var(--rose);
+      }
+      &.product-card__badge--sage {
+        background: var(--sage);
+        color: var(--slate);
+      }
+    }
+
+    /* ---------- Text area — bottom aligned (PDF pole, cards-inte price/buttons ore line-il) ---------- */
+    & .product-card__body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-top: 1.25rem;
+
+      @media (min-width: 640px) {
+        padding-top: 2.5rem;
+      }
+    }
+
+    & .product-card__meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      color: var(--taupe);
+      font-size: 0.4375rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      /* narrow card-il space illenkil fabric thazhe line-ilekku pokum (overflow aakilla) */
+      flex-wrap: wrap;
+      row-gap: 0.2rem;
+
+      & > span {
+        white-space: nowrap;
+      }
+
+      @media (min-width: 640px) {
+        font-size: 0.5625rem;
+        letter-spacing: 0.08em;
+      }
+    }
+
+    /* "Foundation 01" — oru item mathram, kurachu kooduthal spacing */
+    & .product-card__eyebrow {
+      letter-spacing: 0.12em;
+    }
+
+    & .product-card__name {
+      margin-top: 0.5rem;
+      color: var(--ink);
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.25;
+
+      @media (min-width: 640px) {
+        font-size: 1.375rem;
+      }
+
+      & a:hover {
+        color: var(--rose);
+      }
+    }
+
+    & .product-card__sub {
+      margin-top: 0.25rem;
+      color: var(--taupe);
+      font-size: 0.625rem;
+      line-height: 1.55;
+
+      @media (min-width: 640px) {
+        font-size: 0.6875rem;
+      }
+    }
+
+    & .product-card__price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    & .product-card__price {
+      color: var(--ink);
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      /* Cormorant default oldstyle numbers (3,690 thazhottu irangum) — PDF pole straight numbers */
+      font-variant-numeric: lining-nums;
+
+      @media (min-width: 640px) {
+        font-size: 1.4rem;
+      }
+    }
+
+    & .product-card__stock {
+      color: var(--taupe-dark);
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+
+      @media (min-width: 640px) {
+        font-size: 0.5625rem;
+      }
+
+      &.product-card__stock--low {
+        color: var(--rose);
+      }
+    }
+
+    /* ---------- Buttons ---------- */
+    & .product-card__actions {
+      display: grid;
+      gap: 0.4rem;
+      margin-top: 0.85rem;
+
+      @media (min-width: 640px) {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+      }
+    }
+
+    & .product-card__btn {
+      min-height: 2.25rem;
+      padding-inline: 0.25rem;
+      font-size: 0.5625rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+
+      &.product-card__btn--solid {
+        background: var(--slate);
+        color: var(--ivory);
+        border: 1px solid var(--slate);
+
+        &:hover {
+          background: var(--rose);
+          border-color: var(--rose);
+        }
+      }
+
+      &.product-card__btn--outline {
+        background: transparent;
+        color: var(--slate);
+        border: 2px solid var(--slate);
+
+        &:hover {
+          background: var(--slate);
+          color: var(--ivory);
+        }
+      }
+    }
+  }
+
+  /* ---------- Feature variant — New Arrivals flagship card ---------- */
+  .product-card.product-card--feature {
+    @media (min-width: 640px) {
+      padding: 1.5rem;
+    }
+
+    & .product-card__media {
+      aspect-ratio: 4 / 3; /* PDF: 528×396 — wide */
+    }
+
+    & .product-card__image {
+      object-position: 50% 25%;
+    }
+
+    & .product-card__body {
+      padding-top: 1.5rem;
+    }
+
+    & .product-card__name {
+      font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+      font-weight: 500;
+    }
+
+    & .product-card__sub {
+      font-size: 0.75rem;
+    }
+
+    & .product-card__price-row {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+    }
+
+    & .product-card__price {
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+    }
+
+    & .product-card__btn {
+      min-height: 2.75rem;
+      font-size: 0.6875rem;
+      letter-spacing: 0.12em;
+    }
+
+    & .product-card__actions {
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+  }
+}

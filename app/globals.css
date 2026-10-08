@@ -1,26 +1,75 @@
 @import "tailwindcss";
+@import "./styles/base.css";
+@import "./styles/components/button.css";
+@import "./styles/components/header.css";
+@import "./styles/components/tab-bar.css";
+@import "./styles/components/drawer.css";
+@import "./styles/components/footer.css";
+@import "./styles/components/product-card.css";
+@import "./styles/sections/hero.css";
+@import "./styles/sections/selection-strip.css";
+@import "./styles/sections/portals.css";
+@import "./styles/sections/manifesto.css";
+@import "./styles/sections/quietly.css";
+@import "./styles/sections/directory.css";
+@import "./styles/sections/made-to-move.css";
+@import "./styles/sections/journal.css";
+@import "./styles/sections/look.css";
+@import "./styles/sections/testimonials.css";
+@import "./styles/sections/newsletter.css";
 
+/* Raw design tokens — custom CSS-il var(--paper) aayi use cheyyam.
+   Values sampled from the Neythra PDF */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f4f1ea; /* hero right panel */
+  --paper-dark: #e9e3d8;
+  --ivory: #fcfaf5; /* light section bg (portals etc.) */
+  --sky: #f2fbff; /* announcement + header bg */
+  --sky-deep: #ecf9fe; /* nav row bg */
+  --ink: #0f1e22; /* logo, headings */
+  --ink-soft: #534344; /* small labels, nav */
+  --muted: #6b665e;
+  --line: #e7e4e7; /* header borders */
+  --divider: #d8c1c2; /* "/" and "|" separators */
+  --rose: #a85f67; /* accent square, [02] */
+  --rose-deep: #8b474f; /* account avatar */
+  --slate: #17252a; /* hero heading, dark text */
+  --taupe: #5b514e; /* hero body + labels */
+  --taupe-dark: #3f3735; /* product cards / current pieces — kurachu kooduthal dark */
+  --rule: #d7d5cf; /* warm divider lines */
+  --cream: #fafaf5; /* plate label bg */
+  --charcoal: #242f34; /* dark image label bg */
+  --sage: #b7c8c4; /* selection strip */
+  --sage-ink: #475658;
+  --sage-slash: #778787;
+  --oxide: #a6545c;
+  --navy: #1f2a33;
 }
 
+/* Tailwind — bg-paper, text-ink, border-line, font-serif ... */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-paper: var(--paper);
+  --color-paper-dark: var(--paper-dark);
+  --color-ivory: var(--ivory);
+  --color-sky: var(--sky);
+  --color-sky-deep: var(--sky-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-divider: var(--divider);
+  --color-rose: var(--rose);
+  --color-rose-deep: var(--rose-deep);
+  --color-slate: var(--slate);
+  --color-taupe: var(--taupe);
+  --color-taupe-dark: var(--taupe-dark);
+  --color-rule: var(--rule);
+  --color-cream: var(--cream);
+  --color-charcoal: var(--charcoal);
+  --color-sage: var(--sage);
+  --color-oxide: var(--oxide);
+  --color-navy: var(--navy);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 }

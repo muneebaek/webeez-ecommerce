@@ -1,0 +1,236 @@
+@layer components {
+  /* Mobile side drawer — closed aayirikkumbol invisible, open aakumbol left-il ninnu slide */
+  .drawer {
+    /* timing — ivide maattiyaal mathi */
+    --drawer-open: 0.7s;
+    --drawer-close: 0.55s;
+    --drawer-ease: cubic-bezier(0.65, 0, 0.35, 1); /* slow start, slow end */
+
+    position: fixed;
+    inset: 0;
+    z-index: 60; /* tab-bar (50)-inu mukalil */
+    visibility: hidden;
+    pointer-events: none;
+    /* close animation kazhinjittu mathram hide */
+    transition: visibility 0s linear var(--drawer-close);
+
+    &.is-open {
+      visibility: visible;
+      pointer-events: auto;
+      transition-delay: 0s;
+
+      & .drawer__overlay {
+        opacity: 1;
+        transition-duration: var(--drawer-open);
+      }
+      & .drawer__panel {
+        transform: translateX(0);
+        transition-duration: var(--drawer-open);
+      }
+      /* links oronnayi fade-in (stagger) */
+      & .drawer__nav li,
+      & .drawer__secondary,
+      & .drawer__foot {
+        opacity: 1;
+        transform: none;
+        transition:
+          opacity 0.5s ease calc(0.25s + var(--i, 6) * 0.06s),
+          transform 0.5s ease calc(0.25s + var(--i, 6) * 0.06s);
+      }
+    }
+
+    & .drawer__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgb(15 30 34 / 0.45);
+      backdrop-filter: blur(2px);
+      opacity: 0;
+      transition: opacity var(--drawer-close) var(--drawer-ease);
+    }
+
+    & .drawer__nav li,
+    & .drawer__secondary,
+    & .drawer__foot {
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    & .drawer__panel {
+      position: absolute;
+      inset-block: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      width: min(86vw, 22rem);
+      overflow-y: auto;
+      background: var(--paper);
+      box-shadow: 8px 0 32px rgb(15 30 34 / 0.12);
+      transform: translateX(-100%);
+      transition: transform var(--drawer-close) var(--drawer-ease);
+    }
+
+    /* ---------- Head: logo + close ---------- */
+    & .drawer__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 3.5rem;
+      padding-inline: 1.25rem;
+      background: var(--sky);
+      border-bottom: 1px solid var(--line);
+    }
+
+    & .drawer__logo {
+      color: var(--ink);
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+    }
+
+    & .drawer__close {
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+
+      &:hover,
+      &:focus-visible {
+        background: var(--ink);
+        color: var(--sky);
+      }
+    }
+
+    & .drawer__meta {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--rule);
+      color: var(--taupe);
+      font-size: 0.5625rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    & .drawer__meta-accent {
+      color: var(--rose);
+    }
+
+    /* ---------- Main nav ---------- */
+    & .drawer__nav {
+      padding-inline: 1.25rem;
+    }
+
+    & .drawer__link {
+      display: flex;
+      align-items: baseline;
+      gap: 0.9rem;
+      padding-block: 0.95rem;
+      border-bottom: 1px solid var(--rule);
+      color: var(--slate);
+
+      &:active .drawer__arrow,
+      &:hover .drawer__arrow {
+        transform: translateX(4px);
+        color: var(--rose);
+      }
+    }
+
+    & .drawer__num {
+      min-width: 1.25rem;
+      color: var(--rose);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+    }
+
+    & .drawer__label {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    & .drawer__arrow {
+      color: var(--taupe);
+      font-size: 0.875rem;
+      transition: transform 0.25s, color 0.25s;
+    }
+
+    /* ---------- Secondary links ---------- */
+    & .drawer__secondary {
+      display: grid;
+      gap: 0.25rem;
+      margin-top: 1.5rem;
+      padding-inline: 1.25rem;
+    }
+
+    & .drawer__sublink {
+      display: flex;
+      justify-content: space-between;
+      padding-block: 0.55rem;
+      color: var(--ink-soft);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+
+      & span {
+        color: var(--rose);
+      }
+    }
+
+    /* ---------- Foot ---------- */
+    & .drawer__foot {
+      display: grid;
+      gap: 0.4rem;
+      margin-top: auto;
+      padding: 1.25rem;
+      background: var(--sage);
+      color: var(--slate);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+
+      & p {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+    }
+
+    & .drawer__dot {
+      width: 0.4rem;
+      height: 0.4rem;
+      background: var(--slate);
+    }
+
+    & .drawer__foot-muted {
+      color: var(--sage-ink);
+      font-weight: 500;
+    }
+  }
+
+  /* "Reduce motion" on aakkiya users-inu animation venda */
+  @media (prefers-reduced-motion: reduce) {
+    .drawer {
+      --drawer-open: 0.01s;
+      --drawer-close: 0.01s;
+
+      & .drawer__nav li,
+      & .drawer__secondary,
+      & .drawer__foot {
+        transition: none !important;
+      }
+    }
+  }
+}

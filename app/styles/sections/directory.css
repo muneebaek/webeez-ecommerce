@@ -1,0 +1,55 @@
+@layer components {
+  .directory {
+    /* ---------- Oro row: big serif label + arrow ---------- */
+    & .directory__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding-block: 1.1rem;
+      border-bottom: 2px solid var(--rule);
+      color: var(--slate);
+      transition: color 0.3s ease, padding-left 0.4s ease;
+
+      @media (min-width: 1024px) {
+        padding-block: 1.4rem;
+      }
+
+      /* hover: row right-lekku pathukke neengum, rose aakum */
+      &:hover {
+        color: var(--rose);
+        padding-left: 0.75rem;
+
+        & .directory__arrow {
+          transform: translateX(6px);
+        }
+      }
+
+      /* 07 / UNDER ₹2,999 — PDF-il rose colour */
+      &.directory__row--accent {
+        color: var(--rose);
+        border-bottom: 0;
+
+        &:hover {
+          color: var(--ink);
+        }
+      }
+    }
+
+    & .directory__label {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 4.1rem);
+      font-weight: 600;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      font-variant-numeric: lining-nums;
+    }
+
+    & .directory__arrow {
+      flex-shrink: 0;
+      font-size: 0.875rem;
+      transition: transform 0.3s ease;
+    }
+  }
+}

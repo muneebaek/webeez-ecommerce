@@ -1,0 +1,219 @@
+@layer components {
+  /* ---------- Announcement ---------- */
+  .announce {
+    background: var(--sky);
+    border-bottom: 2px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 0.5625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+
+    @media (min-width: 768px) {
+      letter-spacing: 0.3em;
+    }
+
+    & .announce__inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 1.5rem;
+
+      @media (min-width: 768px) {
+        justify-content: space-between;
+      }
+    }
+
+    & .announce__group {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    & .announce__sep {
+      color: var(--divider);
+    }
+
+    & .announce__dot {
+      width: 0.4rem;
+      height: 0.4rem;
+      background: var(--rose);
+    }
+  }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--sky);
+    border-bottom: 2px solid var(--line);
+
+    & .site-header__top {
+      position: relative;
+      z-index: 1; /* mobile panel-inu mukalil */
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      min-height: 3.5rem;
+
+      @media (min-width: 768px) {
+        min-height: 2.75rem;
+      }
+    }
+
+    & .site-header__left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    & .site-header__folio {
+      align-items: center;
+      gap: 0.85rem;
+      color: var(--ink);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    & .site-header__sep {
+      color: var(--divider);
+    }
+
+    & .site-header__logo {
+      color: var(--ink);
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      padding-left: 0.26em; /* letter-spacing balance: center aakkaan */
+
+      @media (min-width: 768px) {
+        font-size: clamp(1.5rem, 3vw, 2.25rem);
+        letter-spacing: 0.35em;
+        padding-left: 0.35em;
+      }
+    }
+
+    & .site-header__actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1.25rem;
+
+      @media (min-width: 1024px) {
+        gap: 2rem;
+      }
+    }
+
+    & .site-header__action {
+      color: var(--ink-soft);
+      font-size: 0.625rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+
+      @media (min-width: 768px) {
+        letter-spacing: 0.25em;
+      }
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.6;
+      }
+
+      /* CART [02] — label ink, count rose */
+      &.site-header__action--cart {
+        color: var(--ink);
+        font-weight: 600;
+
+        display: inline-flex;
+        gap: 0.35rem;
+
+        & .site-header__count {
+          color: var(--rose);
+          font-weight: 500;
+        }
+      }
+    }
+
+    & .site-header__avatar {
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      background: var(--rose-deep);
+      color: #fff;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.85;
+      }
+    }
+
+    & .site-header__nav {
+      background: var(--sky-deep);
+      border-top: 2px solid var(--line);
+
+      & ul {
+        display: flex;
+        justify-content: center;
+        gap: 3.25rem;
+        padding-block: 0.3rem;
+      }
+    }
+
+    & .site-header__link {
+      position: relative;
+      color: var(--ink-soft);
+      font-size: 0.625rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-weight: 500;
+
+      /* hover underline animation */
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 100%;
+        height: 1px;
+        background: var(--ink);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s;
+      }
+      &:hover {
+        color: var(--ink);
+      }
+      &:hover::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  /* ---------- Mobile menu toggle (hamburger) ---------- */
+  .mobile-menu {
+    & .mobile-menu__toggle {
+      display: grid;
+      gap: 6px;
+      width: 24px;
+      padding-block: 6px;
+      cursor: pointer;
+
+      & span {
+        display: block;
+        height: 1px;
+        background: var(--ink);
+      }
+    }
+  }
+}

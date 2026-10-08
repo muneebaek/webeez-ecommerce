@@ -1,0 +1,78 @@
+@layer components {
+  .testi {
+    & .testi__label {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      color: var(--taupe-dark);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    & .testi__slide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* right-il ninnu left-lekku smooth aayi slide + fade */
+      animation: testi-in 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+    }
+
+    & .testi__quote {
+      max-width: 54rem;
+      margin-top: 2rem;
+      color: var(--ink);
+      font-family: var(--font-serif);
+      font-size: clamp(1.9rem, 5vw, 4.4rem); /* PDF: ~70px */
+      font-weight: 500;
+      line-height: 1.07;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+
+    & .testi__avatar {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      flex-shrink: 0;
+      place-items: center;
+      width: 3rem;
+      height: 3rem;
+      border: 2px solid var(--ivory);
+      border-radius: 9999px;
+      background: var(--slate);
+      box-shadow: 0 0 0 1px var(--rule);
+      color: var(--ivory);
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    & .testi__pager {
+      margin-top: 2.5rem;
+      color: var(--taupe-dark);
+      font-size: 0.625rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+    }
+  }
+
+  @keyframes testi-in {
+    from {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testi .testi__slide {
+      animation: none;
+    }
+  }
+}

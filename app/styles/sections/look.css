@@ -1,0 +1,148 @@
+@layer components {
+  .look {
+    /* ---------- Image hotspot (numbered dot) ---------- */
+    & .look__spot {
+      position: absolute;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      border: 1.5px solid var(--ivory);
+      border-radius: 9999px;
+      background: var(--slate);
+      color: var(--ivory);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: background 0.25s, transform 0.25s;
+
+      /* soft pulse ring — click cheyyaam ennu kaanikkaan */
+      &::after {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border: 1px solid rgb(252 250 245 / 0.7);
+        border-radius: inherit;
+        animation: look-pulse 2.4s ease-out infinite;
+      }
+
+      &.is-active,
+      &:hover {
+        background: var(--rose);
+        transform: translate(-50%, -50%) scale(1.15);
+      }
+    }
+
+    /* ---------- List row ---------- */
+    & .look__row {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding-block: 1.1rem;
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.25s, padding-left 0.3s;
+
+      &:first-child {
+        border-top: 1px solid var(--rule);
+      }
+
+      &.is-active {
+        padding-left: 0.5rem;
+        background: var(--paper);
+
+        & .look__num {
+          background: var(--rose);
+        }
+      }
+    }
+
+    & .look__num {
+      display: grid;
+      flex-shrink: 0;
+      place-items: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 9999px;
+      background: var(--slate);
+      color: var(--ivory);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      transition: background 0.25s;
+    }
+
+    & .look__price,
+    & .look__total {
+      color: var(--ink);
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-variant-numeric: lining-nums;
+      white-space: nowrap;
+    }
+
+    & .look__price {
+      font-size: 1.2rem;
+    }
+
+    & .look__total {
+      font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+      line-height: 1;
+    }
+
+    & .look__add {
+      flex-shrink: 0;
+      padding: 0.55rem 0.85rem;
+      background: var(--slate);
+      color: var(--ivory);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s;
+
+      &:hover {
+        background: var(--rose);
+      }
+    }
+
+    & .look__cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      min-height: 3rem;
+      background: var(--rose);
+      color: var(--ivory);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background: var(--rose-deep);
+      }
+    }
+  }
+
+  @keyframes look-pulse {
+    0% {
+      opacity: 0.9;
+      transform: scale(0.85);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .look .look__spot::after {
+      animation: none;
+    }
+  }
+}

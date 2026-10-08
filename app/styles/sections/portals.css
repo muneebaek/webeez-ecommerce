@@ -1,0 +1,56 @@
+@layer components {
+  .portals {
+    background: var(--ivory);
+    padding-block: 3.5rem;
+
+    @media (min-width: 1024px) {
+      padding-block: 5rem; /* PDF: section top → label 80px */
+    }
+
+    /* ---------- Heading row: title left, intro right ---------- */
+    & .portals__head {
+      display: grid;
+      gap: 1.25rem;
+      padding-bottom: 2rem;
+      /* PDF 1280px design-il 1px — wide screen-il PDF viewer ~1.5x scale cheyyumbol katti kooduthal kaanum, athukondu 2px */
+      border-bottom: 2px solid var(--rule);
+
+      @media (min-width: 1024px) {
+        grid-template-columns: 1fr 24rem;
+        align-items: center;
+        gap: 3.5rem;
+        padding-bottom: 2.5rem;
+      }
+    }
+
+    & .portals__label {
+      color: var(--taupe);
+      font-size: 0.5625rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+
+      @media (min-width: 1024px) {
+        font-size: 0.625rem;
+      }
+    }
+
+    & .portals__title {
+      margin-top: 0.75rem;
+      color: var(--slate);
+      /* PDF 64px aanu (EB Garamond); Cormorant wide aayathukondu 56px — oru line-il kollaan */
+      font-size: clamp(2.5rem, 4.4vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+
+    & .portals__intro {
+      max-width: 24rem;
+      color: var(--taupe);
+      font-size: 0.9375rem; /* 15px */
+      line-height: 1.6;
+    }
+  }
+}

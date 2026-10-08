@@ -1,0 +1,81 @@
+@layer components {
+  .selection-strip {
+    background: var(--sage);
+    border-bottom: 1px solid var(--rule);
+    color: var(--slate);
+
+    & .selection-strip__inner {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      min-height: 3.25rem;
+      padding-inline: 1rem;
+      overflow-x: auto; /* mobile: horizontal scroll */
+      scrollbar-width: none;
+
+      @media (min-width: 1024px) {
+        padding-inline: 3rem;
+      }
+    }
+
+    & .selection-strip__title {
+      position: relative;
+      flex-shrink: 0;
+      padding-left: 1.4rem;
+      font-size: 0.5625rem;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    & .selection-strip__square {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 0.45rem;
+      height: 0.45rem;
+      background: var(--slate);
+      transform: translateY(-50%);
+    }
+
+    /* links + slashes — space-between: slash randu link-inte exact naduvil */
+    & .selection-strip__links {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.75rem;
+      white-space: nowrap;
+
+      @media (min-width: 1024px) {
+        margin-inline: 2rem 1rem; /* PDF: title-il ninnu kooduthal gap */
+      }
+    }
+
+    & .selection-strip__slash {
+      color: var(--sage-slash);
+    }
+
+    & .selection-strip__link {
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+
+    & .selection-strip__note {
+      flex-shrink: 0;
+      color: var(--sage-ink);
+      font-size: 0.5625rem;
+      line-height: 1.4;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+  }
+}

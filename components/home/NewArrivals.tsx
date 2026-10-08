@@ -1,0 +1,41 @@
+import ProductCard from "@/components/product/ProductCard";
+import { getProductsByCollection } from "@/lib/products";
+
+export default function NewArrivals() {
+  // aadyathe product = flagship (valiya card), baaki 2 normal
+  const [flagship, ...rest] = getProductsByCollection("new-arrivals").slice(0, 3);
+
+  return (
+    <section className="bg-paper py-14 lg:py-20">
+      <div className="page-shell">
+        {/* ---------- Heading row (Trending-ile athe pattern) ---------- */}
+        <header className="grid gap-5 border-b-2 border-rule pb-8 lg:grid-cols-[1fr_24rem] lg:items-end lg:gap-14">
+          <div>
+            <p className="text-[0.5625rem] font-medium uppercase tracking-[0.25em] text-taupe-dark lg:text-[0.625rem]">
+              [ Archive Intake / March 2026 ]
+            </p>
+            <h2 className="mt-3 text-[clamp(2.5rem,4.4vw,3.5rem)] font-semibold leading-none tracking-[-0.01em] uppercase text-ink">
+              New Arrivals
+            </h2>
+          </div>
+          <p className="max-w-[24rem] text-[0.9375rem] leading-relaxed text-taupe-dark">
+            Four asymmetrical entries exploring folded geometry and natural earth
+            pigments.
+          </p>
+        </header>
+
+        {/* ---------- Asymmetric grid: 1 valiya + 2 cheriya, top-aligned ---------- */}
+        <div className="mt-10 grid grid-cols-2 items-start gap-3 sm:gap-5 lg:mt-12 lg:grid-cols-[2.1fr_1fr_1fr] lg:gap-6">
+          {flagship && (
+            <div className="col-span-2 lg:col-span-1">
+              <ProductCard product={flagship} variant="feature" />
+            </div>
+          )}
+          {rest.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

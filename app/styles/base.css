@@ -1,0 +1,52 @@
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+  }
+}
+
+@layer components {
+  /* Common container — ella section-um ore width + side padding */
+  .page-shell {
+    max-width: 1920px; /* hero full-bleed aanu — header edges athumayi align aakaan */
+    margin-inline: auto;
+    padding-inline: 1rem;
+
+    @media (min-width: 1024px) {
+      padding-inline: 3rem;
+    }
+  }
+
+  /* PDF-ile "[ S E C T I O N 0 2 ]" spaced labels */
+  .label-xs {
+    font-size: 0.625rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  /* "FORM MEETS EVERYDAY." big serif headings */
+  .display-xl {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+
+  .display-lg {
+    font-family: var(--font-serif);
+    font-size: clamp(2.25rem, 4.5vw, 4rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+}
