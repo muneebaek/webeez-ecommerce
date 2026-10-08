@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { formatINR } from "@/lib/format";
 import {
   FREE_SHIPPING_MIN,
-  MAX_QTY,
   cartCount,
   cartSubtotal,
   shippingFor,
@@ -14,14 +12,13 @@ import {
 } from "@/store/cart";
 import { useCartUi } from "@/store/cart-ui";
 import { useHydrated } from "@/store/use-hydrated";
+import CartLine from "./CartLine";
 
 export default function CartDrawer() {
   const open = useCartUi((s) => s.open);
   const closeCart = useCartUi((s) => s.closeCart);
   const hydrated = useHydrated();
   const storeItems = useCart((s) => s.items);
-  const setQty = useCart((s) => s.setQty);
-  const remove = useCart((s) => s.remove);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const items = hydrated ? storeItems : [];
@@ -101,45 +98,7 @@ export default function CartDrawer() {
             {/* ---------- Items ---------- */}
             <ul className="cart-drawer__items">
               {items.map((item) => (
-                <li key={item.key} className="cart-line">
-                  <Link href={`/products/${item.slug}`} onClick={closeCart} className="cart-line__media">
-                    <Image src={item.image} alt={item.name} fill sizes="80px" className="object-cover object-top" />
-                  </Link>
-
-                  <div className="cart-line__info">
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="cart-line__name">{item.name}</p>
-                      <p className="cart-line__price">{formatINR(item.price * item.qty)}</p>
-                    </div>
-                    <p className="cart-line__meta">Size: {item.size}</p>
-
-                    <div className="mt-auto flex items-center justify-between pt-3">
-                      {/* qty stepper — 1 to MAX_QTY */}
-                      <div className="cart-line__qty" role="group" aria-label={`Quantity for ${item.name}`}>
-                        <button
-                          type="button"
-                          aria-label="Decrease quantity"
-                          disabled={item.qty <= 1}
-                          onClick={() => setQty(item.key, item.qty - 1)}
-                        >
-                          −
-                        </button>
-                        <span aria-live="polite">{item.qty}</span>
-                        <button
-                          type="button"
-                          aria-label="Increase quantity"
-                          disabled={item.qty >= MAX_QTY}
-                          onClick={() => setQty(item.key, item.qty + 1)}
-                        >
-                          +
-                        </button>
-                      </div>
-                      <button type="button" className="cart-line__remove" onClick={() => remove(item.key)}>
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </li>
+                <CartLine key={item.key} item={item} onNavigate={closeCart} />
               ))}
             </ul>
 

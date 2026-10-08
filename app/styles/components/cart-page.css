@@ -1,0 +1,192 @@
+@layer components {
+  /* ---------- Shared cart line extras (drawer + page) ---------- */
+  .cart-line {
+    & .cart-line__name {
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--rose);
+      }
+    }
+
+    /* page-il valiya row */
+    &.cart-line--lg {
+      gap: 1.25rem;
+      padding-block: 1.5rem;
+
+      & .cart-line__media {
+        width: 6rem;
+
+        @media (min-width: 640px) {
+          width: 8rem;
+        }
+      }
+
+      & .cart-line__name,
+      & .cart-line__price {
+        font-size: 1.15rem;
+
+        @media (min-width: 640px) {
+          font-size: 1.35rem;
+        }
+      }
+
+      & .cart-line__meta {
+        font-size: 0.6875rem;
+      }
+    }
+  }
+
+  /* ---------- /cart page ---------- */
+  .bag__loading {
+    min-height: 40vh;
+  }
+
+  .bag__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    text-align: center;
+  }
+
+  .bag__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+
+    &:hover {
+      color: var(--rose);
+    }
+  }
+
+  .bag__summary {
+    padding: 1.5rem;
+    border: 2px solid var(--rule);
+    background: var(--paper);
+
+    & .bag__summary-title {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--rule);
+      color: var(--ink);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    & .bag__ship {
+      padding-block: 1rem;
+      color: var(--taupe-dark);
+      font-size: 0.75rem;
+
+      & strong {
+        color: var(--rose);
+        font-weight: 600;
+      }
+    }
+
+    & .bag__bar {
+      height: 3px;
+      margin-top: 0.6rem;
+      background: var(--rule);
+
+      & span {
+        display: block;
+        height: 100%;
+        background: var(--rose);
+        transition: width 0.5s ease;
+      }
+    }
+
+    & .bag__sum {
+      display: grid;
+      gap: 0.55rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+      color: var(--taupe-dark);
+      font-size: 0.8125rem;
+
+      & > div {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      & dd {
+        color: var(--ink);
+        font-variant-numeric: lining-nums;
+      }
+    }
+
+    & .bag__total {
+      margin-top: 0.5rem;
+      padding-top: 0.85rem;
+      border-top: 2px solid var(--rule);
+      color: var(--ink);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+
+      & dd {
+        font-family: var(--font-serif);
+        font-size: 1.75rem;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 1;
+      }
+    }
+
+    & .bag__notes {
+      display: grid;
+      gap: 0.45rem;
+      margin-top: 1.25rem;
+      color: var(--taupe);
+      font-size: 0.625rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+
+      & li::before {
+        content: "■";
+        margin-right: 0.6rem;
+        color: var(--rose);
+        font-size: 0.5rem;
+      }
+    }
+  }
+
+  .bag__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding-inline: 2rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: background 0.25s;
+
+    &.bag__btn--rose {
+      background: var(--rose);
+      color: var(--ivory);
+      &:hover {
+        background: var(--rose-deep);
+      }
+    }
+    &.bag__btn--solid {
+      background: var(--slate);
+      color: var(--ivory);
+      &:hover {
+        background: var(--rose);
+      }
+    }
+  }
+}
