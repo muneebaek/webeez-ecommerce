@@ -5,6 +5,7 @@
 @import "./styles/components/tab-bar.css";
 @import "./styles/components/drawer.css";
 @import "./styles/components/footer.css";
+@import "./styles/components/cart-drawer.css";
 @import "./styles/components/product-card.css";
 @import "./styles/sections/hero.css";
 @import "./styles/sections/selection-strip.css";
@@ -19,7 +20,7 @@
 @import "./styles/sections/newsletter.css";
 
 /* Raw design tokens — custom CSS-il var(--paper) aayi use cheyyam.
-   Values sampled from the Neythra PDF */
+   Values sampled from the Neythra PDF. */
 :root {
   --paper: #f4f1ea; /* hero right panel */
   --paper-dark: #e9e3d8;

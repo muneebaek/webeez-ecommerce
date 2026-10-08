@@ -15,6 +15,9 @@ export default function LookDossier() {
     name: p.name,
     subtitle: p.subtitle,
     price: p.price,
+    slug: p.slug,
+    image: p.images[0],
+    size: p.sizes[0] ?? "One Size",
     spot: hotspots[p.id] ?? { x: 50, y: 50 },
   }));
 

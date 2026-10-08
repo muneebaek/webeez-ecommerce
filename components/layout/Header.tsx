@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { navLinks } from "@/lib/navigation";
-import { CartCountText, WishlistCountText } from "./HeaderCounts";
+import HeaderCartButton from "./HeaderCartButton";
+import { WishlistCountText } from "./HeaderCounts";
 import MobileMenu from "./MobileMenu";
 
 export default function Header() {
@@ -28,12 +29,7 @@ export default function Header() {
           <Link href="/wishlist" className="site-header__action">
             Wishlist <WishlistCountText />
           </Link>
-          <Link href="/cart" className="site-header__action site-header__action--cart">
-            Cart
-            <span className="site-header__count">
-              <CartCountText />
-            </span>
-          </Link>
+          <HeaderCartButton />
           <Link href="/admin" className="site-header__avatar" aria-label="Account">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <circle cx="12" cy="8" r="4" />

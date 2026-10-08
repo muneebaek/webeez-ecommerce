@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCartUi } from "@/store/cart-ui";
 import { useCartCount, useWishlistCount } from "@/store/counts";
 
 // Simple line icons (24×24, stroke = currentColor)
@@ -44,6 +45,7 @@ export default function MobileTabBar() {
   const pathname = usePathname();
   // live counts — store-il ninnu (localStorage)
   const counts = { cart: useCartCount(), wishlist: useWishlistCount() };
+  const openCart = useCartUi((s) => s.openCart);
 
   return (
     <nav className="tab-bar md:hidden" aria-label="Quick actions">
@@ -51,31 +53,45 @@ export default function MobileTabBar() {
         {tabs.map((tab) => {
           const active = pathname === tab.href;
           const count = tab.badge ? counts[tab.badge] : 0;
+
+          const content = (
+            <>
+              <span className="tab-bar__icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  {icons[tab.icon]}
+                </svg>
+                {count > 0 && <span className="tab-bar__badge">{count > 9 ? "9+" : count}</span>}
+              </span>
+              <span className="tab-bar__label">{tab.label}</span>
+            </>
+          );
+
           return (
             <li key={tab.label}>
-              <Link
-                href={tab.href}
-                className={`tab-bar__item ${active ? "is-active" : ""}`}
-                aria-current={active ? "page" : undefined}
-              >
-                <span className="tab-bar__icon">
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="20"
-                    height="20"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    {icons[tab.icon]}
-                  </svg>
-                  {count > 0 && <span className="tab-bar__badge">{count > 9 ? "9+" : count}</span>}
-                </span>
-                <span className="tab-bar__label">{tab.label}</span>
-              </Link>
+              {tab.badge === "cart" ? (
+                // Cart — page-ilekku pokaathe cart drawer thurakkum
+                <button type="button" onClick={openCart} className="tab-bar__item w-full" aria-label="Open shopping bag">
+                  {content}
+                </button>
+              ) : (
+                <Link
+                  href={tab.href}
+                  className={`tab-bar__item ${active ? "is-active" : ""}`}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {content}
+                </Link>
+              )}
             </li>
           );
         })}

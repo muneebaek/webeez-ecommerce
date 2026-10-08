@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   // Phone-il LAN IP vazhi dev server test cheyyaan (illenkil JS block aakum — buttons/menu work aakilla).
   // Dev mode-il mathram; production build-ine bhaadhikkilla.
   allowedDevOrigins: ["10.211.40.106", "192.168.*.*", "10.*.*.*"],
-  // dev "N" indicator mobile tab bar-inte mukalil varaathirikkaan
-  devIndicators: { position: "top-right" },
+  // dev "N" indicator off — mobile tab bar-um cart drawer close button-um maraykkunnu (dev mode mathram)
+  devIndicators: false,
   experimental: {
     agentFeedback: true,
   },

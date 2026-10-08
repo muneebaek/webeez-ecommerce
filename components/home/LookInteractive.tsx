@@ -3,12 +3,17 @@
 import { useState } from "react";
 import Image from "next/image";
 import { formatINR } from "@/lib/format";
+import { useCart } from "@/store/cart";
+import { useCartUi } from "@/store/cart-ui";
 
 type LookItem = {
   id: string;
   name: string;
   subtitle: string;
   price: number;
+  slug: string;
+  image: string;
+  size: string;
   spot: { x: number; y: number };
 };
 
@@ -16,6 +21,16 @@ export default function LookInteractive({ items }: { items: LookItem[] }) {
   // image-ile number-um list-ile row-um link aanu — onninu hover cheythaal mattathum highlight
   const [active, setActive] = useState<string | null>(null);
   const total = items.reduce((sum, item) => sum + item.price, 0);
+  const add = useCart((s) => s.add);
+  const openCart = useCartUi((s) => s.openCart);
+
+  // oru piece allenkil full look cart-il add cheythu drawer thurakkum
+  const addToCart = (list: LookItem[]) => {
+    list.forEach((item) =>
+      add({ productId: item.id, slug: item.slug, name: item.name, image: item.image, size: item.size, price: item.price }),
+    );
+    openCart();
+  };
 
   return (
     <div className="look mt-10 grid gap-10 lg:mt-12 lg:grid-cols-[1fr_24rem] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,1fr)_29rem] xl:items-stretch">
@@ -81,8 +96,7 @@ export default function LookInteractive({ items }: { items: LookItem[] }) {
                 <p className="mt-1 text-[0.75rem] text-taupe-dark">{item.subtitle}</p>
               </div>
               <span className="look__price">{formatINR(item.price)}</span>
-              {/* cart step-il connect cheyyum */}
-              <button type="button" className="look__add">
+              <button type="button" className="look__add" onClick={() => addToCart([item])}>
                 Add
               </button>
             </li>
@@ -97,7 +111,7 @@ export default function LookInteractive({ items }: { items: LookItem[] }) {
             </span>
             <span className="look__total">{formatINR(total)}</span>
           </div>
-          <button type="button" className="look__cta group mt-4">
+          <button type="button" className="look__cta group mt-4" onClick={() => addToCart(items)}>
             Add Complete Look to Cart
             <span className="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
           </button>

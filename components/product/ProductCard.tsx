@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatINR } from "@/lib/format";
 import type { Product } from "@/lib/products";
+import AddToCartButtons from "./AddToCartButtons";
 import WishlistButton from "./WishlistButton";
 
 // Reusable card — Current Pieces, Trending, New Arrivals, Under ₹2,999 ellaam ithu use cheyyum
@@ -69,15 +70,17 @@ export default function ProductCard({
           </span>
         </div>
 
-        {/* Cart logic (Add to Cart / Buy Now) cart step-il connect cheyyum */}
-        <div className="product-card__actions">
-          <button type="button" className="product-card__btn product-card__btn--solid">
-            Add to Cart
-          </button>
-          <button type="button" className="product-card__btn product-card__btn--outline">
-            Buy Now
-          </button>
-        </div>
+        <AddToCartButtons
+          product={{
+            id: product.id,
+            slug: product.slug,
+            name: product.name,
+            image: product.images[0],
+            price: product.price,
+            size: product.sizes[0] ?? "One Size",
+            inStock: product.stock > 0,
+          }}
+        />
       </div>
     </article>
   );
