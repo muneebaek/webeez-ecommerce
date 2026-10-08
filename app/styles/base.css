@@ -1,4 +1,10 @@
 @layer base {
+  html,
+  body {
+    /* mobile-il side scroll varaathirikkaan — clip (hidden alla) aayathukondu sticky header work aakum */
+    overflow-x: clip;
+  }
+
   html {
     background: var(--paper);
     color: var(--ink);

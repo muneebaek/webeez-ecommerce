@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCartCount, useWishlistCount } from "@/store/counts";
 
 // Simple line icons (24×24, stroke = currentColor)
 const icons = {
@@ -29,25 +30,27 @@ const icons = {
   ),
 };
 
-type Tab = { label: string; href: string; icon: keyof typeof icons; count?: number };
+type Tab = { label: string; href: string; icon: keyof typeof icons; badge?: "cart" | "wishlist" };
 
-// counts ippo hardcoded — cart store (Step 17) varumbol live aakkum
 const tabs: Tab[] = [
   { label: "Home", href: "/", icon: "home" },
   { label: "Search", href: "/products", icon: "search" },
-  { label: "Wishlist", href: "/wishlist", icon: "wishlist", count: 0 },
-  { label: "Cart", href: "/cart", icon: "cart", count: 2 },
+  { label: "Wishlist", href: "/wishlist", icon: "wishlist", badge: "wishlist" },
+  { label: "Cart", href: "/cart", icon: "cart", badge: "cart" },
   { label: "Account", href: "/admin", icon: "account" },
 ];
 
 export default function MobileTabBar() {
   const pathname = usePathname();
+  // live counts — store-il ninnu (localStorage)
+  const counts = { cart: useCartCount(), wishlist: useWishlistCount() };
 
   return (
     <nav className="tab-bar md:hidden" aria-label="Quick actions">
       <ul className="tab-bar__list">
         {tabs.map((tab) => {
           const active = pathname === tab.href;
+          const count = tab.badge ? counts[tab.badge] : 0;
           return (
             <li key={tab.label}>
               <Link
@@ -69,7 +72,7 @@ export default function MobileTabBar() {
                   >
                     {icons[tab.icon]}
                   </svg>
-                  {tab.count ? <span className="tab-bar__badge">{tab.count}</span> : null}
+                  {count > 0 && <span className="tab-bar__badge">{count > 9 ? "9+" : count}</span>}
                 </span>
                 <span className="tab-bar__label">{tab.label}</span>
               </Link>

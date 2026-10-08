@@ -4,12 +4,8 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { navLinks } from "@/lib/navigation";
+import { pad2, useCartCount, useWishlistCount } from "@/store/counts";
 
-const secondaryLinks = [
-  { label: "Wishlist", href: "/wishlist", meta: "(0)" },
-  { label: "Cart", href: "/cart", meta: "[02]" },
-  { label: "Account", href: "/admin", meta: "→" },
-];
 
 // Server-il false, browser-il true — portal browser-il mathram render cheyyaan
 const subscribe = () => () => {};
@@ -20,6 +16,14 @@ export default function MobileMenu() {
   const isClient = useIsClient();
   const closeRef = useRef<HTMLButtonElement>(null);
   const close = () => setOpen(false);
+  const cartCount = useCartCount();
+  const wishlistCount = useWishlistCount();
+  // drawer-ile secondary links — live counts
+  const secondaryLinks = [
+    { label: "Wishlist", href: "/wishlist", meta: `(${wishlistCount})` },
+    { label: "Cart", href: "/cart", meta: `[${pad2(cartCount)}]` },
+    { label: "Account", href: "/admin", meta: "→" },
+  ];
 
   // open aayirikkumbol: scroll lock + Esc close + close button-il focus
   useEffect(() => {

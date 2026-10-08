@@ -11,7 +11,11 @@
       min-height: 3.25rem;
       padding-inline: 1rem;
       overflow-x: auto; /* mobile: horizontal scroll */
-      scrollbar-width: none;
+      scrollbar-width: none; /* Firefox / Chrome */
+
+      &::-webkit-scrollbar {
+        display: none; /* Safari / mobile Chrome — thazhe scrollbar kaanikkilla */
+      }
 
       @media (min-width: 1024px) {
         padding-inline: 3rem;

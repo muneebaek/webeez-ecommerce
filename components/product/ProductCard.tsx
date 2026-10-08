@@ -35,7 +35,7 @@ export default function ProductCard({
             className="product-card__image"
           />
         </Link>
-        <WishlistButton productName={product.name} />
+        <WishlistButton productId={product.id} productName={product.name} />
         {product.badge && (
           <span className={`product-card__badge product-card__badge--${product.badge.tone}`}>
             {product.badge.label}

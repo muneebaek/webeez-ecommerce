@@ -13,12 +13,15 @@
       padding: 1rem;
     }
 
-    &:hover {
-      box-shadow: 0 12px 28px -12px rgb(15 30 34 / 0.18);
-      transform: translateY(-2px);
+    /* hover ulla device-il mathram (mouse) — mobile tap-il card stuck aakilla */
+    @media (hover: hover) {
+      &:hover {
+        box-shadow: 0 12px 28px -12px rgb(15 30 34 / 0.18);
+        transform: translateY(-2px);
 
-      & .product-card__image {
-        transform: scale(1.04);
+        & .product-card__image {
+          transform: scale(1.04);
+        }
       }
     }
 
