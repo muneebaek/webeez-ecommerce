@@ -1,5 +1,5 @@
 // Neythra database schema
-// npx prisma migrate dev → ithil ninnu Neon-il tables undaakum
+// npx prisma migrate dev → creates the tables in Neon from this
 
 generator client {
   provider = "prisma-client-js"
@@ -25,7 +25,7 @@ enum OrderStatus {
   CANCELLED
 }
 
-// ---------- Products — lib/products.ts-ile athe shape ----------
+// ---------- Products — same shape as lib/products.ts ----------
 model Product {
   id           String      @id
   slug         String      @unique
@@ -91,7 +91,7 @@ model Order {
   @@index([createdAt])
 }
 
-// Order samayathe name / price snapshot — product pinne maariyaalum order maarilla
+// Name / price snapshot at order time — the order stays the same if the product changes later
 model OrderItem {
   id        String   @id @default(cuid())
   orderId   String

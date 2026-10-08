@@ -11,18 +11,18 @@ export type CartProduct = {
   name: string;
   image: string;
   price: number;
-  size: string; // card-il ninnu aadyathe size (product page-il user choose cheyyum)
+  size: string; // first size when added from a card (users choose on the product page)
   inStock: boolean;
 };
 
-// ProductCard server component aanu — click logic ulla buttons mathram client
+// ProductCard is a server component — only the buttons with click logic are client
 export default function AddToCartButtons({ product }: { product: CartProduct }) {
   const add = useCart((s) => s.add);
   const openCart = useCartUi((s) => s.openCart);
   const router = useRouter();
   const [added, setAdded] = useState(false);
 
-  // "Added ✓" feedback 1.5s kazhinju pazhaya text-ilekku
+  // "Added ✓" feedback reverts to the original text after 1.5s
   useEffect(() => {
     if (!added) return;
     const t = setTimeout(() => setAdded(false), 1500);
@@ -57,7 +57,7 @@ export default function AddToCartButtons({ product }: { product: CartProduct }) 
         onClick={() => {
           addItem();
           setAdded(true);
-          openCart(); // add cheythathu kaanaan drawer thurakkum
+          openCart(); // open the drawer to show what was added
         }}
       >
         {added ? "Added ✓" : "Add to Cart"}
@@ -67,7 +67,7 @@ export default function AddToCartButtons({ product }: { product: CartProduct }) 
         className="product-card__btn product-card__btn--outline"
         onClick={() => {
           addItem();
-          router.push("/checkout"); // nere checkout-ilekku
+          router.push("/checkout"); // straight to checkout
         }}
       >
         Buy Now

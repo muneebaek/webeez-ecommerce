@@ -1,17 +1,17 @@
 @layer components {
-  /* Mobile side drawer — closed aayirikkumbol invisible, open aakumbol left-il ninnu slide */
+  /* Mobile side drawer — invisible when closed, slides in from the left when open */
   .drawer {
-    /* timing — ivide maattiyaal mathi */
+    /* timing — change it here only */
     --drawer-open: 0.7s;
     --drawer-close: 0.55s;
     --drawer-ease: cubic-bezier(0.65, 0, 0.35, 1); /* slow start, slow end */
 
     position: fixed;
     inset: 0;
-    z-index: 60; /* tab-bar (50)-inu mukalil */
+    z-index: 60; /* above tab-bar (50) */
     visibility: hidden;
     pointer-events: none;
-    /* close animation kazhinjittu mathram hide */
+    /* hide only after the close animation ends */
     transition: visibility 0s linear var(--drawer-close);
 
     &.is-open {
@@ -27,7 +27,7 @@
         transform: translateX(0);
         transition-duration: var(--drawer-open);
       }
-      /* links oronnayi fade-in (stagger) */
+      /* links fade in one by one (stagger) */
       & .drawer__nav li,
       & .drawer__secondary,
       & .drawer__foot {
@@ -220,7 +220,7 @@
     }
   }
 
-  /* "Reduce motion" on aakkiya users-inu animation venda */
+  /* no animation for users with "Reduce motion" on */
   @media (prefers-reduced-motion: reduce) {
     .drawer {
       --drawer-open: 0.01s;

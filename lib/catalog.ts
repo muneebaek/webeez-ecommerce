@@ -8,21 +8,21 @@ export const SORTS = ["featured", "price-asc", "price-desc"] as const;
 
 export type Sort = (typeof SORTS)[number];
 
-export const PAGE_SIZE = 8; // ore page-il ethra products
+export const PAGE_SIZE = 8; // products per page
 
 export type Filters = {
   category?: Category;
   collection?: string;
   under?: number;
   sort: Sort;
-  page: number; // 1-il thudangum
+  page: number; // starts at 1
 };
 
 type RawParams = Record<string, string | string[] | undefined>;
 
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 
-/** Junk values ignore cheyyum — ?category=xyz pole vannaal filter illaatha pole */
+/** Ignores junk values — ?category=xyz behaves like no filter */
 export function parseFilters(params: RawParams): Filters {
   const category = first(params.category);
   const collection = first(params.collection);
@@ -39,13 +39,13 @@ export function parseFilters(params: RawParams): Filters {
   };
 }
 
-/** list = database-il ninnu vanna products (getAllProducts) */
+/** list = products from the database (getAllProducts) */
 export function filterProducts(all: Product[], f: Filters): Product[] {
   let list = all.filter((p) => {
     if (f.category && p.category !== f.category) return false;
     if (f.collection && !p.collections.includes(f.collection)) return false;
     if (f.under && p.price > f.under) return false;
-    // Look 01 pieces-inu ore wide image aanu — "All"-il kaanikkilla, collection=look-01-il mathram
+    // Look 01 pieces share one wide image — hidden from "All", shown only in collection=look-01
     if (f.collection !== "look-01" && p.collections.includes("look-01")) return false;
     return true;
   });
@@ -71,8 +71,8 @@ export function titleFor(f: Filters) {
   return "All Pieces";
 }
 
-/** Filtered list-il ninnu current page-inte items + page info.
- *  ?page=99 pole range-inu purathu aanenkil last page-ilekku clamp cheyyum */
+/** Items for the current page + page info from the filtered list.
+ *  Out-of-range values like ?page=99 clamp to the last page */
 export function paginate<T>(list: T[], page: number, size = PAGE_SIZE) {
   const totalPages = Math.max(1, Math.ceil(list.length / size));
   const current = Math.min(page, totalPages);
@@ -87,19 +87,19 @@ export function paginate<T>(list: T[], page: number, size = PAGE_SIZE) {
   };
 }
 
-/** Current filters-il ninnu oru value maatti puthiya URL — chips / sort links-inu */
+/** New URL from the current filters with one value changed — for chips / sort links */
 export function hrefWith(f: Filters, patch: Partial<Record<keyof Filters, string | number | undefined>>) {
   const merged: Record<string, string | number | undefined> = {
     category: f.category,
     collection: f.collection,
     under: f.under,
     sort: f.sort === "featured" ? undefined : f.sort,
-    page: undefined, // filter / sort maarumbol page 1-ilekku reset
+    page: undefined, // reset to page 1 when filter / sort changes
     ...patch,
   };
   const qs = new URLSearchParams();
   for (const [k, v] of Object.entries(merged)) {
-    if (v === undefined || v === "" || (k === "page" && v === 1)) continue; // page=1 URL-il venda
+    if (v === undefined || v === "" || (k === "page" && v === 1)) continue; // omit page=1 from the URL
     qs.set(k, String(v));
   }
   const s = qs.toString();

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
-// Dev mode-il hot reload oro thavanayum puthiya PrismaClient undakkum → connections theerum.
-// Athukondu globalThis-il oru instance mathram vechu reuse cheyyunnu (singleton).
+// In dev, every hot reload would create a new PrismaClient → connections run out.
+// So a single instance is kept on globalThis and reused (singleton).
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 export const db = globalForPrisma.prisma ?? new PrismaClient();

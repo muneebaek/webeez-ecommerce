@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Oro portal-um oru category-lekku link — data array aayi vechathukondu JSX repeat cheyyenda
+// Each portal links to a category — kept as a data array so the JSX isn't repeated
 const portals = [
   {
     no: "01",
     title: "Women",
     href: "/products?category=women",
     image: "/images/portals/women.jpg",
-    position: "50% 25%", // face crop aakathirikkaan
+    position: "50% 25%", // keep the face from being cropped
     text: "Structured saris, flowing angrakhas, and tailored mineral palazzos engineered for unencumbered movement.",
   },
   {
@@ -79,7 +79,7 @@ export default function Portals() {
                 </span>
               </div>
 
-              {/* Cormorant 600 ≈ PDF-ile EB Garamond regular-inte kanam */}
+              {/* Cormorant 600 ≈ the weight of the PDF's EB Garamond regular */}
               <h3 className="mt-6 font-serif text-[2rem] font-semibold leading-none uppercase text-ink">
                 {portal.title}
               </h3>

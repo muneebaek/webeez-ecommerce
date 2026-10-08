@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Community photos — instagram post pole
+// Community photos — like Instagram posts
 const posts = [
   { src: "/images/community/seen-01.jpg", alt: "Woman in a red embroidered dupatta" },
   { src: "/images/community/seen-06.jpg", alt: "Man in a plum shirt and denim" },

@@ -15,7 +15,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      /* right-il ninnu left-lekku smooth aayi slide + fade */
+      /* smooth slide + fade from right to left */
       animation: testi-in 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) both;
     }
 

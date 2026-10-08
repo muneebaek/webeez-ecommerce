@@ -3,7 +3,7 @@
 import { useCartUi } from "@/store/cart-ui";
 import { CartCountText } from "./HeaderCounts";
 
-// Header "CART [02]" — page-ilekku pokaathe cart drawer thurakkum
+// Header "CART [02]" — opens the cart drawer instead of navigating
 export default function HeaderCartButton() {
   const openCart = useCartUi((s) => s.openCart);
   return (

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { MAX_QTY } from "./pricing";
 
-// Checkout form — server-il ee rules vechu check cheyyum (browser validation bypass cheyyaam, server-il pattilla)
+// Checkout form — the server validates with these rules (browser validation can be bypassed, the server can't)
 
 export const INDIAN_STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana",
@@ -27,7 +27,7 @@ export const checkoutSchema = z.object({
   notes: z.string().trim().max(300).optional().transform((v) => v || undefined),
 });
 
-// Cart-il ninnu varunna items — id, size, qty mathram; price server database-il ninnu edukkum
+// Items coming from the cart — only id, size, qty; the server reads prices from the database
 export const orderItemsSchema = z
   .array(
     z.object({

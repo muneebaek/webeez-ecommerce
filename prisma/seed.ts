@@ -1,5 +1,5 @@
-// lib/products.ts-ile static data → Neon database
-// Run: npm run db:seed   (pala thavana run cheythaalum duplicate aakilla — upsert)
+// Static data from lib/products.ts → Neon database
+// Run: npm run db:seed   (safe to run repeatedly, no duplicates — upsert)
 import { PrismaClient } from "@prisma/client";
 import { products } from "../lib/products";
 import { getReviews } from "../lib/reviews";
@@ -26,17 +26,17 @@ async function main() {
       statusAccent: p.statusAccent ?? false,
       eyebrow: p.eyebrow ?? null,
       description: p.description,
-      sortOrder: index, // ippozhathe order thanne nilkkaan
+      sortOrder: index, // keep the current order
     };
 
-    // undenkil update, illenkil create
+    // update if it exists, otherwise create
     await db.product.upsert({
       where: { id: p.id },
       update: data,
       create: { id: p.id, ...data },
     });
 
-    // reviews: pazhayathu delete cheythu puthiyathu (re-run safe)
+    // reviews: delete the old ones and recreate (safe to re-run)
     await db.review.deleteMany({ where: { productId: p.id } });
     await db.review.createMany({
       data: getReviews(p.id).map((r) => ({

@@ -21,7 +21,7 @@
       text-transform: uppercase;
     }
 
-    /* PDF: flat ivory strip — 185 × 14px, text strip-inte ullil thinge */
+    /* PDF: flat ivory strip — 185 × 14px, text sits inside the strip */
     & .move__btn {
       display: inline-flex;
       align-items: center;

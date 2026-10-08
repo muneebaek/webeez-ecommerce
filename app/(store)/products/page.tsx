@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   title: "Collections — Neythra",
 };
 
-// Static shell (label) udane varum; searchParams-il depend cheyyunna results Suspense-il stream aakum.
-// cacheComponents on aayathukondu searchParams vaayikkunna bhaagam Suspense-il venam (Next.js rule).
+// Static shell (label) renders immediately; results that depend on searchParams stream in via Suspense.
+// With cacheComponents on, the part that reads searchParams must be inside Suspense (Next.js rule).
 export default function ProductsPage(props: PageProps<"/products">) {
   return (
     <div className="bg-ivory">
@@ -26,7 +26,7 @@ export default function ProductsPage(props: PageProps<"/products">) {
   );
 }
 
-// ---------- Filter chips — oro chip-um oru URL (back button, share ellaam work aakum) ----------
+// ---------- Filter chips — every chip is a URL (back button and sharing just work) ----------
 const clear = { category: undefined, collection: undefined, under: undefined };
 
 const chips = (f: Filters) => [
@@ -48,7 +48,7 @@ const sorts = [
 
 async function Results({ searchParams }: Pick<PageProps<"/products">, "searchParams">) {
   const filters = parseFilters(await searchParams);
-  // filter → sort → current page-inte 8 items
+  // filter → sort → 8 items for the current page
   const pg = paginate(filterProducts(await getAllProducts(), filters), filters.page);
   const items = pg.items;
 
@@ -130,7 +130,7 @@ async function Results({ searchParams }: Pick<PageProps<"/products">, "searchPar
   );
 }
 
-// Results load aakumbol kaanikkunna placeholder (card shape)
+// Placeholder shown while results load (card shape)
 function GridSkeleton() {
   return (
     <div className="mt-28 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 xl:grid-cols-4 xl:gap-6" aria-busy="true">

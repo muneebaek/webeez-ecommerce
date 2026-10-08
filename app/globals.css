@@ -10,6 +10,7 @@
 @import "./styles/components/catalog.css";
 @import "./styles/components/product-page.css";
 @import "./styles/components/checkout.css";
+@import "./styles/admin.css";
 @import "./styles/components/product-card.css";
 @import "./styles/sections/hero.css";
 @import "./styles/sections/selection-strip.css";
@@ -23,8 +24,8 @@
 @import "./styles/sections/testimonials.css";
 @import "./styles/sections/newsletter.css";
 
-/* Raw design tokens — custom CSS-il var(--paper) aayi use cheyyam.
-   Values sampled from the Neythra PDF. */
+/* Raw design tokens — use as var(--paper) in custom CSS.
+   Values sampled from the Neythra PDF */
 :root {
   --paper: #f4f1ea; /* hero right panel */
   --paper-dark: #e9e3d8;
@@ -40,7 +41,7 @@
   --rose-deep: #8b474f; /* account avatar */
   --slate: #17252a; /* hero heading, dark text */
   --taupe: #5b514e; /* hero body + labels */
-  --taupe-dark: #3f3735; /* product cards / current pieces — kurachu kooduthal dark */
+  --taupe-dark: #3f3735; /* product cards / current pieces — a little darker */
   --rule: #d7d5cf; /* warm divider lines */
   --cream: #fafaf5; /* plate label bg */
   --charcoal: #242f34; /* dark image label bg */

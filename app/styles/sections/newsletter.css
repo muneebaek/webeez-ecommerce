@@ -17,12 +17,12 @@
       font-size: clamp(2.5rem, 4.6vw, 3.9rem);
       font-weight: 500;
       line-height: 0.95;
-      white-space: nowrap; /* PDF pole oru line-il */
+      white-space: nowrap; /* on one line like the PDF */
       letter-spacing: -0.01em;
       text-transform: uppercase;
     }
 
-    /* underline-only input — PDF pole */
+    /* underline-only input — like the PDF */
     & .news__input {
       flex: 1;
       min-width: 0;

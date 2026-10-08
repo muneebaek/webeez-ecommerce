@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-// Main image + thumbnails (oru image-il kooduthal undenkil). Desktop-il hover cheythaal mouse position-il zoom.
+// Main image + thumbnails (when there's more than one image). On desktop, hovering zooms at the mouse position.
 export default function ProductGallery({ images, name }: { images: string[]; name: string }) {
   const [index, setIndex] = useState(0);
   const [origin, setOrigin] = useState("50% 50%");

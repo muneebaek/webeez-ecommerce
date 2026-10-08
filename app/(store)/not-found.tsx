@@ -1,7 +1,7 @@
 import NotFoundContent from "@/components/layout/NotFoundContent";
 
-// Store pages-il notFound() (ex: illaatha product slug) — store layout already header/footer tharunnu,
-// athukondu ivide content mathram (root not-found-il ninnu vyathyaasam)
+// notFound() inside store pages (e.g. unknown product slug) — the store layout already renders header/footer,
+// so only the content goes here (unlike the root not-found)
 export default function StoreNotFound() {
   return <NotFoundContent />;
 }

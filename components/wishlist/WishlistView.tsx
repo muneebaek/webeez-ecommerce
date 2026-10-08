@@ -8,7 +8,7 @@ import { useCartUi } from "@/store/cart-ui";
 import { useHydrated } from "@/store/use-hydrated";
 import { useWishlist } from "@/store/wishlist";
 
-// Wishlist-il ids mathram save cheyyunnu → product details server page-il ninnu (database) prop aayi
+// The wishlist stores only ids → product details come from the server page (database) as a prop
 export default function WishlistView({ products }: { products: Product[] }) {
   const hydrated = useHydrated();
   const ids = useWishlist((s) => s.ids);
@@ -16,13 +16,13 @@ export default function WishlistView({ products }: { products: Product[] }) {
   const add = useCart((s) => s.add);
   const openCart = useCartUi((s) => s.openCart);
 
-  // saved order nilanirthaan ids-il ninnu map; delete aaya product undenkil skip
+  // map from ids to keep the saved order; skip products that were deleted
   const items = hydrated
     ? ids.map((id) => products.find((p) => p.id === id)).filter((p) => p !== undefined)
     : [];
   const inStock = items.filter((p) => p.stock > 0);
 
-  // ella in-stock pieces-um (aadyathe size) bag-il; wishlist-il ninnu maattunnilla
+  // adds all in-stock pieces (first size) to the bag; doesn't remove them from the wishlist
   const addAllToBag = () => {
     inStock.forEach((p) =>
       add({
@@ -88,7 +88,7 @@ export default function WishlistView({ products }: { products: Product[] }) {
         </div>
       </div>
 
-      {/* ---------- Grid — ♡ click cheythaal card ivide ninnu pokum ---------- */}
+      {/* ---------- Grid — clicking ♡ removes the card from here ---------- */}
       <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 xl:grid-cols-4 xl:gap-6">
         {items.map((p) => (
           <ProductCard key={p.id} product={p} />

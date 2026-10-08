@@ -1,16 +1,16 @@
 @layer components {
-  /* "THE NEW EVERYDAY." frosted card — layout/position Tailwind-il, look ivide */
+  /* "THE NEW EVERYDAY." frosted card — layout/position in Tailwind, look here */
   .manifesto-card {
     padding: 2rem 1.25rem 2.25rem;
     background: var(--paper);
 
     @media (min-width: 1024px) {
       padding: 3rem 3rem 2.5rem;
-      /* frosted glass: pinnile image cheriya reethiyil kaanum */
+      /* frosted glass: the image shows through slightly */
       background: rgb(245 242 237 / 0.9);
       backdrop-filter: blur(10px);
       border: 1px solid var(--rule);
-      /* soft shadow — card image-il ninnu pathukke uyarnnu nilkkaan */
+      /* soft shadow — lifts the card gently off the image */
       box-shadow: 0 24px 48px -16px rgb(15 30 34 / 0.35);
     }
 
@@ -33,7 +33,7 @@
       margin-top: 1.25rem;
       color: var(--ink);
       font-size: clamp(2.75rem, 5.2vw, 4.1rem);
-      font-weight: 600; /* PDF-ile EB Garamond regular-inte kanam */
+      font-weight: 600; /* matches the weight of the PDF's EB Garamond regular */
       line-height: 0.88;
       letter-spacing: -0.01em;
       text-transform: uppercase;

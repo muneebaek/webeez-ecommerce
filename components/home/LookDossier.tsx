@@ -1,7 +1,7 @@
 import { getProductsByCollection } from "@/lib/data/products";
 import LookInteractive from "./LookInteractive";
 
-// Image-il oro piece-um evide aanu (% — image box-inte left / top)
+// Where each piece sits on the image (% — left / top of the image box)
 const hotspots: Record<string, { x: number; y: number }> = {
   lk01: { x: 47, y: 31 }, // tunic — chest
   lk02: { x: 48, y: 84 }, // trouser
@@ -9,7 +9,7 @@ const hotspots: Record<string, { x: number; y: number }> = {
 };
 
 export default async function LookDossier() {
-  // server-il data edukkunnu; click / hover ulla bhaagam mathram client component
+  // data is fetched on the server; only the click / hover part is a client component
   const items = (await getProductsByCollection("look-01")).map((p) => ({
     id: p.id,
     name: p.name,

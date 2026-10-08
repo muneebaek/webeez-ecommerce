@@ -5,7 +5,7 @@
     gap: 0.5rem;
     overflow-x: auto; /* mobile: swipe */
     scrollbar-width: none;
-    margin-inline: -1rem; /* mobile: screen edge vare scroll */
+    margin-inline: -1rem; /* mobile: scroll to the screen edge */
     padding-inline: 1rem;
 
     &::-webkit-scrollbar {
@@ -64,7 +64,7 @@
       padding-bottom: 0.2rem;
       color: var(--taupe-dark);
 
-      /* active sort-inu rose underline */
+      /* rose underline for the active sort */
       &::after {
         content: "";
         position: absolute;
@@ -174,7 +174,7 @@
   .pager {
     display: flex;
     align-items: center;
-    justify-content: center; /* compact group — naduvil */
+    justify-content: center; /* compact group — centred */
     gap: 0.75rem;
     font-size: 0.5625rem;
     font-weight: 600;
@@ -229,7 +229,7 @@
       color: var(--taupe-dark);
       transition: color 0.2s;
 
-      /* current page-inu rose underline */
+      /* rose underline for the current page */
       &::after {
         content: "";
         position: absolute;

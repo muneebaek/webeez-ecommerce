@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-// Cart drawer open / close — UI state mathram, localStorage-il save cheyyunnilla
+// Cart drawer open / close — UI state only, not saved to localStorage
 type CartUiState = {
   open: boolean;
   openCart: () => void;

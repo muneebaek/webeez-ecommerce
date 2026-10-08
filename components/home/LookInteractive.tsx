@@ -18,13 +18,13 @@ type LookItem = {
 };
 
 export default function LookInteractive({ items }: { items: LookItem[] }) {
-  // image-ile number-um list-ile row-um link aanu — onninu hover cheythaal mattathum highlight
+  // the number on the image and the row in the list are linked — hovering one highlights the other
   const [active, setActive] = useState<string | null>(null);
   const total = items.reduce((sum, item) => sum + item.price, 0);
   const add = useCart((s) => s.add);
   const openCart = useCartUi((s) => s.openCart);
 
-  // oru piece allenkil full look cart-il add cheythu drawer thurakkum
+  // adds one piece or the full look to the cart and opens the drawer
   const addToCart = (list: LookItem[]) => {
     list.forEach((item) =>
       add({ productId: item.id, slug: item.slug, name: item.name, image: item.image, size: item.size, price: item.price }),
@@ -35,10 +35,10 @@ export default function LookInteractive({ items }: { items: LookItem[] }) {
   return (
     <div className="look mt-10 grid gap-10 lg:mt-12 lg:grid-cols-[1fr_24rem] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,1fr)_29rem] xl:items-stretch">
       {/* ---------- Left: image + hotspots ---------- */}
-      {/* Wide image (16:9). xl: box = baaki width × right content height.
-          Ullile wrapper image ratio-il box-ine cover cheyyum (container query units) —
-          model center-il aayathukondu sides mathram crop aakum, head + kaal full kaanum.
-          Hotspot dots wrapper-inte ullil — crop aayaalum correct sthalathu nilkkum */}
+      {/* Wide image (16:9). xl: box = remaining width × right content height.
+          The inner wrapper covers the box at the image ratio (container query units) —
+          the model is centred, so only the sides crop and head + feet stay visible.
+          Hotspot dots live inside the wrapper — they stay in the right place even when cropped */}
       <div className="relative aspect-[1672/941] overflow-hidden border border-rule [container-type:size] xl:aspect-auto">
         <div className="absolute left-1/2 top-1/2 aspect-[1672/941] w-[max(100cqw,calc(100cqh*1.7768))] -translate-x-1/2 -translate-y-1/2">
           <Image

@@ -17,14 +17,14 @@ export default function CheckoutForm() {
   const storeItems = useCart((s) => s.items);
   const clear = useCart((s) => s.clear);
   const router = useRouter();
-  // useActionState: form submit → server action → result (errors / orderNumber) state-il
+  // useActionState: form submit → server action → result (errors / orderNumber) in state
   const [state, formAction, pending] = useActionState(placeOrder, initial);
 
   const items = hydrated ? storeItems : [];
   const subtotal = cartSubtotal(items);
   const shipping = shippingFor(subtotal);
 
-  // order success → cart clear, confirmation page-ilekku
+  // order success → clear the cart, go to the confirmation page
   useEffect(() => {
     if (state.ok && state.orderNumber) {
       clear();
@@ -50,14 +50,14 @@ export default function CheckoutForm() {
 
   const v = state.values ?? {};
   const err = state.fieldErrors ?? {};
-  // server-ilekku id + size + qty mathram — price server DB-il ninnu edukkum
+  // send only id + size + qty — the server reads prices from the DB
   const itemsPayload = JSON.stringify(items.map((i) => ({ productId: i.productId, size: i.size, qty: i.qty })));
 
   return (
     <form
       action={formAction}
       noValidate
-      // error kazhinju form values nilanirthaan — values maarumbol remount
+      // keep form values after an error — remount when values change
       key={JSON.stringify(v)}
       className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start lg:gap-14"
     >
@@ -116,7 +116,7 @@ export default function CheckoutForm() {
           <legend className="co__legend">
             <span>03</span> Payment
           </legend>
-          {/* COD mathram — selected aayi kaanikkunnu */}
+          {/* COD only — shown as selected */}
           <label className="co__pay">
             <input type="radio" name="payment" value="COD" defaultChecked readOnly />
             <span>
@@ -173,7 +173,7 @@ export default function CheckoutForm() {
   );
 }
 
-// ---------- Oru input field (label + input + error) ----------
+// ---------- A single input field (label + input + error) ----------
 function Field({
   name,
   label,

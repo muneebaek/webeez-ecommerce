@@ -4,7 +4,7 @@ import { cartCount, useCart } from "./cart";
 import { useHydrated } from "./use-hydrated";
 import { useWishlist } from "./wishlist";
 
-// Header, mobile tab bar, drawer — ellaam ee hooks use cheyyum (ore source)
+// Header, mobile tab bar, drawer — all use these hooks (single source)
 export function useCartCount() {
   const hydrated = useHydrated();
   const count = useCart((s) => cartCount(s.items));

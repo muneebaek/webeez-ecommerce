@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-// avatar illenkil name-il ninnu initials kaanikkum
+// shows initials from the name when there's no avatar
 const quotes: { text: string; name: string; meta: string; avatar?: string }[] = [
   {
     text: "It feels like something I’ll wear for years. The drape feels ancient and the silhouette feels twenty years ahead.",
@@ -29,7 +29,7 @@ export default function Testimonials() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // auto-rotate; hover / focus cheyyumbol pause
+  // auto-rotate; pauses on hover / focus
   useEffect(() => {
     if (paused) return;
     const id = setInterval(() => setIndex((i) => (i + 1) % quotes.length), INTERVAL);
@@ -56,7 +56,7 @@ export default function Testimonials() {
           <span className="size-2 bg-rose" aria-hidden="true" />
         </p>
 
-        {/* key={index} — quote maarumbol fade-in animation veendum play aakum */}
+        {/* key={index} — replays the fade-in animation when the quote changes */}
         <figure key={index} className="testi__slide" aria-live="polite">
           <blockquote className="testi__quote">&ldquo;{q.text}&rdquo;</blockquote>
           <figcaption className="mt-10 flex items-center gap-4 text-left">
@@ -78,7 +78,7 @@ export default function Testimonials() {
           </figcaption>
         </figure>
 
-        {/* ---------- Pager: 01 / 03 (PDF pole — text mathram, auto-rotate) ---------- */}
+        {/* ---------- Pager: 01 / 03 (like the PDF — text only, auto-rotate) ---------- */}
         <p className="testi__pager">
           <span className="text-rose">0{index + 1}</span>
           <span className="mx-5 text-rule">/</span>

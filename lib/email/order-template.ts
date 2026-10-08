@@ -1,6 +1,6 @@
 import { formatINR } from "@/lib/format";
 
-// Email clients (Gmail, Outlook) CSS classes support cheyyilla → table layout + inline styles.
+// Email clients (Gmail, Outlook) don't support CSS classes → table layout + inline styles.
 // Neythra palette: ivory #fcfaf5, ink #0f1e22, rose #a85f67, rule #d7d5cf, taupe #5b514e.
 
 type OrderForEmail = {
@@ -20,7 +20,7 @@ type OrderForEmail = {
   items: { name: string; image: string; size: string; qty: number; unitPrice: number }[];
 };
 
-// user input HTML-il direct vekkunnathinu munpu escape — <script> pole kaaryangal inject aakaathirikkaan
+// escape user input before putting it in HTML — prevents injecting things like <script>
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -121,7 +121,7 @@ export function orderEmailHtml(o: OrderForEmail, siteUrl: string) {
 </body></html>`;
 }
 
-/** HTML kaanikkaatha email apps-inu plain text version */
+/** plain text version for email apps that don't render HTML */
 export function orderEmailText(o: OrderForEmail, siteUrl: string) {
   const lines = o.items.map((i) => `- ${i.name} (Size ${i.size}) x${i.qty}  ${formatINR(i.unitPrice * i.qty)}`).join("\n");
   return `Thank you, ${o.customerName.split(" ")[0]}.

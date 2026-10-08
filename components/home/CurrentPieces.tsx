@@ -3,7 +3,7 @@ import ProductCard from "@/components/product/ProductCard";
 import { getProductsByCollection } from "@/lib/data/products";
 
 export default async function CurrentPieces() {
-  // eppozhum 4 mathram — oru row-il nilkkaan; baaki "Browse All" vazhi
+  // always exactly 4 — fits one row; the rest via "Browse All"
   const items = (await getProductsByCollection("current")).slice(0, 4);
 
   return (

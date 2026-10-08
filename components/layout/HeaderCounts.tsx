@@ -2,7 +2,7 @@
 
 import { pad2, useCartCount, useWishlistCount } from "@/store/counts";
 
-// Header server component aanu — live count mathram ee cheriya client pieces-il
+// Header is a server component — only the live counts live in these small client pieces
 
 export function WishlistCountText() {
   return <>({useWishlistCount()})</>;

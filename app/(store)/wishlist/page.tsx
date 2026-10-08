@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Wishlist — Neythra",
 };
 
-// Shell server-il; saved ids browser localStorage-il aayathukondu content client component
+// Shell renders on the server; saved ids live in browser localStorage, so the content is a client component
 export default async function WishlistPage() {
   const products = await getAllProducts(); // cached DB read
 

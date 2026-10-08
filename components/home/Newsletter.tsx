@@ -12,13 +12,13 @@ export default function Newsletter() {
   const [pending, startTransition] = useTransition();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault(); // page reload aakathirikkaan
+    e.preventDefault(); // prevent page reload
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
     if (!valid) {
       setStatus("error");
       return;
     }
-    // valid → server action → Subscriber table-il save
+    // valid → server action → saved to the Subscriber table
     const fd = new FormData();
     fd.set("email", email);
     startTransition(async () => {

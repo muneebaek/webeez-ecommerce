@@ -12,7 +12,7 @@ import {
 import { useHydrated } from "@/store/use-hydrated";
 import CartLine from "./CartLine";
 
-// /cart page — items left-il, order summary right-il (desktop); mobile-il stack
+// /cart page — items on the left, order summary on the right (desktop); stacked on mobile
 export default function CartView() {
   const hydrated = useHydrated();
   const storeItems = useCart((s) => s.items);
@@ -25,7 +25,7 @@ export default function CartView() {
   const remaining = Math.max(0, FREE_SHIPPING_MIN - subtotal);
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_MIN) * 100);
 
-  // localStorage load aakunnathu vare cheriya placeholder (empty state flash aakaathirikkaan)
+  // small placeholder until localStorage loads (avoids flashing the empty state)
   if (!hydrated) {
     return <div className="bag__loading" aria-busy="true" />;
   }
@@ -69,7 +69,7 @@ export default function CartView() {
         </Link>
       </section>
 
-      {/* ---------- Summary (desktop-il sticky) ---------- */}
+      {/* ---------- Summary (sticky on desktop) ---------- */}
       <aside className="bag__summary lg:sticky lg:top-32">
         <p className="bag__summary-title">Order Summary</p>
 

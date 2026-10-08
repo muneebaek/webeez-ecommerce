@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Phone-il LAN IP vazhi dev server test cheyyaan (illenkil JS block aakum — buttons/menu work aakilla).
-  // Dev mode-il mathram; production build-ine bhaadhikkilla.
+  // Lets phones test the dev server over the LAN IP (otherwise JS is blocked — buttons/menu don't work).
+  // Dev mode only; doesn't affect production builds.
   allowedDevOrigins: ["10.211.40.106", "192.168.*.*", "10.*.*.*"],
-  // dev "N" indicator off — mobile tab bar-um cart drawer close button-um maraykkunnu (dev mode mathram)
+  // dev "N" indicator off — it covers the mobile tab bar and cart drawer close button (dev mode only)
   devIndicators: false,
   experimental: {
     agentFeedback: true,

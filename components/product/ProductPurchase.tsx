@@ -19,7 +19,7 @@ type Props = {
   };
 };
 
-// Size select + qty + Add to Cart / Buy Now / Wishlist — product page-inte interactive bhaagam mathram client
+// Size select + qty + Add to Cart / Buy Now / Wishlist — only the interactive part of the product page is client
 export default function ProductPurchase({ product }: Props) {
   const oneSize = product.sizes.length === 1;
   const [size, setSize] = useState<string | null>(oneSize ? product.sizes[0] : null);
@@ -36,7 +36,7 @@ export default function ProductPurchase({ product }: Props) {
   const soldOut = product.stock === 0;
   const maxQty = Math.min(MAX_QTY, product.stock);
 
-  // size choose cheyyaathe add cheyyaan pattilla — error kaanikkum
+  // can't add without choosing a size — shows an error
   const addToCart = () => {
     if (!size) {
       setError(true);

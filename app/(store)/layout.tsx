@@ -16,7 +16,7 @@ export default function StoreLayout({
       <Header />
       <main>{children}</main>
       <Footer />
-      {/* usePathname (active tab) — dynamic URL-il Suspense venam (Cache Components rule) */}
+      {/* usePathname (active tab) reads the dynamic URL, so it needs Suspense (Cache Components rule) */}
       <Suspense fallback={null}>
         <MobileTabBar />
       </Suspense>

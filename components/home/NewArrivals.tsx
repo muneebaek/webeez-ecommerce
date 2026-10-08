@@ -2,13 +2,13 @@ import ProductCard from "@/components/product/ProductCard";
 import { getProductsByCollection } from "@/lib/data/products";
 
 export default async function NewArrivals() {
-  // aadyathe product = flagship (valiya card), baaki 2 normal
+  // first product = flagship (large card), the other 2 normal
   const [flagship, ...rest] = (await getProductsByCollection("new-arrivals")).slice(0, 3);
 
   return (
     <section className="bg-paper py-14 lg:py-20">
       <div className="page-shell">
-        {/* ---------- Heading row (Trending-ile athe pattern) ---------- */}
+        {/* ---------- Heading row (same pattern as Trending) ---------- */}
         <header className="grid gap-5 border-b-2 border-rule pb-8 lg:grid-cols-[1fr_24rem] lg:items-end lg:gap-14">
           <div>
             <p className="text-[0.5625rem] font-medium uppercase tracking-[0.25em] text-taupe-dark lg:text-[0.625rem]">
@@ -24,7 +24,7 @@ export default async function NewArrivals() {
           </p>
         </header>
 
-        {/* ---------- Asymmetric grid: 1 valiya + 2 cheriya, top-aligned ---------- */}
+        {/* ---------- Asymmetric grid: 1 large + 2 small, top-aligned ---------- */}
         <div className="mt-10 grid grid-cols-2 items-start gap-3 sm:gap-5 lg:mt-12 lg:grid-cols-[2.1fr_1fr_1fr] lg:gap-6">
           {flagship && (
             <div className="col-span-2 lg:col-span-1">

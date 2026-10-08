@@ -5,10 +5,10 @@ import { db } from "@/lib/db";
 import type { Product } from "@/lib/products";
 import type { Review } from "@/lib/reviews";
 
-// Database queries — server-il mathram. 'use cache' + cacheTag:
-// result cache-il vekkum (page vegam), admin edit cheyyumbol updateTag('products') vechu refresh.
+// Database queries — server only. 'use cache' + cacheTag:
+// results are cached (fast pages); admin edits refresh them with updateTag('products').
 
-/** DB row → app-ile Product shape (components maattenda) */
+/** DB row → the app's Product shape (components stay unchanged) */
 function toProduct(row: DbProduct): Product {
   return {
     id: row.id,
@@ -62,7 +62,7 @@ export async function getProductSlugs(): Promise<string[]> {
   return rows.map((r) => r.slug);
 }
 
-/** Same category first, kuravaanenkil vere category; Look 01 pieces ozhivaakki */
+/** Same category first, other categories if there aren't enough; excludes Look 01 pieces */
 export async function getSimilarProducts(product: Product, limit = 4): Promise<Product[]> {
   const all = await getAllProducts();
   const visible = all.filter((p) => p.id !== product.id && !p.collections.includes("look-01"));

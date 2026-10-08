@@ -5,7 +5,7 @@ import { newsletterSchema } from "@/lib/validators";
 
 export type NewsletterState = { status: "idle" | "error" | "success"; message?: string };
 
-// "Keep in Touch" form → Subscriber table. Same email veendum vannaal error alla (upsert).
+// "Keep in Touch" form → Subscriber table. Submitting the same email again isn't an error (upsert).
 export async function subscribe(_prev: NewsletterState, formData: FormData): Promise<NewsletterState> {
   const parsed = newsletterSchema.safeParse({ email: formData.get("email") });
   if (!parsed.success) return { status: "error", message: "Please enter a valid email address." };

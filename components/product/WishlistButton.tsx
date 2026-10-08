@@ -3,7 +3,7 @@
 import { useHydrated } from "@/store/use-hydrated";
 import { useWishlist } from "@/store/wishlist";
 
-// Global wishlist store — ella sections-ilum ore product-inu ore state; reload cheythaalum nilkkum
+// Global wishlist store — one state per product across all sections; survives reloads
 export default function WishlistButton({
   productId,
   productName,

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-// 404 content — root not-found-um (store)/not-found-um ithu thanne use cheyyunnu
+// 404 content — shared by the root not-found and (store)/not-found
 export default function NotFoundContent() {
   return (
     <div className="bg-ivory">

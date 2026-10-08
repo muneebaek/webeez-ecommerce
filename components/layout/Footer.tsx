@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-// 4 link columns — data aayi vechathukondu JSX repeat cheyyenda
+// 4 link columns — kept as data so the JSX isn't repeated
 const columns = [
   {
     title: "Shop",

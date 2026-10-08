@@ -7,7 +7,7 @@ export default async function TrendingNow() {
   return (
     <section className="border-t-2 border-rule bg-paper py-14 lg:py-20">
       <div className="page-shell">
-        {/* ---------- Heading row (Portals heading-ile athe layout) ---------- */}
+        {/* ---------- Heading row (same layout as the Portals heading) ---------- */}
         <header className="grid gap-5 border-b-2 border-rule pb-8 lg:grid-cols-[1fr_24rem] lg:items-end lg:gap-14 lg:pb-8">
           <div>
             <p className="text-[0.5625rem] font-medium uppercase tracking-[0.25em] text-rose lg:text-[0.625rem]">

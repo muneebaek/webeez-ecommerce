@@ -14,7 +14,7 @@
       scrollbar-width: none; /* Firefox / Chrome */
 
       &::-webkit-scrollbar {
-        display: none; /* Safari / mobile Chrome — thazhe scrollbar kaanikkilla */
+        display: none; /* Safari / mobile Chrome — hide the bottom scrollbar */
       }
 
       @media (min-width: 1024px) {
@@ -43,7 +43,7 @@
       transform: translateY(-50%);
     }
 
-    /* links + slashes — space-between: slash randu link-inte exact naduvil */
+    /* links + slashes — space-between puts each slash exactly between two links */
     & .selection-strip__links {
       display: flex;
       flex: 1;
@@ -53,7 +53,7 @@
       white-space: nowrap;
 
       @media (min-width: 1024px) {
-        margin-inline: 2rem 1rem; /* PDF: title-il ninnu kooduthal gap */
+        margin-inline: 2rem 1rem; /* PDF: larger gap from the title */
       }
     }
 

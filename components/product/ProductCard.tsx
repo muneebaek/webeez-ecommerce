@@ -5,8 +5,8 @@ import type { Product } from "@/lib/products";
 import AddToCartButtons from "./AddToCartButtons";
 import WishlistButton from "./WishlistButton";
 
-// Reusable card — Current Pieces, Trending, New Arrivals, Under ₹2,999 ellaam ithu use cheyyum
-// variant="feature" — New Arrivals-ile valiya flagship card (wide image, valiya text)
+// Reusable card — used by Current Pieces, Trending, New Arrivals and Under ₹2,999
+// variant="feature" — the large New Arrivals flagship card (wide image, larger text)
 export default function ProductCard({
   product,
   variant = "default",
@@ -62,7 +62,7 @@ export default function ProductCard({
 
         <div className="product-card__price-row">
           <span className="product-card__price">{formatINR(product.price)}</span>
-          {/* "3 Left" / "Bestseller" — rose colour-il */}
+          {/* "3 Left" / "Bestseller" — in rose */}
           <span
             className={`product-card__stock ${lowStock || product.statusAccent ? "product-card__stock--low" : ""}`}
           >

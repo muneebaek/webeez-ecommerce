@@ -6,8 +6,8 @@ import Header from "@/components/layout/Header";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 import NotFoundContent from "@/components/layout/NotFoundContent";
 
-// Root 404 — undakkaatha URLs (ex: /checkout ippo) store layout-inte purathu aanu,
-// athukondu header/footer/tab bar ivide thanne. Store-inte ullile notFound() → app/(store)/not-found.tsx
+// Root 404 — unknown URLs fall outside the store layout,
+// so header/footer/tab bar are rendered here. notFound() inside the store → app/(store)/not-found.tsx
 export default function NotFound() {
   return (
     <>
@@ -17,7 +17,7 @@ export default function NotFound() {
         <NotFoundContent />
       </main>
       <Footer />
-      {/* usePathname (active tab) — dynamic URL-il Suspense venam (Cache Components rule) */}
+      {/* usePathname (active tab) reads the dynamic URL, so it needs Suspense (Cache Components rule) */}
       <Suspense fallback={null}>
         <MobileTabBar />
       </Suspense>

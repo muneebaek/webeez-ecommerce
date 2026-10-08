@@ -3,7 +3,7 @@ import { hrefWith, type Filters } from "@/lib/catalog";
 
 const pad2 = (n: number) => String(n).padStart(2, "0");
 
-// "←  01 02 03  →" — oro page-um oru URL (?page=2), server-il render, JS venda
+// "←  01 02 03  →" — every page is a URL (?page=2), rendered on the server, no JS needed
 export default function Pagination({
   filters,
   page,
@@ -29,7 +29,7 @@ export default function Pagination({
         </span>
       )}
 
-      {/* page numbers — mobile-ilum desktop-ilum */}
+      {/* page numbers — on mobile and desktop */}
       <ol className="pager__nums">
         {pages.map((n) => (
           <li key={n}>

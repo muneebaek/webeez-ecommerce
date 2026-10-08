@@ -1,5 +1,5 @@
 @layer components {
-  /* Footer — header-inte athe sky palette (PDF) */
+  /* Footer — same sky palette as the header (PDF) */
   .footer {
     background: var(--sky);
     color: var(--ink-soft);
@@ -33,7 +33,7 @@
       text-transform: uppercase;
     }
 
-    /* link hover: underline left-il ninnu varum (header nav pole) */
+    /* link hover: underline grows from the left (like the header nav) */
     & .footer__link {
       position: relative;
       font-size: 0.8125rem;
@@ -60,7 +60,7 @@
       }
     }
 
-    /* bottom bar — mukalilum thazheyum equal space, ellaam vertically center */
+    /* bottom bar — equal space above and below, everything vertically centred */
     & .footer__bottom {
       display: flex;
       flex-direction: column;

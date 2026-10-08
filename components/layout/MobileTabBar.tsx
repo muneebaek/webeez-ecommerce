@@ -43,7 +43,7 @@ const tabs: Tab[] = [
 
 export default function MobileTabBar() {
   const pathname = usePathname();
-  // live counts — store-il ninnu (localStorage)
+  // live counts — from the store (localStorage)
   const counts = { cart: useCartCount(), wishlist: useWishlistCount() };
   const openCart = useCartUi((s) => s.openCart);
 
@@ -79,7 +79,7 @@ export default function MobileTabBar() {
           return (
             <li key={tab.label}>
               {tab.badge === "cart" ? (
-                // Cart — page-ilekku pokaathe cart drawer thurakkum
+                // Cart — opens the cart drawer instead of navigating
                 <button type="button" onClick={openCart} className="tab-bar__item w-full" aria-label="Open shopping bag">
                   {content}
                 </button>

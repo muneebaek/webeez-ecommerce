@@ -36,7 +36,7 @@
       transition: transform 0.35s ease;
     }
 
-    /* mouse ulla device-il mathram zoom (mobile tap-il alla) */
+    /* zoom only on devices with a mouse (not on mobile tap) */
     @media (hover: hover) {
       & .pdp-gallery__main:hover .pdp-gallery__img {
         transform: scale(1.6);
@@ -86,7 +86,7 @@
       text-transform: uppercase;
     }
 
-    /* product page-il valiya qty buttons (mobile touch) */
+    /* larger qty buttons on the product page (mobile touch) */
     & .qty-stepper button {
       width: 2.75rem;
       height: 2.75rem;
@@ -189,7 +189,7 @@
       }
     }
 
-    /* size choose cheyyaathe Add amarthiyaal — rose border + cheriya shake */
+    /* Add pressed without choosing a size — rose border + small shake */
     &.has-error .pdp-sizes__btn {
       border-color: var(--rose);
       animation: pdp-shake 0.35s ease;

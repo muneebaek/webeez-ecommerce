@@ -1,7 +1,7 @@
 @layer base {
   html,
   body {
-    /* mobile-il side scroll varaathirikkaan — clip (hidden alla) aayathukondu sticky header work aakum */
+    /* prevent sideways scroll on mobile — clip (not hidden) keeps the sticky header working */
     overflow-x: clip;
   }
 
@@ -23,9 +23,9 @@
 }
 
 @layer components {
-  /* Common container — ella section-um ore width + side padding */
+  /* Common container — every section shares the same width + side padding */
   .page-shell {
-    max-width: 1920px; /* hero full-bleed aanu — header edges athumayi align aakaan */
+    max-width: 1920px; /* hero is full-bleed — header edges align with it */
     margin-inline: auto;
     padding-inline: 1rem;
 
@@ -34,7 +34,7 @@
     }
   }
 
-  /* PDF-ile "[ S E C T I O N 0 2 ]" spaced labels */
+  /* the PDF's "[ S E C T I O N 0 2 ]" spaced labels */
   .label-xs {
     font-size: 0.625rem;
     letter-spacing: 0.35em;

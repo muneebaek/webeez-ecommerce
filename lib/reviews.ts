@@ -1,4 +1,4 @@
-// Reviews — ippo static (database step-il Review table-il ninnu varum, ithe shape)
+// Review type + static seed reviews (seeded into the Review table, same shape)
 
 export type Review = {
   id: string;
@@ -19,7 +19,7 @@ const pool: Omit<Review, "id">[] = [
   { name: "Nisha R.", city: "Chennai", rating: 5, title: "Worth every rupee", body: "Compliments every time I wear it. The handloom texture photographs beautifully.", date: "2026-07-21" },
 ];
 
-/** Oro product-inum 2–3 reviews (product id anusarichu same set — refresh cheythaalum maarilla) */
+/** 2–3 reviews per product (same set per product id — stable across refreshes) */
 export function getReviews(productId: string): Review[] {
   const seed = [...productId].reduce((n, c) => n + c.charCodeAt(0), 0);
   const count = 2 + (seed % 2);

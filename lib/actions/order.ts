@@ -12,21 +12,21 @@ import { checkoutSchema, orderItemsSchema } from "@/lib/validators";
 export type CheckoutState = {
   ok: boolean;
   orderNumber?: string;
-  message?: string; // form-inte mukalil kaanikkunna general error
+  message?: string; // general error shown at the top of the form
   fieldErrors?: Partial<Record<string, string>>; // field-wise errors
-  values?: Record<string, string>; // error vannaal form values thirichu kodukkaan
+  values?: Record<string, string>; // form values returned on error
 };
 
 class OrderError extends Error {}
 
-/** NYT-261234 — year + 4 random digits (unique illenkil retry) */
+/** NYT-261234 — year + 4 random digits (retried if not unique) */
 const makeOrderNumber = () => `NYT-${new Date().getFullYear() % 100}${randomInt(1000, 10000)}`;
 
 /**
- * Checkout form submit → ithu server-il run aakum.
- * 1. Form validate (zod)  2. Products DB-il ninnu — REAL price + stock
- * 3. Transaction: stock kurakkuka + Order + OrderItems  4. Cache refresh (stock maari)
- * 5. Confirmation email — response kazhinju background-il (after), user wait cheyyenda
+ * Checkout form submit → runs on the server.
+ * 1. Validate the form (zod)  2. Load products from the DB — REAL price + stock
+ * 3. Transaction: decrement stock + Order + OrderItems  4. Refresh cache (stock changed)
+ * 5. Confirmation email — sent in the background after the response (after), so the user doesn't wait
  */
 export async function placeOrder(_prev: CheckoutState, formData: FormData): Promise<CheckoutState> {
   const raw = Object.fromEntries(formData) as Record<string, string>;
@@ -49,7 +49,7 @@ export async function placeOrder(_prev: CheckoutState, formData: FormData): Prom
   const items = orderItemsSchema.safeParse(itemsInput);
   if (!items.success) return { ok: false, values: fields, message: "Your bag is empty." };
 
-  // ---------- 2. Real products (browser price vishwasikkilla) ----------
+  // ---------- 2. Real products (never trust the browser's price) ----------
   const ids = [...new Set(items.data.map((i) => i.productId))];
   const products = await db.product.findMany({ where: { id: { in: ids } } });
   const byId = new Map(products.map((p) => [p.id, p]));
@@ -63,7 +63,7 @@ export async function placeOrder(_prev: CheckoutState, formData: FormData): Prom
     lines.push({ product: p, size: item.size, qty: item.qty });
   }
 
-  // same product pala size-il undenkil total qty stock-il kooduthal aakaruthu
+  // if the same product appears in several sizes, the total qty must not exceed stock
   const qtyByProduct = new Map<string, number>();
   for (const l of lines) qtyByProduct.set(l.product.id, (qtyByProduct.get(l.product.id) ?? 0) + l.qty);
 
@@ -71,12 +71,12 @@ export async function placeOrder(_prev: CheckoutState, formData: FormData): Prom
   const shipping = shippingFor(subtotal);
   const data = parsed.data;
 
-  // ---------- 3. Transaction — ellaam orumichu, allenkil onnum illa ----------
+  // ---------- 3. Transaction — all or nothing ----------
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
       const order = await db.$transaction(async (tx) => {
         for (const [productId, qty] of qtyByProduct) {
-          // stock >= qty aanenkil mathram kurakkum — 2 per orumichu vaangiyaalum oversell aakilla
+          // only decrements when stock >= qty — no overselling even if two people buy at once
           const res = await tx.product.updateMany({
             where: { id: productId, stock: { gte: qty } },
             data: { stock: { decrement: qty } },
@@ -105,7 +105,7 @@ export async function placeOrder(_prev: CheckoutState, formData: FormData): Prom
             items: {
               create: lines.map((l) => ({
                 productId: l.product.id,
-                name: l.product.name, // snapshot — product pinne maariyaalum order maarilla
+                name: l.product.name, // snapshot — the order stays the same even if the product changes later
                 image: l.product.images[0] ?? "",
                 size: l.size,
                 qty: l.qty,
@@ -116,16 +116,16 @@ export async function placeOrder(_prev: CheckoutState, formData: FormData): Prom
         });
       });
 
-      // ---------- 4. Stock maari → product pages cache refresh ----------
+      // ---------- 4. Stock changed → refresh product page cache ----------
       updateTag("products");
 
-      // ---------- 5. Email — response user-inu poyathinu shesham send (fail aayaalum order safe) ----------
+      // ---------- 5. Email — sent after the response reaches the user (the order is safe even if it fails) ----------
       after(() => sendOrderEmail(order.id));
 
       return { ok: true, orderNumber: order.orderNumber };
     } catch (e) {
       if (e instanceof OrderError) return { ok: false, values: fields, message: e.message };
-      // orderNumber duplicate aayaal (unique constraint) — puthiya number vechu retry
+      // duplicate orderNumber (unique constraint) — retry with a new number
       if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") continue;
       console.error("placeOrder failed", e);
       return { ok: false, values: fields, message: "Something went wrong. Please try again." };

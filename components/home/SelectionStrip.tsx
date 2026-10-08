@@ -21,7 +21,7 @@ export default function SelectionStrip() {
         </p>
 
         <nav className="selection-strip__links" aria-label="Quick selection">
-          {/* link-um slash-um ore row-ile separate items — space-between kaaranam slash randu link-inte exact naduvil */}
+          {/* links and slashes are separate items in one row — space-between puts each slash exactly between two links */}
           {links.map((link, i) => (
             <Fragment key={link.href}>
               {i > 0 && (

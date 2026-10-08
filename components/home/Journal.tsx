@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Journal() {
   return (
-    // id="journal" — header nav-ile "Journal" link (/#journal) ivide scroll cheyyum
+    // id="journal" — the header nav "Journal" link (/#journal) scrolls here
     <section id="journal" className="scroll-mt-28 border-b border-rule bg-ivory py-16 lg:py-20">
       <div className="page-shell grid items-center gap-12 lg:grid-cols-[1fr_41rem] lg:gap-16">
         {/* ---------- Left: essay (custom CSS: journal.css) ---------- */}
@@ -46,7 +46,7 @@ export default function Journal() {
               />
             </div>
           </figure>
-          {/* randaamathe image 48px thazhe — staggered layout (PDF pole) */}
+          {/* second image sits 48px lower — staggered layout (like the PDF) */}
           <figure className="mt-12 self-start border border-rule">
             <div className="relative aspect-3/4 overflow-hidden">
               <Image

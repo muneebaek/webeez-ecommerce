@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-// Mobile-il chips row horizontal scroll aanu — active chip screen-inu purathaanenkil athine view-ilekku kondu varum
+// On mobile the chip row scrolls horizontally — brings the active chip into view if it's off-screen
 export default function ChipScroller({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -10,7 +10,7 @@ export default function ChipScroller({ children }: { children: React.ReactNode }
     const nav = ref.current;
     const active = nav?.querySelector<HTMLElement>(".is-active");
     if (!nav || !active) return;
-    // page scroll aakaathe row mathram scroll — active chip naduvil
+    // scroll only the row, not the page — active chip centred
     nav.scrollLeft = active.offsetLeft - nav.clientWidth / 2 + active.clientWidth / 2;
   });
 

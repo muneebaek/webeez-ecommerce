@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 type WishlistState = {
-  ids: string[]; // product id-kal mathram — details lib/products-il ninnu edukkum
+  ids: string[]; // product ids only — details come from the products data
   toggle: (id: string) => void;
   remove: (id: string) => void;
   clear: () => void;

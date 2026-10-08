@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Oro row-um oru filtered product list-lekku link
+// Each row links to a filtered product list
 const divisions = [
   { label: "Women", href: "/products?category=women" },
   { label: "Men", href: "/products?category=men" },
@@ -41,7 +41,7 @@ export default function Directory() {
           </ol>
 
           {/* ---------- Right: archive exhibit image + note ---------- */}
-          {/* divider aside-inu mathram (image + text vare) — self-start: list-inte uyaram edukkilla */}
+          {/* divider only on the aside (image + text) — self-start so it doesn't take the list's height */}
           <aside className="lg:self-start lg:border-l-2 lg:border-rule lg:pl-10">
             <figure className="border-2 border-rule bg-paper p-3">
               <div className="relative aspect-[3/4] overflow-hidden">

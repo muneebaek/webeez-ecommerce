@@ -3,17 +3,17 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { MAX_QTY } from "@/lib/pricing";
 
-// pricing rules lib/pricing.ts-il (server-um use cheyyunnu) — ivide ninnu re-export
+// pricing rules live in lib/pricing.ts (also used by the server) — re-exported here
 export { FREE_SHIPPING_MIN, MAX_QTY, SHIPPING_FEE, shippingFor } from "@/lib/pricing";
 
 export type CartItem = {
-  key: string; // productId + size — same product, vere size = vere line
+  key: string; // productId + size — same product in a different size = separate line
   productId: string;
   slug: string;
   name: string;
   image: string;
   size: string;
-  price: number; // display-inu mathram; checkout-il server DB-il ninnu price veendum edukkum
+  price: number; // for display only; at checkout the server re-reads the price from the DB
   qty: number;
 };
 
@@ -35,7 +35,7 @@ export const useCart = create<CartState>()(
     (set) => ({
       items: [],
 
-      // already undenkil qty koottum, illenkil puthiya line
+      // increase qty if it already exists, otherwise add a new line
       add: (item, qty = 1) =>
         set((state) => {
           const key = makeKey(item.productId, item.size);
@@ -67,6 +67,6 @@ export const useCart = create<CartState>()(
   ),
 );
 
-// ---------- Derived values (store-il save cheyyunnilla — items-il ninnu calculate) ----------
+// ---------- Derived values (not stored — calculated from items) ----------
 export const cartCount = (items: CartItem[]) => items.reduce((n, i) => n + i.qty, 0);
 export const cartSubtotal = (items: CartItem[]) => items.reduce((n, i) => n + i.price * i.qty, 0);

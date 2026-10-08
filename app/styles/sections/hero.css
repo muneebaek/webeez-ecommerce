@@ -5,7 +5,7 @@
     background: var(--paper);
 
     @media (min-width: 1024px) {
-      /* PDF: 742px / 538px at 1280. minmax(0,…) — heading width columns-ine thallathirikkaan */
+      /* PDF: 742px / 538px at 1280. minmax(0,…) so the heading width doesn't push the columns */
       grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
       min-height: 44rem;
     }
@@ -70,10 +70,10 @@
     & .hero__caption {
       bottom: 1rem;
       padding: 0.8rem 1rem;
-      /* charcoal #242f34 — 75% opacity, pinnile image cheriya reethiyil kaanaan */
+      /* charcoal #242f34 at 75% opacity so the image shows through slightly */
       background: rgb(36 47 52 / 0.75);
       backdrop-filter: blur(2px);
-      border: 2px solid #3e494d; /* dark label-inu match — subtle, pettannu ariyilla */
+      border: 2px solid #3e494d; /* matches the dark label — subtle, barely noticeable */
       color: #fff;
 
       @media (min-width: 1024px) {
@@ -195,7 +195,7 @@
         font-size: 0.6875rem;
       }
 
-      /* mobile: randu button-um ore line-il, equal width */
+      /* mobile: both buttons on one line, equal width */
       flex: 1;
 
       @media (min-width: 640px) {

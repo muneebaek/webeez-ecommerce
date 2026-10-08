@@ -51,7 +51,7 @@
 
     & .site-header__top {
       position: relative;
-      z-index: 1; /* mobile panel-inu mukalil */
+      z-index: 1; /* above the mobile panel */
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
@@ -90,7 +90,7 @@
       line-height: 1;
       letter-spacing: 0.26em;
       text-transform: uppercase;
-      padding-left: 0.26em; /* letter-spacing balance: center aakkaan */
+      padding-left: 0.26em; /* balances letter-spacing so it centres */
 
       @media (min-width: 768px) {
         font-size: clamp(1.5rem, 3vw, 2.25rem);

@@ -10,7 +10,7 @@ import { formatINR } from "@/lib/format";
 import { getProductBySlug, getProductSlugs, getReviews, getSimilarProducts } from "@/lib/data/products";
 import { averageRating } from "@/lib/reviews";
 
-// Ella product pages-um build time-il static aayi undakkum (Cache Components-il ithu venam)
+// Pre-render every product page at build time (required with Cache Components)
 export async function generateStaticParams() {
   return (await getProductSlugs()).map((slug) => ({ slug }));
 }
@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
 
 const CATEGORY_LABEL = { women: "Women", men: "Men", essentials: "Essentials" } as const;
 
-// await params Suspense-inte ullil — ariyaatha slug-inu fallback shell prerender aakaan (Cache Components rule).
-// generateStaticParams-il ulla 18 products build-il full static thanne.
+// await params inside Suspense so unknown slugs get a prerendered fallback shell (Cache Components rule).
+// The 18 products from generateStaticParams are fully static at build.
 export default function ProductPage({ params }: PageProps<"/products/[slug]">) {
   return (
     <Suspense fallback={<ProductSkeleton />}>
@@ -39,7 +39,7 @@ export default function ProductPage({ params }: PageProps<"/products/[slug]">) {
 
 async function ProductDetail({ params }: Pick<PageProps<"/products/[slug]">, "params">) {
   const product = await getProductBySlug((await params).slug);
-  if (!product) notFound(); // illaatha slug → styled 404
+  if (!product) notFound(); // unknown slug → styled 404
 
   const reviews = await getReviews(product.id);
   const rating = averageRating(reviews);
@@ -117,7 +117,7 @@ async function ProductDetail({ params }: Pick<PageProps<"/products/[slug]">, "pa
               <li>Easy 14-day returns</li>
             </ul>
 
-            {/* ---------- Accordion — native <details>, JS venda ---------- */}
+            {/* ---------- Accordion — native <details>, no JS needed ---------- */}
             <div className="pdp-acc mt-8">
               <details open>
                 <summary>Description</summary>
@@ -199,7 +199,7 @@ async function ProductDetail({ params }: Pick<PageProps<"/products/[slug]">, "pa
   );
 }
 
-// Load aakumbol kaanikkunna placeholder (gallery + info shape)
+// Placeholder shown while loading (gallery + info shape)
 function ProductSkeleton() {
   return (
     <div className="bg-ivory">

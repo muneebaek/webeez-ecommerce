@@ -1,5 +1,5 @@
-// Product TYPE (app muzhuvan) + seed data.
-// App data ippo database-il ninnu (lib/data/products.ts). Ee array prisma/seed.ts mathram use cheyyunnu.
+// Product TYPE (used app-wide) + seed data.
+// App data now comes from the database (lib/data/products.ts). Only prisma/seed.ts uses this array.
 
 export type Category = "women" | "men" | "essentials";
 
@@ -17,9 +17,9 @@ export type Product = {
   sizes: string[];
   stock: number;
   badge?: { label: string; tone: "dark" | "rose" | "sage" };
-  status?: string; // stock label override — "Restocked" pole; illenkil stock-il ninnu calculate
-  statusAccent?: boolean; // status rose colour-il ("Bestseller")
-  eyebrow?: string; // card meta override — "Foundation 01" (code + fabric-inu pakaram)
+  status?: string; // stock label override — e.g. "Restocked"; otherwise calculated from stock
+  statusAccent?: boolean; // status shown in rose ("Bestseller")
+  eyebrow?: string; // card meta override — "Foundation 01" (instead of code + fabric)
   description: string;
 };
 

@@ -90,7 +90,7 @@
       border: 1.5px solid var(--rule);
       background: #fff;
       color: var(--ink);
-      font-size: 0.9375rem; /* mobile zoom aakaathirikkaan ≥ 15px */
+      font-size: 0.9375rem; /* ≥ 15px so mobile doesn't zoom in */
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
 
@@ -147,7 +147,7 @@
       }
     }
 
-    /* qty badge (image-inte mukalil) */
+    /* qty badge (on top of the image) */
     & .co-items__qty {
       position: absolute;
       top: -0.45rem;

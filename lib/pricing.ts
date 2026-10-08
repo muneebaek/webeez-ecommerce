@@ -1,7 +1,7 @@
-// Pricing rules — browser (cart display) + server (order total) randum ithu thanne use cheyyunnu.
-// Oru sthalathu maattiyaal ellaayidathum maarum.
+// Pricing rules — shared by the browser (cart display) and the server (order total).
+// Change it in one place and it updates everywhere.
 
-export const FREE_SHIPPING_MIN = 5000; // ₹5,000-um athinu mukalilum free
+export const FREE_SHIPPING_MIN = 5000; // free at ₹5,000 and above
 export const SHIPPING_FEE = 150;
 export const MAX_QTY = 10;
 

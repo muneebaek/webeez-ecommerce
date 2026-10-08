@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Your Bag — Neythra",
 };
 
-// Page shell server-il; cart items browser localStorage-il aayathukondu CartView client component
+// Page shell renders on the server; cart items live in browser localStorage, so CartView is a client component
 export default function CartPage() {
   return (
     <div className="bg-ivory">

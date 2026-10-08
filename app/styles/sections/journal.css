@@ -18,7 +18,7 @@
       text-transform: uppercase;
     }
 
-    /* text link + underline — hover-il underline churungum, arrow neengum */
+    /* text link + underline — on hover the underline shrinks and the arrow moves */
     & .journal__cta {
       position: relative;
       display: inline-flex;

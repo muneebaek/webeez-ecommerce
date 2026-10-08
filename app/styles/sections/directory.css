@@ -1,6 +1,6 @@
 @layer components {
   .directory {
-    /* ---------- Oro row: big serif label + arrow ---------- */
+    /* ---------- Each row: big serif label + arrow ---------- */
     & .directory__row {
       display: flex;
       align-items: center;
@@ -15,7 +15,7 @@
         padding-block: 1.4rem;
       }
 
-      /* hover: row right-lekku pathukke neengum, rose aakum */
+      /* hover: row eases to the right and turns rose */
       &:hover {
         color: var(--rose);
         padding-left: 0.75rem;
@@ -25,7 +25,7 @@
         }
       }
 
-      /* 07 / UNDER ₹2,999 — PDF-il rose colour */
+      /* 07 / UNDER ₹2,999 — rose in the PDF */
       &.directory__row--accent {
         color: var(--rose);
         border-bottom: 0;

@@ -7,7 +7,7 @@ import { navLinks } from "@/lib/navigation";
 import { pad2, useCartCount, useWishlistCount } from "@/store/counts";
 
 
-// Server-il false, browser-il true — portal browser-il mathram render cheyyaan
+// false on the server, true in the browser — so the portal renders only in the browser
 const subscribe = () => () => {};
 const useIsClient = () => useSyncExternalStore(subscribe, () => true, () => false);
 
@@ -18,14 +18,14 @@ export default function MobileMenu() {
   const close = () => setOpen(false);
   const cartCount = useCartCount();
   const wishlistCount = useWishlistCount();
-  // drawer-ile secondary links — live counts
+  // drawer secondary links — live counts
   const secondaryLinks = [
     { label: "Wishlist", href: "/wishlist", meta: `(${wishlistCount})` },
     { label: "Cart", href: "/cart", meta: `[${pad2(cartCount)}]` },
     { label: "Account", href: "/admin", meta: "→" },
   ];
 
-  // open aayirikkumbol: scroll lock + Esc close + close button-il focus
+  // while open: scroll lock + Esc to close + focus the close button
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
@@ -52,7 +52,7 @@ export default function MobileMenu() {
         <span />
       </button>
 
-      {/* body-lekku portal — sticky header-inte z-index-il kudungathirikkaan */}
+      {/* portal to body — so it isn't trapped in the sticky header's z-index */}
       {isClient &&
         createPortal(
           <div className={`drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>

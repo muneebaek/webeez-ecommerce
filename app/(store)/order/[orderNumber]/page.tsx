@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-// Oro order-um vere — cache illa, request time-il database-il ninnu. params Suspense-il (Cache Components rule).
+// Every order is different — no cache, read from the database at request time. params inside Suspense (Cache Components rule).
 export default function OrderPage({ params }: PageProps<"/order/[orderNumber]">) {
   return (
     <div className="bg-ivory">

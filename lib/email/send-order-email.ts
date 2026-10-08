@@ -3,22 +3,22 @@ import nodemailer from "nodemailer";
 import { db } from "@/lib/db";
 import { orderEmailHtml, orderEmailSubject, orderEmailText } from "./order-template";
 
-// Gmail SMTP — .env-il SMTP_USER (gmail address) + SMTP_PASS (16-char App Password)
+// Gmail SMTP — SMTP_USER (gmail address) + SMTP_PASS (16-char App Password) in .env
 function getTransport() {
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
-  if (!user || !pass) return null; // env illenkil email skip (order fail aakilla)
+  if (!user || !pass) return null; // skip email when env is missing (the order doesn't fail)
   return nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     secure: true, // SSL
-    auth: { user, pass: pass.replace(/\s/g, "") }, // App Password-il spaces undenkil kalayum
+    auth: { user, pass: pass.replace(/\s/g, "") }, // strip any spaces from the App Password
   });
 }
 
 /**
- * Order confirmation email ayakkum, success aayaal Order.emailSent = true.
- * Ethenkilum error vannaalum throw cheyyilla — email kaaranam order fail aakaruthu.
+ * Sends the order confirmation email and sets Order.emailSent = true on success.
+ * Never throws — an email problem must not fail the order.
  */
 export async function sendOrderEmail(orderId: string): Promise<boolean> {
   const transport = getTransport();

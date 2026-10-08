@@ -1,4 +1,4 @@
-// 4.7 → ★★★★★ (5-aamathe star 70% fill) — CSS width vechu partial star
+// 4.7 → ★★★★★ (5th star 70% filled) — partial star via CSS width
 export default function Stars({ rating, size = 14 }: { rating: number; size?: number }) {
   const pct = Math.max(0, Math.min(100, (rating / 5) * 100));
   const row = "★★★★★";

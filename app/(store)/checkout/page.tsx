@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Checkout — Neythra",
-  robots: { index: false }, // checkout Google-il venda
+  robots: { index: false }, // keep checkout out of Google
 };
 
 export default function CheckoutPage() {

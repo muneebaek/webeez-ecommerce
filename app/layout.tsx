@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  // share images (Open Graph) full URL aakaan — Vercel-il NEXT_PUBLIC_SITE_URL set cheyyum
+  // makes share images (Open Graph) absolute URLs — set NEXT_PUBLIC_SITE_URL on Vercel
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "Neythra — Contemporary Indian Fashion",
   description:

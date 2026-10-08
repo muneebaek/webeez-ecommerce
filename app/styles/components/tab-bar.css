@@ -1,7 +1,8 @@
 @layer components {
-  /* Mobile-il bottom fixed bar — content athinte adiyil maranju pokathirikkaan */
+  /* Fixed bottom bar on mobile — padding keeps content from hiding under it.
+     :has() — only on pages with the tab bar (store); admin doesn't need this padding. */
   @media (max-width: 767px) {
-    body {
+    body:has(.tab-bar) {
       padding-bottom: calc(3.75rem + env(safe-area-inset-bottom));
     }
   }

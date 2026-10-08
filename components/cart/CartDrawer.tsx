@@ -28,7 +28,7 @@ export default function CartDrawer() {
   const remaining = Math.max(0, FREE_SHIPPING_MIN - subtotal);
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_MIN) * 100);
 
-  // open aayirikkumbol: scroll lock + Esc close + close button focus (mobile drawer-ile athe logic)
+  // while open: scroll lock + Esc to close + focus the close button (same logic as the mobile drawer)
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";

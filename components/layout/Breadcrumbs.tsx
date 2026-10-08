@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-type Crumb = { label: string; href?: string }; // href illenkil = current page
+type Crumb = { label: string; href?: string }; // no href = current page
 
-// "← Home / Collections / Women" — ella inner pages-ilum ithu thanne (product, cart, checkout…)
+// "← Home / Collections / Women" — shared by all inner pages (product, cart, checkout…)
 export default function Breadcrumbs({ items }: { items: Crumb[] }) {
   return (
     <nav aria-label="Breadcrumb" className="crumbs">

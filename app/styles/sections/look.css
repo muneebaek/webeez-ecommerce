@@ -18,7 +18,7 @@
       transform: translate(-50%, -50%);
       transition: background 0.25s, transform 0.25s;
 
-      /* soft pulse ring — click cheyyaam ennu kaanikkaan */
+      /* soft pulse ring — hints that it's clickable */
       &::after {
         content: "";
         position: absolute;

@@ -9,7 +9,7 @@
       }
     }
 
-    /* page-il valiya row */
+    /* larger row on the page */
     &.cart-line--lg {
       gap: 1.25rem;
       padding-block: 1.5rem;

@@ -46,7 +46,7 @@ export default function MadeToMove() {
               className="object-cover object-[50%_60%] grayscale"
             />
           </div>
-          {/* caption frame-inte thazhe left corner-il purathekku irangi nilkkum */}
+          {/* caption hangs out past the frame's bottom-left corner */}
           <figcaption className="absolute -bottom-4 -left-2 border border-ivory bg-slate sm:-left-4 px-6 py-3.5 text-[0.5625rem] font-medium uppercase tracking-[0.2em] text-ivory lg:text-[0.625rem]">
             Zero Restriction Drape
           </figcaption>

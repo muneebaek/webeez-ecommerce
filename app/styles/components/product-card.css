@@ -13,7 +13,7 @@
       padding: 1rem;
     }
 
-    /* hover ulla device-il mathram (mouse) — mobile tap-il card stuck aakilla */
+    /* only on devices with hover (mouse) — cards don't get stuck on mobile tap */
     @media (hover: hover) {
       &:hover {
         box-shadow: 0 12px 28px -12px rgb(15 30 34 / 0.18);
@@ -93,7 +93,7 @@
       }
     }
 
-    /* ---------- Text area — bottom aligned (PDF pole, cards-inte price/buttons ore line-il) ---------- */
+    /* ---------- Text area — bottom aligned (as in the PDF, price/buttons line up across cards) ---------- */
     & .product-card__body {
       display: flex;
       flex: 1;
@@ -115,7 +115,7 @@
       font-weight: 500;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      /* narrow card-il space illenkil fabric thazhe line-ilekku pokum (overflow aakilla) */
+      /* on narrow cards the fabric wraps to the next line (no overflow) */
       flex-wrap: wrap;
       row-gap: 0.2rem;
 
@@ -129,7 +129,7 @@
       }
     }
 
-    /* "Foundation 01" — oru item mathram, kurachu kooduthal spacing */
+    /* "Foundation 01" — a single item, slightly wider spacing */
     & .product-card__eyebrow {
       letter-spacing: 0.12em;
     }
@@ -175,7 +175,7 @@
       font-family: var(--font-serif);
       font-size: 1.2rem;
       font-weight: 600;
-      /* Cormorant default oldstyle numbers (3,690 thazhottu irangum) — PDF pole straight numbers */
+      /* Cormorant defaults to old-style numerals (3,690 dips below the line) — use straight numerals like the PDF */
       font-variant-numeric: lining-nums;
 
       @media (min-width: 640px) {

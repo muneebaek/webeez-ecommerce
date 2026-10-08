@@ -21,7 +21,7 @@ export default function Header() {
           Neythra
         </Link>
 
-        {/* mobile-il ivayellam MobileTabBar-il (screen-inte thazhe) aanu */}
+        {/* on mobile these live in MobileTabBar (bottom of the screen) */}
         <div className="site-header__actions hidden md:flex">
           <button type="button" className="site-header__action hidden lg:inline-flex">
             Search

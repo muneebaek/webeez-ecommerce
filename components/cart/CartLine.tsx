@@ -5,7 +5,7 @@ import Link from "next/link";
 import { formatINR } from "@/lib/format";
 import { MAX_QTY, useCart, type CartItem } from "@/store/cart";
 
-// Oru cart item row — cart drawer-um /cart page-um ithu thanne use cheyyunnu
+// A single cart item row — shared by the cart drawer and the /cart page
 export default function CartLine({
   item,
   size = "sm",
@@ -13,7 +13,7 @@ export default function CartLine({
 }: {
   item: CartItem;
   size?: "sm" | "lg"; // sm = drawer, lg = cart page
-  onNavigate?: () => void; // drawer-il ninnu product-ilekku pokumbol drawer close cheyyaan
+  onNavigate?: () => void; // closes the drawer when navigating to a product from it
 }) {
   const setQty = useCart((s) => s.setQty);
   const remove = useCart((s) => s.remove);
