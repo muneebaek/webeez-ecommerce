@@ -2,8 +2,10 @@
 
 import { randomInt } from "node:crypto";
 import { updateTag } from "next/cache";
+import { after } from "next/server";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
+import { sendOrderEmail } from "@/lib/email/send-order-email";
 import { shippingFor } from "@/lib/pricing";
 import { checkoutSchema, orderItemsSchema } from "@/lib/validators";
 
@@ -24,6 +26,7 @@ const makeOrderNumber = () => `NYT-${new Date().getFullYear() % 100}${randomInt(
  * Checkout form submit → ithu server-il run aakum.
  * 1. Form validate (zod)  2. Products DB-il ninnu — REAL price + stock
  * 3. Transaction: stock kurakkuka + Order + OrderItems  4. Cache refresh (stock maari)
+ * 5. Confirmation email — response kazhinju background-il (after), user wait cheyyenda
  */
 export async function placeOrder(_prev: CheckoutState, formData: FormData): Promise<CheckoutState> {
   const raw = Object.fromEntries(formData) as Record<string, string>;
@@ -115,6 +118,9 @@ export async function placeOrder(_prev: CheckoutState, formData: FormData): Prom
 
       // ---------- 4. Stock maari → product pages cache refresh ----------
       updateTag("products");
+
+      // ---------- 5. Email — response user-inu poyathinu shesham send (fail aayaalum order safe) ----------
+      after(() => sendOrderEmail(order.id));
 
       return { ok: true, orderNumber: order.orderNumber };
     } catch (e) {
