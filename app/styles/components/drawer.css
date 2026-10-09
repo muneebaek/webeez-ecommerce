@@ -42,8 +42,8 @@
     & .drawer__overlay {
       position: absolute;
       inset: 0;
+      /* light dim only — no blur, so the page behind stays sharp and easy on the eyes */
       background: rgb(15 30 34 / 0.45);
-      backdrop-filter: blur(2px);
       opacity: 0;
       transition: opacity var(--drawer-close) var(--drawer-ease);
     }
