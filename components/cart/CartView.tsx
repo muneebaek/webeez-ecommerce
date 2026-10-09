@@ -11,7 +11,6 @@ import {
 } from "@/store/cart";
 import { useHydrated } from "@/store/use-hydrated";
 import CartLine from "./CartLine";
-import { DeliveryBox } from "./DeliveryEstimate";
 
 // /cart page — items on the left, order summary on the right (desktop); stacked on mobile
 export default function CartView() {
@@ -88,8 +87,6 @@ export default function CartView() {
             <span style={{ width: `${progress}%` }} />
           </div>
         </div>
-
-        <DeliveryBox />
 
         <dl className="bag__sum">
           <div>

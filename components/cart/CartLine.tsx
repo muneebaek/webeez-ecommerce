@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatINR } from "@/lib/format";
 import { MAX_QTY, useCart, type CartItem } from "@/store/cart";
-import { LineDelivery } from "./DeliveryEstimate";
 
 // A single cart item row — shared by the cart drawer and the /cart page
 export default function CartLine({
@@ -42,7 +41,6 @@ export default function CartLine({
               Size: {item.size}
               {size === "lg" && <span className="ml-3">{formatINR(item.price)} each</span>}
             </p>
-            <LineDelivery />
           </div>
           <p className="cart-line__price">{formatINR(item.price * item.qty)}</p>
         </div>

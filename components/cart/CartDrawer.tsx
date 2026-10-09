@@ -13,7 +13,6 @@ import {
 import { useCartUi } from "@/store/cart-ui";
 import { useHydrated } from "@/store/use-hydrated";
 import CartLine from "./CartLine";
-import { DeliveryBox } from "./DeliveryEstimate";
 
 export default function CartDrawer() {
   const open = useCartUi((s) => s.open);
@@ -105,7 +104,6 @@ export default function CartDrawer() {
 
             {/* ---------- Summary + actions ---------- */}
             <div className="cart-drawer__foot">
-              <DeliveryBox />
               <dl className="cart-drawer__sum">
                 <div>
                   <dt>Subtotal</dt>
