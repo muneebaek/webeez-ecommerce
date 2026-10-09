@@ -37,6 +37,40 @@ export function productsHref({ q, stock, page }: Partial<ProductFilters>) {
   return qs ? `/admin/products?${qs}` : "/admin/products";
 }
 
+// ---------- Product form (create / edit) ----------
+
+export const CATEGORY_OPTIONS = [
+  { value: "women", label: "Women" },
+  { value: "men", label: "Men" },
+  { value: "essentials", label: "Essentials" },
+] as const;
+
+export const SIZE_OPTIONS = ["XS", "S", "M", "L", "XL", "One Size"] as const;
+
+// "look-01" is left out on purpose: those pieces belong to the styled look on the home page
+export const COLLECTION_OPTIONS = [
+  { value: "new-arrivals", label: "New In" },
+  { value: "trending", label: "Trending" },
+  { value: "best-sellers", label: "Best Sellers" },
+  { value: "current", label: "Current Pieces" },
+  { value: "under-2999", label: "Under ₹2,999" },
+] as const;
+
+/** Values the product form shows / sends back (all strings, as in the form) */
+export type ProductFormValues = {
+  name: string;
+  code: string;
+  category: string;
+  subtitle: string;
+  fabric: string;
+  description: string;
+  price: string;
+  stock: string;
+  sizes: string[];
+  collections: string[];
+  image: string;
+};
+
 /** Stock level → label + colour class for badges */
 export function stockState(stock: number) {
   if (stock === 0) return { label: "Sold out", tone: "out" } as const;

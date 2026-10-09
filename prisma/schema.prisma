@@ -61,8 +61,11 @@ model Review {
   rating    Int // 1–5
   title     String
   body      String
+  verified  Boolean  @default(false) // written by a customer whose order (number + email) contains this product
+  orderId   String? // the order that verified it — one review per product per order
   createdAt DateTime @default(now())
 
+  @@unique([orderId, productId])
   @@index([productId])
 }
 
@@ -111,5 +114,15 @@ model OrderItem {
 model Subscriber {
   id        String   @id @default(cuid())
   email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+// Photos uploaded from the admin (computer / phone gallery). Stored in the database because Vercel's
+// filesystem is read-only; served at /media/<id> with long-lived caching.
+model ProductImage {
+  id        String   @id @default(cuid())
+  data      Bytes
+  mime      String // image/jpeg | image/png | image/webp
+  size      Int // bytes
   createdAt DateTime @default(now())
 }

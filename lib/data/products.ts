@@ -83,5 +83,6 @@ export async function getReviews(productId: string): Promise<Review[]> {
     title: r.title,
     body: r.body,
     date: r.createdAt.toISOString(),
+    verified: r.verified,
   }));
 }

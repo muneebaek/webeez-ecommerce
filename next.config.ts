@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   experimental: {
     agentFeedback: true,
+    // product photo uploads (already resized in the browser to well under 1 MB) + multipart overhead
+    serverActions: { bodySizeLimit: "2mb" },
   },
   cacheComponents: true,
   partialPrefetching: true,

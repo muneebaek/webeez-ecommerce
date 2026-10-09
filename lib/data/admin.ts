@@ -2,6 +2,7 @@ import "server-only";
 import type { OrderStatus, Prisma } from "@prisma/client";
 import { ORDER_STATUSES, ORDERS_PAGE_SIZE, type OrderFilters } from "@/lib/admin-orders";
 import { LOW_STOCK, PRODUCTS_PAGE_SIZE, type ProductFilters, type StockFilter } from "@/lib/admin-products";
+import { REVIEWS_PAGE_SIZE, type ReviewFilters } from "@/lib/admin-reviews";
 import { db } from "@/lib/db";
 
 // Admin data — no cache (admin always needs live numbers). Admin pages call these only after requireAdmin().
@@ -159,9 +160,79 @@ export async function getAdminProduct(id: string) {
       stock: true,
       sizes: true,
       images: true,
+      description: true,
       updatedAt: true,
     },
   });
+}
+
+/** Choices for the product form's photo picker: uploaded photos (newest first), then every photo a product uses */
+export async function getProductImageOptions() {
+  const [uploads, rows] = await Promise.all([
+    db.productImage.findMany({ orderBy: { createdAt: "desc" }, select: { id: true } }),
+    db.product.findMany({ orderBy: { sortOrder: "asc" }, select: { images: true } }),
+  ]);
+  return [...new Set([...uploads.map((u) => `/media/${u.id}`), ...rows.flatMap((r) => r.images)])];
+}
+
+// ---------- Reviews (admin list) ----------
+
+/** q matches the review title / text, the reviewer's name / city, or the product name (case-insensitive) */
+function reviewSearchWhere(q?: string): Prisma.ReviewWhereInput {
+  const term = q?.trim();
+  if (!term) return {};
+  return {
+    OR: [
+      { title: { contains: term, mode: "insensitive" } },
+      { body: { contains: term, mode: "insensitive" } },
+      { name: { contains: term, mode: "insensitive" } },
+      { city: { contains: term, mode: "insensitive" } },
+      { product: { name: { contains: term, mode: "insensitive" } } },
+    ],
+  };
+}
+
+/** Reviews newest first, filtered by q + verified / unverified, one page at a time (+ counts for the chips). */
+export async function getAdminReviews({ q, type, page }: ReviewFilters) {
+  const searchWhere = reviewSearchWhere(q);
+  const where: Prisma.ReviewWhereInput = type ? { AND: [searchWhere, { verified: type === "verified" }] } : searchWhere;
+
+  const [total, all, verified] = await Promise.all([
+    db.review.count({ where }),
+    db.review.count({ where: searchWhere }),
+    db.review.count({ where: { AND: [searchWhere, { verified: true }] } }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(total / REVIEWS_PAGE_SIZE));
+  const current = Math.min(page, totalPages);
+  const rows = await db.review.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+    skip: (current - 1) * REVIEWS_PAGE_SIZE,
+    take: REVIEWS_PAGE_SIZE,
+    select: {
+      id: true,
+      name: true,
+      city: true,
+      rating: true,
+      title: true,
+      body: true,
+      verified: true,
+      orderId: true,
+      createdAt: true,
+      product: { select: { id: true, name: true, slug: true, images: true } },
+    },
+  });
+
+  // the order that verified each review (orderId has no relation in the schema, so look the numbers up)
+  const orderIds = rows.flatMap((r) => (r.orderId ? [r.orderId] : []));
+  const orders = orderIds.length
+    ? await db.order.findMany({ where: { id: { in: orderIds } }, select: { id: true, orderNumber: true } })
+    : [];
+  const orderNumber = new Map(orders.map((o) => [o.id, o.orderNumber]));
+  const items = rows.map((r) => ({ ...r, orderNumber: r.orderId ? (orderNumber.get(r.orderId) ?? null) : null }));
+
+  return { items, total, page: current, totalPages, counts: { all, verified, unverified: all - verified } };
 }
 
 const SEARCH_TAKE = 5;

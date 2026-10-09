@@ -8,6 +8,7 @@ export type Review = {
   title: string;
   body: string;
   date: string; // ISO
+  verified?: boolean; // written by a customer whose order contains this product
 };
 
 const pool: Omit<Review, "id">[] = [

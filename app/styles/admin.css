@@ -500,7 +500,12 @@
 
   /* form fields inside the soft dashboard cards: rounded, red when invalid */
   .adm-panel .adm-field {
-    & input {
+    /* side-by-side fields: a hint under one must not stretch the other's input */
+    align-content: start;
+
+    & input,
+    & select,
+    & textarea {
       border-width: 1px;
       border-color: var(--line);
       border-radius: 0.8rem;
@@ -511,9 +516,192 @@
       }
     }
 
+    & textarea {
+      min-height: 7rem;
+      line-height: 1.55;
+      resize: vertical;
+    }
+
+    &[data-invalid] :is(input, select, textarea) {
+      border-color: var(--rose);
+    }
+
+    /* error / hint are spans too — undo the uppercase label style of `.adm-field > span` */
+    & .adm-field__error,
+    & .adm-field__hint {
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
     & .adm-field__error {
       color: var(--rose-deep);
-      font-size: 0.75rem;
+    }
+
+    & .adm-field__hint {
+      color: var(--taupe);
+    }
+  }
+
+  fieldset.adm-field {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  /* size / collection toggles: checkbox hidden, the pill shows the state */
+  .adm-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .adm-check {
+    position: relative;
+    cursor: pointer;
+
+    & input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    & span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.25rem;
+      padding-inline: 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink-soft);
+      font-size: 0.8125rem;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    &:hover span {
+      border-color: var(--rule);
+      color: var(--ink);
+    }
+
+    & input:checked + span {
+      border-color: var(--slate);
+      background: var(--slate);
+      color: var(--ivory);
+    }
+
+    & input:focus-visible + span {
+      outline: 2px solid var(--rose);
+      outline-offset: 2px;
+    }
+  }
+
+  /* photo picker: thumbnails, the chosen one outlined */
+  .adm-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+    gap: 0.6rem;
+  }
+
+  .adm-picker__item {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0.7rem;
+    background: var(--paper);
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s;
+
+    & input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:has(input:checked) {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgb(168 95 103 / 0.2);
+    }
+
+    &:has(input:focus-visible) {
+      outline: 2px solid var(--slate);
+      outline-offset: 2px;
+    }
+  }
+
+  /* first tile of the picker: upload from computer / phone gallery */
+  .adm-picker__upload {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 0.35rem;
+    aspect-ratio: 4 / 5;
+    padding: 0.4rem;
+    border: 1.5px dashed var(--rule);
+    border-radius: 0.7rem;
+    background: #fff;
+    color: var(--ink-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+
+    & input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    &:hover,
+    &:has(input:focus-visible) {
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+
+    &.is-busy {
+      cursor: progress;
+    }
+
+    & .adm-search__spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--line);
+      border-top-color: var(--rose);
+      border-radius: 999px;
+      animation: adm-spin 0.7s linear infinite;
+    }
+  }
+
+  /* save bar under the product form — stays at the bottom of the screen while scrolling the form */
+  .adm-form-bar {
+    position: sticky;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    z-index: 5;
+    display: grid;
+    gap: 0.6rem;
+    padding: 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 1.1rem;
+    background: rgb(252 250 245 / 0.92);
+    box-shadow: 0 10px 30px -18px rgb(15 30 34 / 0.45);
+
+    @media (min-width: 640px) {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+
+    /* phones / tablets: the floating search + bell sit bottom-right, so the bar stays at the end of the form */
+    @media (max-width: 1023px) {
+      position: static;
     }
   }
 
@@ -1560,5 +1748,95 @@
     background: linear-gradient(100deg, var(--paper-dark) 30%, var(--paper) 50%, var(--paper-dark) 70%);
     background-size: 200% 100%;
     animation: catalog-shimmer 1.2s linear infinite;
+  }
+
+  /* ---------- Reviews list ---------- */
+  .adm-reviews {
+    display: grid;
+
+    & > li + li {
+      border-top: 1px solid var(--line);
+    }
+  }
+
+  .adm-review {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.1rem 1.25rem;
+
+    & .adm-review__top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 0.75rem;
+    }
+
+    & .adm-review__title {
+      color: var(--ink);
+      font-size: 0.9375rem;
+      font-weight: 600;
+    }
+
+    & .adm-review__body {
+      color: var(--taupe-dark);
+      font-size: 0.8125rem;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    & .adm-review__order {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+
+      &:hover {
+        color: var(--rose);
+      }
+    }
+
+    & .adm-review__foot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 0.25rem;
+      padding-top: 0.7rem;
+      border-top: 1px dashed var(--line);
+    }
+
+    & .adm-review__product {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      min-width: 0;
+      max-width: 100%;
+      color: var(--ink);
+      font-size: 0.8125rem;
+      font-weight: 500;
+
+      &:hover {
+        color: var(--rose);
+      }
+    }
+
+    & .adm-review__delete {
+      padding: 0.35rem 0.85rem;
+      border: 1px solid rgb(168 95 103 / 0.45);
+      border-radius: 999px;
+      color: var(--rose);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+
+      &:hover {
+        background: var(--rose);
+        color: var(--ivory);
+      }
+    }
   }
 }

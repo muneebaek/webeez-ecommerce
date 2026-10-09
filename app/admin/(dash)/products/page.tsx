@@ -22,7 +22,9 @@ export default function AdminProductsPage({ searchParams }: PageProps<"/admin/pr
 // Live DB list. requireAdmin() first, then read ?q / ?stock / ?page and query.
 async function ProductsView({ searchParams }: Pick<PageProps<"/admin/products">, "searchParams">) {
   await requireAdmin();
-  const filters = parseProductFilters(await searchParams);
+  const sp = await searchParams;
+  const filters = parseProductFilters(sp);
+  const deleted = typeof sp.deleted === "string" ? sp.deleted.slice(0, 120) : ""; // set by the delete action
   const { q, stock } = filters;
   const { items, total, page, totalPages, counts } = await getAdminProducts(filters);
 
@@ -48,8 +50,19 @@ async function ProductsView({ searchParams }: Pick<PageProps<"/admin/products">,
             {q ? `${counts.all} result${counts.all === 1 ? "" : "s"} for “${q}”` : `${counts.all} products in the store`}
           </p>
         </div>
-        <LiveSearch path="/admin/products" initial={q} keep={{ stock }} placeholder="Search name, code, fabric…" className="w-full sm:w-72" />
+        <div className="flex w-full flex-wrap items-center gap-2.5 sm:w-auto">
+          <LiveSearch path="/admin/products" initial={q} keep={{ stock }} placeholder="Search name, code, fabric…" className="min-w-0 flex-1 sm:w-72 sm:flex-none" />
+          <Link href="/admin/products/new" className="adm-btn adm-btn--primary adm-btn--pill justify-center px-5">
+            + Add product
+          </Link>
+        </div>
       </header>
+
+      {deleted && (
+        <p role="status" className="adm-msg is-ok">
+          “{deleted}” was deleted.
+        </p>
+      )}
 
       {/* stock filter — every chip is a URL that keeps the search (scrolls sideways on mobile) */}
       <nav aria-label="Filter by stock" className="adm-chips">

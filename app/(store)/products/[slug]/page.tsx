@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ProductCard from "@/components/product/ProductCard";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
+import ReviewForm from "@/components/product/ReviewForm";
 import Stars from "@/components/product/Stars";
 import { formatINR } from "@/lib/format";
 import { getProductBySlug, getProductSlugs, getReviews, getSimilarProducts } from "@/lib/data/products";
@@ -156,29 +157,39 @@ async function ProductDetail({ params }: Pick<PageProps<"/products/[slug]">, "pa
                 <div className="pb-2">
                   <Stars rating={rating} size={16} />
                   <p className="mt-1 text-[0.6875rem] uppercase tracking-[0.12em] text-taupe">
-                    Based on {reviews.length} reviews
+                    Based on {reviews.length} review{reviews.length === 1 ? "" : "s"}
                   </p>
                 </div>
               </div>
             </div>
 
-            <ul className="divide-y divide-rule border-y border-rule">
-              {reviews.map((r) => (
-                <li key={r.id} className="py-6">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <Stars rating={r.rating} />
-                    <time dateTime={r.date} className="text-[0.625rem] uppercase tracking-[0.15em] text-taupe">
-                      {new Date(r.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                    </time>
-                  </div>
-                  <p className="mt-3 font-serif text-[1.25rem] font-semibold text-ink">{r.title}</p>
-                  <p className="mt-2 text-[0.875rem] leading-relaxed text-taupe-dark">{r.body}</p>
-                  <p className="mt-3 text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-ink">
-                    {r.name} <span className="text-taupe">· {r.city} · Verified Purchase</span>
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <div className="grid content-start gap-6">
+              <ReviewForm productId={product.id} />
+              {reviews.length === 0 ? (
+                <p className="border-y border-rule py-6 text-[0.875rem] text-taupe-dark">
+                  No reviews yet — bought this piece? Be the first to review it.
+                </p>
+              ) : (
+                <ul className="divide-y divide-rule border-y border-rule">
+                  {reviews.map((r) => (
+                    <li key={r.id} className="py-6">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <Stars rating={r.rating} />
+                        <time dateTime={r.date} className="text-[0.625rem] uppercase tracking-[0.15em] text-taupe">
+                          {new Date(r.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                        </time>
+                      </div>
+                      <p className="mt-3 font-serif text-[1.25rem] font-semibold text-ink">{r.title}</p>
+                      <p className="mt-2 text-[0.875rem] leading-relaxed text-taupe-dark">{r.body}</p>
+                      <p className="mt-3 text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-ink">
+                        {r.name} <span className="text-taupe">· {r.city}</span>
+                        {r.verified && <span className="review-verified"> · ✓ Verified buyer</span>}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
         </section>
 
