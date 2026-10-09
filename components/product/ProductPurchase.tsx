@@ -6,6 +6,7 @@ import { MAX_QTY, useCart } from "@/store/cart";
 import { useCartUi } from "@/store/cart-ui";
 import { useHydrated } from "@/store/use-hydrated";
 import { useWishlist } from "@/store/wishlist";
+import SizeGuide from "./SizeGuide";
 
 type Props = {
   product: {
@@ -57,7 +58,8 @@ export default function ProductPurchase({ product }: Props) {
           <legend className="pdp-buy__label">
             Size{size && <span className="text-ink"> — {size}</span>}
           </legend>
-          <span className="pdp-buy__guide">Size Guide</span>
+          {/* accessories are One Size — no chart needed */}
+          {!oneSize && <SizeGuide />}
         </div>
         <div className={`pdp-sizes ${error ? "has-error" : ""}`} role="radiogroup" aria-label="Choose size">
           {product.sizes.map((s) => (

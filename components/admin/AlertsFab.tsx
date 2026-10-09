@@ -18,13 +18,13 @@ export default function AlertsFab() {
   );
 }
 
-// request-time: session check + count (cookies + DB)
-async function FulfilBadge() {
+// Count badge for the bell (mobile FAB + desktop top bar). Request-time: session check + count (cookies + DB).
+export async function FulfilBadge({ className = "adm-fab__badge" }: { className?: string }) {
   await requireAdmin();
   const count = await countToFulfil();
   if (count === 0) return null;
   return (
-    <span className="adm-fab__badge">
+    <span className={className}>
       {count > 9 ? "9+" : count}
       <span className="sr-only"> pending</span>
     </span>

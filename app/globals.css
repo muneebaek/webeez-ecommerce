@@ -10,6 +10,8 @@
 @import "./styles/components/catalog.css";
 @import "./styles/components/product-page.css";
 @import "./styles/components/checkout.css";
+@import "./styles/components/help.css";
+@import "./styles/components/track.css";
 @import "./styles/admin.css";
 @import "./styles/components/product-card.css";
 @import "./styles/sections/hero.css";

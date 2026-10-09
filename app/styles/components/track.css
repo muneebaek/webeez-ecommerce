@@ -1,0 +1,141 @@
+@layer components {
+  /* ---------- Track an Order ---------- */
+  .track-form {
+    display: grid;
+    gap: 1.1rem;
+    align-self: start;
+    padding: 1.5rem;
+    border: 2px solid var(--rule);
+    background: #fff;
+
+    & .track-form__error {
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid var(--rose);
+      background: rgb(168 95 103 / 0.05);
+      color: var(--rose-deep);
+      font-size: 0.8125rem;
+    }
+  }
+
+  .track-empty {
+    display: grid;
+    place-content: center;
+    min-height: 16rem;
+    padding: 2rem;
+    border: 2px dashed var(--rule);
+    text-align: center;
+  }
+
+  .track-result {
+    display: grid;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border: 2px solid var(--rule);
+    background: #fff;
+
+    @media (min-width: 640px) {
+      padding: 2rem;
+    }
+  }
+
+  /* status timeline: a row of dots joined by a line; vertical on phones */
+  .track-steps {
+    display: grid;
+    gap: 1.1rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+    }
+  }
+
+  .track-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    column-gap: 0.75rem;
+    align-items: center;
+
+    @media (min-width: 640px) {
+      grid-template-columns: none;
+      align-content: start; /* the current step has an extra note line — keep every dot on one row */
+      justify-items: center;
+      row-gap: 0.6rem;
+      text-align: center;
+    }
+
+    /* connecting line to the next step */
+    &:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 1.25rem;
+      left: calc(0.625rem - 1px);
+      width: 2px;
+      height: calc(100% - 0.15rem);
+      background: var(--rule);
+
+      @media (min-width: 640px) {
+        top: calc(0.625rem - 1px);
+        left: calc(50% + 0.85rem);
+        width: calc(100% - 1.7rem);
+        height: 2px;
+      }
+    }
+
+    &.is-done:not(.is-current)::after {
+      background: var(--slate);
+    }
+
+    & .track-step__dot {
+      position: relative;
+      z-index: 1;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid var(--rule);
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    &.is-done .track-step__dot {
+      border-color: var(--slate);
+      background: var(--slate);
+    }
+
+    &.is-current .track-step__dot {
+      border-color: var(--rose);
+      background: var(--rose);
+      box-shadow: 0 0 0 4px rgb(168 95 103 / 0.18);
+    }
+
+    & .track-step__label {
+      color: var(--taupe);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    &.is-done .track-step__label {
+      color: var(--ink);
+    }
+
+    & .track-step__note {
+      grid-column: 2;
+      color: var(--taupe-dark);
+      font-size: 0.8125rem;
+
+      @media (min-width: 640px) {
+        grid-column: auto;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .track-cancelled {
+    padding: 0.9rem 1rem;
+    border: 1.5px solid var(--rose);
+    background: rgb(168 95 103 / 0.05);
+    color: var(--rose-deep);
+    font-size: 0.875rem;
+  }
+}

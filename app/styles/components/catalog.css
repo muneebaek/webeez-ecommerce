@@ -256,3 +256,60 @@
     }
   }
 }
+
+@layer components {
+  /* ---------- Search box (/products) ---------- */
+  .catalog-search {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
+    max-width: 30rem;
+    height: 3rem;
+    padding-inline: 1rem;
+    border: 2px solid var(--rule);
+    background: #fff;
+    color: var(--taupe);
+    transition: border-color 0.2s;
+
+    &:focus-within {
+      border-color: var(--slate);
+      color: var(--ink);
+    }
+
+    & svg {
+      flex-shrink: 0;
+    }
+
+    & input {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      background: transparent;
+      color: var(--ink);
+      font-size: 0.9375rem; /* ≥ 15px so phones don't zoom in */
+      outline: none;
+      scroll-margin-top: 9rem; /* /products#search lands with the box below the sticky header */
+
+      &::placeholder {
+        color: var(--taupe);
+      }
+    }
+
+    & .catalog-search__spinner {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--rule);
+      border-top-color: var(--rose);
+      border-radius: 999px;
+      animation: catalog-search-spin 0.7s linear infinite;
+    }
+  }
+
+  @keyframes catalog-search-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

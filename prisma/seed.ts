@@ -1,10 +1,8 @@
 // Static data from lib/products.ts → Neon database
 // Run: npm run db:seed   (safe to run repeatedly, no duplicates — upsert)
-import { PrismaClient } from "@prisma/client";
+import { db } from "../lib/db"; // same client as the app (pg driver adapter)
 import { products } from "../lib/products";
 import { getReviews } from "../lib/reviews";
-
-const db = new PrismaClient();
 
 async function main() {
   for (const [index, p] of products.entries()) {

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import AdminSearch from "./AdminSearch";
+import GlobalSearch from "./GlobalSearch";
 
 // Mobile: top bar (hamburger | NEYTHRA | avatar). Floating search icon (above the bell) → search line in the top bar.
 // Hamburger → sidebar slides in from the left as a drawer (closes on backdrop, Esc or link click).
@@ -54,7 +54,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         {/* floating search icon click → search line below NEYTHRA (autoFocus on mount) */}
         {searchOpen && (
           <div className="adm-topbar__search">
-            <AdminSearch autoFocus />
+            <GlobalSearch autoFocus onNavigate={() => setSearchOpen(false)} />
           </div>
         )}
       </div>

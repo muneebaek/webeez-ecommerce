@@ -1,16 +1,9 @@
 import type { OrderStatus } from "@prisma/client";
-
-const LABEL: Record<OrderStatus, string> = {
-  PENDING: "Pending",
-  CONFIRMED: "Confirmed",
-  SHIPPED: "Shipped",
-  DELIVERED: "Delivered",
-  CANCELLED: "Cancelled",
-};
+import { STATUS_LABEL } from "@/lib/admin-orders";
 
 // Order status — colour comes from a CSS class (admin.css .adm-badge.is-*)
 export default function StatusBadge({ status }: { status: OrderStatus }) {
-  return <span className={`adm-badge is-${status.toLowerCase()}`}>{LABEL[status]}</span>;
+  return <span className={`adm-badge is-${status.toLowerCase()}`}>{STATUS_LABEL[status]}</span>;
 }
 
 export const formatOrderDate = (d: Date) =>

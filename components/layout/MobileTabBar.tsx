@@ -35,7 +35,7 @@ type Tab = { label: string; href: string; icon: keyof typeof icons; badge?: "car
 
 const tabs: Tab[] = [
   { label: "Home", href: "/", icon: "home" },
-  { label: "Search", href: "/products", icon: "search" },
+  { label: "Search", href: "/products#search", icon: "search" }, // #search focuses the search box on /products
   { label: "Wishlist", href: "/wishlist", icon: "wishlist", badge: "wishlist" },
   { label: "Cart", href: "/cart", icon: "cart", badge: "cart" },
   { label: "Account", href: "/admin", icon: "account" },
@@ -51,7 +51,7 @@ export default function MobileTabBar() {
     <nav className="tab-bar md:hidden" aria-label="Quick actions">
       <ul className="tab-bar__list">
         {tabs.map((tab) => {
-          const active = pathname === tab.href;
+          const active = pathname === tab.href.split("#")[0];
           const count = tab.badge ? counts[tab.badge] : 0;
 
           const content = (

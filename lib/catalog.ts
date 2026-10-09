@@ -11,6 +11,7 @@ export type Sort = (typeof SORTS)[number];
 export const PAGE_SIZE = 8; // products per page
 
 export type Filters = {
+  q?: string; // search text
   category?: Category;
   collection?: string;
   under?: number;
@@ -29,8 +30,10 @@ export function parseFilters(params: RawParams): Filters {
   const under = Number(first(params.under));
   const sort = first(params.sort);
   const page = Number(first(params.page));
+  const q = first(params.q)?.trim().replace(/\s+/g, " ").slice(0, 60); // collapse repeated spaces
 
   return {
+    q: q || undefined,
     category: CATEGORIES.includes(category as Category) ? (category as Category) : undefined,
     collection: COLLECTIONS.includes(collection as (typeof COLLECTIONS)[number]) ? collection : undefined,
     under: Number.isFinite(under) && under > 0 ? under : undefined,
@@ -39,9 +42,19 @@ export function parseFilters(params: RawParams): Filters {
   };
 }
 
+/** Every word of the search must appear in the product's name, fabric, details, code or category */
+function matchesSearch(p: Product, q: string) {
+  const haystack = [p.name, p.fabric, p.subtitle, p.code, p.category].join(" ").toLowerCase();
+  return q
+    .toLowerCase()
+    .split(" ")
+    .every((word) => haystack.includes(word));
+}
+
 /** list = products from the database (getAllProducts) */
 export function filterProducts(all: Product[], f: Filters): Product[] {
   let list = all.filter((p) => {
+    if (f.q && !matchesSearch(p, f.q)) return false;
     if (f.category && p.category !== f.category) return false;
     if (f.collection && !p.collections.includes(f.collection)) return false;
     if (f.under && p.price > f.under) return false;
@@ -65,6 +78,7 @@ const COLLECTION_TITLES: Record<string, string> = {
 };
 
 export function titleFor(f: Filters) {
+  if (f.q) return "Search";
   if (f.collection) return COLLECTION_TITLES[f.collection];
   if (f.under) return `Under ₹${f.under.toLocaleString("en-IN")}`;
   if (f.category) return f.category[0].toUpperCase() + f.category.slice(1);
@@ -90,6 +104,7 @@ export function paginate<T>(list: T[], page: number, size = PAGE_SIZE) {
 /** New URL from the current filters with one value changed — for chips / sort links */
 export function hrefWith(f: Filters, patch: Partial<Record<keyof Filters, string | number | undefined>>) {
   const merged: Record<string, string | number | undefined> = {
+    q: f.q,
     category: f.category,
     collection: f.collection,
     under: f.under,

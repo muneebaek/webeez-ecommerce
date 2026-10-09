@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import AdminNav from "@/components/admin/AdminNav";
 import AlertsFab from "@/components/admin/AlertsFab";
+import TopActions from "@/components/admin/TopActions";
 import AdminShell from "@/components/admin/AdminShell";
 import { logout } from "@/lib/actions/admin-auth";
 import { requireAdmin } from "@/lib/auth/admin";
@@ -61,6 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </AdminShell>
 
       <main className="min-w-0 px-4 py-5 sm:px-5 lg:p-0 lg:py-2">
+        <TopActions />
         <Suspense fallback={<div className="adm-skeleton h-64" aria-busy="true" />}>
           <AdminGate>{children}</AdminGate>
         </Suspense>

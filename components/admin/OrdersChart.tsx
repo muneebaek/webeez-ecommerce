@@ -69,7 +69,7 @@ export default function OrdersChart({ data }: { data: Point[] }) {
         <path d={line} className="adm-chart__line" />
         {values.map((v, i) => (
           <g key={data[i].key}>
-            <circle cx={x(i)} cy={y(v)} r={i === peak && v > 0 ? 6 : 4.5} className="adm-chart__dot">
+            <circle cx={x(i)} cy={y(v)} r={i === peak && v > 0 ? 4.5 : 3.5} className="adm-chart__dot">
               <title>{`${data[i].label}: ${metric === "revenue" ? formatINR(v) : `${v} orders`}`}</title>
             </circle>
             <text x={x(i)} y={H - 8} textAnchor="middle" className="adm-chart__axis">

@@ -23,9 +23,10 @@ export default function Header() {
 
         {/* on mobile these live in MobileTabBar (bottom of the screen) */}
         <div className="site-header__actions hidden md:flex">
-          <button type="button" className="site-header__action hidden lg:inline-flex">
+          {/* opens the collection with the cursor in its search box */}
+          <Link href="/products#search" className="site-header__action hidden lg:inline-flex">
             Search
-          </button>
+          </Link>
           <Link href="/wishlist" className="site-header__action">
             Wishlist <WishlistCountText />
           </Link>

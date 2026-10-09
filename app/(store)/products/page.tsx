@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import CatalogSearch from "@/components/catalog/CatalogSearch";
 import ChipScroller from "@/components/catalog/ChipScroller";
 import Pagination from "@/components/catalog/Pagination";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
@@ -71,8 +72,14 @@ async function Results({ searchParams }: Pick<PageProps<"/products">, "searchPar
           {pg.totalPages > 1
             ? `Showing ${pg.from}–${pg.to} of ${pg.total}`
             : `${pg.total} ${pg.total === 1 ? "Piece" : "Pieces"}`}
+          {filters.q && ` for “${filters.q}”`}
         </p>
       </header>
+
+      {/* ---------- Search (live) ---------- */}
+      <div className="mt-6">
+        <CatalogSearch filters={filters} />
+      </div>
 
       {/* ---------- Filters + sort ---------- */}
       <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -113,19 +120,21 @@ async function Results({ searchParams }: Pick<PageProps<"/products">, "searchPar
       ) : (
         <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
           <p className="font-serif text-[2rem] font-semibold uppercase leading-none text-ink">
-            Nothing here yet.
+            {filters.q ? "No pieces found." : "Nothing here yet."}
           </p>
-          <p className="mt-3 text-[0.875rem] text-taupe-dark">This edit is still on the loom.</p>
+          <p className="mt-3 text-[0.875rem] text-taupe-dark">
+            {filters.q ? `Nothing matches “${filters.q}”. Try another word, or browse everything.` : "This edit is still on the loom."}
+          </p>
           <Link
-            href="/products"
+            href={filters.q ? hrefWith(filters, { q: undefined }) : "/products"}
             className="mt-6 bg-slate px-8 py-3.5 text-[0.625rem] font-semibold uppercase tracking-[0.22em] text-ivory transition-colors hover:bg-rose"
           >
-            View All Pieces
+            {filters.q ? "Clear Search" : "View All Pieces"}
           </Link>
         </div>
       )}
 
-      <Pagination filters={filters} page={pg.page} totalPages={pg.totalPages} />
+      <Pagination href={(n) => hrefWith(filters, { page: n })} page={pg.page} totalPages={pg.totalPages} />
     </>
   );
 }

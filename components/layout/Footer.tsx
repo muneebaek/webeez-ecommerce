@@ -24,8 +24,8 @@ const columns = [
   {
     title: "Help",
     links: [
-      { label: "Orders & Tracking", href: "/orders" },
-      { label: "Shipping & Returns", href: "/help/shipping" },
+      { label: "Shipping", href: "/help/shipping" },
+      { label: "Returns & Exchanges", href: "/help/returns" },
       { label: "Size Guide", href: "/help/size-guide" },
       { label: "Inquiries", href: "/help/contact" },
     ],
@@ -33,7 +33,7 @@ const columns = [
   {
     title: "Account",
     links: [
-      { label: "My Profile", href: "/account" },
+      { label: "Track an Order", href: "/orders" },
       { label: "Saved Pieces", href: "/wishlist" },
       { label: "Bag Archive", href: "/cart" },
       { label: "Private Client Suite", href: "/admin" },

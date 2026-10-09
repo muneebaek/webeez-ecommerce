@@ -134,9 +134,16 @@ async function OrderDetail({ params }: Pick<PageProps<"/order/[orderNumber]">, "
         </aside>
       </div>
 
-      <div className="mt-12 flex justify-center">
+      <div className="mt-12 flex flex-col items-center gap-5">
         <Link href="/products" className="co-btn px-10">
           Continue Shopping
+        </Link>
+        {/* prefills the order number only — the customer still enters their email to see the status */}
+        <Link
+          href={`/orders?order=${encodeURIComponent(order.orderNumber)}`}
+          className="text-[0.625rem] font-semibold uppercase tracking-[0.2em] text-ink hover:text-rose"
+        >
+          Track this order →
         </Link>
       </div>
     </>

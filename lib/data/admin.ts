@@ -1,9 +1,12 @@
 import "server-only";
+import type { OrderStatus, Prisma } from "@prisma/client";
+import { ORDER_STATUSES, ORDERS_PAGE_SIZE, type OrderFilters } from "@/lib/admin-orders";
+import { LOW_STOCK, PRODUCTS_PAGE_SIZE, type ProductFilters, type StockFilter } from "@/lib/admin-products";
 import { db } from "@/lib/db";
 
 // Admin data — no cache (admin always needs live numbers). Admin pages call these only after requireAdmin().
 
-export const LOW_STOCK = 5;
+export { LOW_STOCK };
 
 export async function getDashboardStats() {
   const [orders, revenue, toFulfil, products, lowStock] = await Promise.all([
@@ -22,23 +25,177 @@ export async function countToFulfil() {
   return db.order.count({ where: { status: { in: ["PENDING", "CONFIRMED"] } } });
 }
 
+// Fields shown in an order row (dashboard + orders list)
+const orderRowSelect = {
+  id: true,
+  orderNumber: true,
+  customerName: true,
+  email: true,
+  total: true,
+  status: true,
+  emailSent: true,
+  createdAt: true,
+  items: { select: { qty: true } },
+} satisfies Prisma.OrderSelect;
+
 export async function getRecentOrders(take = 8) {
-  return db.order.findMany({
+  return db.order.findMany({ orderBy: { createdAt: "desc" }, take, select: orderRowSelect });
+}
+
+/** q matches order number, name, email or phone (case-insensitive) — shared by the list and global search */
+function orderSearchWhere(q?: string): Prisma.OrderWhereInput {
+  const term = q?.trim();
+  if (!term) return {};
+  return {
+    OR: [
+      { orderNumber: { contains: term, mode: "insensitive" } },
+      { customerName: { contains: term, mode: "insensitive" } },
+      { email: { contains: term, mode: "insensitive" } },
+      { phone: { contains: term } },
+    ],
+  };
+}
+
+/**
+ * Orders list — newest first, filtered by q + status, one page at a time.
+ * counts = orders per status for the current search (status ignored), for the filter chips.
+ */
+export async function getOrders({ q, status, page }: OrderFilters) {
+  const searchWhere = orderSearchWhere(q);
+  const where: Prisma.OrderWhereInput = status ? { AND: [searchWhere, { status }] } : searchWhere;
+
+  const [total, groups] = await Promise.all([
+    db.order.count({ where }),
+    db.order.groupBy({ by: ["status"], where: searchWhere, _count: { _all: true } }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(total / ORDERS_PAGE_SIZE));
+  const current = Math.min(page, totalPages); // ?page=99 → last page
+  const items = await db.order.findMany({
+    where,
     orderBy: { createdAt: "desc" },
-    take,
+    skip: (current - 1) * ORDERS_PAGE_SIZE,
+    take: ORDERS_PAGE_SIZE,
+    select: orderRowSelect,
+  });
+
+  const counts = Object.fromEntries(ORDER_STATUSES.map((s) => [s, 0])) as Record<OrderStatus, number>;
+  for (const g of groups) counts[g.status] = g._count._all;
+  const all = Object.values(counts).reduce((n, c) => n + c, 0);
+
+  return { items, total, page: current, totalPages, counts, all };
+}
+
+/** One order with its items for the detail page (null when the id doesn't exist). */
+export async function getOrderById(id: string) {
+  return db.order.findUnique({
+    where: { id },
+    include: { items: { include: { product: { select: { slug: true, stock: true } } } } },
+  });
+}
+
+// ---------- Products (admin list) ----------
+
+const stockWhere: Record<StockFilter, Prisma.ProductWhereInput> = {
+  in: { stock: { gt: LOW_STOCK } },
+  low: { stock: { gt: 0, lte: LOW_STOCK } },
+  out: { stock: 0 },
+};
+
+/** q matches name, code, fabric or subtitle (case-insensitive) — shared by the list and global search */
+function productSearchWhere(q?: string): Prisma.ProductWhereInput {
+  const term = q?.trim();
+  if (!term) return {};
+  return {
+    OR: [
+      { name: { contains: term, mode: "insensitive" } },
+      { code: { contains: term, mode: "insensitive" } },
+      { fabric: { contains: term, mode: "insensitive" } },
+      { subtitle: { contains: term, mode: "insensitive" } },
+    ],
+  };
+}
+
+/** Products list in store order, filtered by q + stock level, one page at a time (+ counts for the chips). */
+export async function getAdminProducts({ q, stock, page }: ProductFilters) {
+  const searchWhere = productSearchWhere(q);
+  const where: Prisma.ProductWhereInput = stock ? { AND: [searchWhere, stockWhere[stock]] } : searchWhere;
+
+  const [total, all, inStock, low, out] = await Promise.all([
+    db.product.count({ where }),
+    db.product.count({ where: searchWhere }),
+    db.product.count({ where: { AND: [searchWhere, stockWhere.in] } }),
+    db.product.count({ where: { AND: [searchWhere, stockWhere.low] } }),
+    db.product.count({ where: { AND: [searchWhere, stockWhere.out] } }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(total / PRODUCTS_PAGE_SIZE));
+  const current = Math.min(page, totalPages);
+  const items = await db.product.findMany({
+    where,
+    orderBy: { sortOrder: "asc" },
+    skip: (current - 1) * PRODUCTS_PAGE_SIZE,
+    take: PRODUCTS_PAGE_SIZE,
+    select: { id: true, slug: true, name: true, code: true, fabric: true, category: true, price: true, stock: true, images: true },
+  });
+
+  return { items, total, page: current, totalPages, counts: { all, in: inStock, low, out } };
+}
+
+/** One product for the admin edit page (null when the id doesn't exist). */
+export async function getAdminProduct(id: string) {
+  return db.product.findUnique({
+    where: { id },
     select: {
       id: true,
-      orderNumber: true,
-      customerName: true,
-      email: true,
-      total: true,
-      status: true,
-      emailSent: true,
-      createdAt: true,
-      items: { select: { qty: true } },
+      slug: true,
+      code: true,
+      name: true,
+      subtitle: true,
+      fabric: true,
+      category: true,
+      collections: true,
+      price: true,
+      stock: true,
+      sizes: true,
+      images: true,
+      updatedAt: true,
     },
   });
 }
+
+const SEARCH_TAKE = 5;
+
+/** Global admin search — top orders + products for the header / floating search. */
+export async function globalSearch(q: string) {
+  const term = q.trim();
+  const orderWhere = orderSearchWhere(term);
+  const productWhere = productSearchWhere(term);
+  const [orders, orderTotal, products, productTotal] = await Promise.all([
+    db.order.findMany({
+      where: orderWhere,
+      orderBy: { createdAt: "desc" },
+      take: SEARCH_TAKE,
+      select: { id: true, orderNumber: true, customerName: true, total: true, status: true },
+    }),
+    db.order.count({ where: orderWhere }),
+    db.product.findMany({
+      where: productWhere,
+      orderBy: { sortOrder: "asc" },
+      take: SEARCH_TAKE,
+      select: { id: true, slug: true, name: true, code: true, price: true, stock: true, images: true },
+    }),
+    db.product.count({ where: productWhere }),
+  ]);
+  return {
+    orders,
+    orderTotal,
+    products: products.map(({ images, ...p }) => ({ ...p, image: images[0] ?? null })),
+    productTotal,
+  };
+}
+
+export type GlobalSearchResult = Awaited<ReturnType<typeof globalSearch>>;
 
 export async function getLowStockProducts(take = 5) {
   return db.product.findMany({

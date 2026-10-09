@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AdminSearch from "./AdminSearch";
+import GlobalSearch from "./GlobalSearch";
 
 // Desktop header: round search icon like the bell. Click → search box opens to the left (autoFocus), icon turns into ✕, Esc closes.
 export default function HeaderSearch() {
@@ -16,7 +16,7 @@ export default function HeaderSearch() {
 
   return (
     <div className="flex items-center gap-2.5">
-      {open && <AdminSearch className="adm-search--pop w-64" autoFocus />}
+      {open && <GlobalSearch className="adm-gs--pop w-72" autoFocus onNavigate={() => setOpen(false)} />}
       <button
         type="button"
         className={`adm-round ${open ? "is-active" : ""}`}

@@ -84,6 +84,12 @@
       text-decoration: underline;
       text-underline-offset: 3px;
       text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--rose);
+      }
     }
 
     /* larger qty buttons on the product page (mobile touch) */
@@ -271,6 +277,90 @@
 
   @media (prefers-reduced-motion: reduce) {
     .pdp-sizes.has-error .pdp-sizes__btn {
+      animation: none;
+    }
+  }
+}
+
+@layer components {
+  /* ---------- Size guide popup (native <dialog>) ---------- */
+  .size-guide {
+    width: calc(100% - 2rem);
+    max-width: 34rem;
+    max-height: calc(100dvh - 3rem);
+    margin: auto;
+    padding: 0;
+    border: 2px solid var(--rule);
+    background: var(--ivory);
+    color: var(--ink);
+
+    &[open] {
+      animation: size-guide-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    &::backdrop {
+      background: rgb(15 30 34 / 0.45);
+    }
+
+    & .size-guide__body {
+      padding: 1.25rem 1rem; /* narrow phones: room for the 4-column chart */
+
+      @media (min-width: 640px) {
+        padding: 2rem;
+      }
+    }
+
+    & .size-guide__close {
+      display: grid;
+      flex-shrink: 0;
+      place-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1.5px solid var(--slate);
+      color: var(--slate);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+
+      &:hover {
+        background: var(--slate);
+        color: var(--ivory);
+      }
+    }
+
+    & .size-guide__tips {
+      display: grid;
+      gap: 0.4rem;
+      margin-top: 1.25rem;
+      color: var(--taupe-dark);
+      font-size: 0.8125rem;
+      line-height: 1.6;
+
+      & li {
+        position: relative;
+        padding-left: 1.2rem;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0.8em;
+          left: 0;
+          width: 0.6rem;
+          height: 1.5px;
+          background: var(--rose);
+        }
+      }
+    }
+  }
+
+  @keyframes size-guide-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .size-guide[open] {
       animation: none;
     }
   }
