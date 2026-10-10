@@ -151,11 +151,6 @@
       border-radius: 9999px;
       background: var(--rose-deep);
       color: #fff;
-      transition: opacity 0.2s;
-
-      &:hover {
-        opacity: 0.85;
-      }
     }
 
     & .site-header__nav {

@@ -31,12 +31,13 @@ export default function Header() {
             Wishlist <WishlistCountText />
           </Link>
           <HeaderCartButton />
-          <Link href="/admin" className="site-header__avatar" aria-label="Account">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+          {/* decorative avatar from the design — not a link */}
+          <span className="site-header__avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <circle cx="12" cy="8" r="4" />
               <path d="M5 20a7 7 0 0 1 14 0" />
             </svg>
-          </Link>
+          </span>
         </div>
       </div>
 
