@@ -36,7 +36,6 @@ const columns = [
       { label: "Track an Order", href: "/orders" },
       { label: "Saved Pieces", href: "/wishlist" },
       { label: "Bag Archive", href: "/cart" },
-      { label: "Private Client Suite", href: "/admin" },
     ],
   },
 ];

@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import DeleteProduct from "@/components/admin/DeleteProduct";
+import DeleteReview from "@/components/admin/DeleteReview";
+import Stars from "@/components/product/Stars";
 import { CATEGORY_OPTIONS, COLLECTION_OPTIONS, stockState } from "@/lib/admin-products";
 import { requireAdmin } from "@/lib/auth/admin";
-import { getAdminProduct } from "@/lib/data/admin";
+import { getAdminProduct, getProductReviews } from "@/lib/data/admin";
 import { formatINR } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Product" };
@@ -27,8 +29,9 @@ export default function AdminProductPage({ params, searchParams }: PageProps<"/a
 async function ProductDetail({ params, searchParams }: Pick<PageProps<"/admin/products/[id]">, "params" | "searchParams">) {
   await requireAdmin();
   const [{ id }, sp] = await Promise.all([params, searchParams]);
-  const product = await getAdminProduct(id);
+  const [product, reviews] = await Promise.all([getAdminProduct(id), getProductReviews(id)]);
   if (!product) notFound();
+  const average = reviews.length ? Math.round((reviews.reduce((n, r) => n + r.rating, 0) / reviews.length) * 10) / 10 : 0;
 
   // set by the product form after a successful save / create
   const notice = sp.created === "1" ? "Product created — it is live on the store now." : sp.saved === "1" ? "Saved — the store shows the changes now." : "";
@@ -63,7 +66,7 @@ async function ProductDetail({ params, searchParams }: Pick<PageProps<"/admin/pr
         </p>
       )}
 
-      {/* details (with Edit underneath) on the left, delete on the right; on phones delete comes last */}
+      {/* details + reviews on the left, delete on the right; on phones delete comes last */}
       <div className="grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_20rem]">
         {/* ---------- Left: what the customer sees ---------- */}
         <section className="adm-panel">
@@ -147,8 +150,56 @@ async function ProductDetail({ params, searchParams }: Pick<PageProps<"/admin/pr
           </div>
         </section>
 
-        {/* ---------- Delete ---------- */}
-        <DeleteProduct id={product.id} name={product.name} />
+        {/* ---------- Reviews of this product (delete spam / abuse) ---------- */}
+        <section className="adm-panel adm-panel--flush" aria-labelledby="reviews-title">
+          <div className="adm-panel__head mb-0 px-5 pt-5 pb-4">
+            <h2 id="reviews-title">Reviews ({reviews.length})</h2>
+            {reviews.length > 0 && (
+              <span className="flex items-center gap-2 text-[0.8125rem] text-ink">
+                <Stars rating={average} size={14} />
+                {average} average
+              </span>
+            )}
+          </div>
+          {reviews.length === 0 ? (
+            <p className="adm-muted border-t border-line px-5 py-8 text-center">No reviews for this product yet.</p>
+          ) : (
+            <ul className="adm-reviews border-t border-line">
+              {reviews.map((r) => (
+                <li key={r.id} className="adm-review">
+                  <div className="adm-review__top">
+                    <Stars rating={r.rating} size={15} />
+                    {r.verified ? <span className="adm-stock is-in">✓ Verified buyer</span> : <span className="adm-stock is-low">Unverified</span>}
+                    <time dateTime={r.createdAt.toISOString()} className="adm-muted ml-auto text-[0.75rem]">
+                      {r.createdAt.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" })}
+                    </time>
+                  </div>
+                  <p className="adm-review__title">{r.title}</p>
+                  <p className="adm-review__body">{r.body}</p>
+                  <div className="adm-review__foot">
+                    <p className="adm-muted text-[0.75rem]">
+                      <span className="font-semibold text-ink">{r.name}</span> · {r.city}
+                      {r.orderNumber && r.orderId && (
+                        <>
+                          {" · "}
+                          <Link href={`/admin/orders/${r.orderId}`} className="adm-review__order">
+                            {r.orderNumber}
+                          </Link>
+                        </>
+                      )}
+                    </p>
+                    <DeleteReview id={r.id} title={r.title} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* ---------- Delete — right column on desktop, last on phones ---------- */}
+        <div className="xl:col-start-2 xl:row-start-1">
+          <DeleteProduct id={product.id} name={product.name} />
+        </div>
       </div>
     </div>
   );

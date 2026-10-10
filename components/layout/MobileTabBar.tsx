@@ -31,14 +31,14 @@ const icons = {
   ),
 };
 
-type Tab = { label: string; href: string; icon: keyof typeof icons; badge?: "cart" | "wishlist" };
+type Tab = { label: string; href?: string; icon: keyof typeof icons; badge?: "cart" | "wishlist" }; // no href = icon only
 
 const tabs: Tab[] = [
   { label: "Home", href: "/", icon: "home" },
   { label: "Search", href: "/products#search", icon: "search" }, // #search focuses the search box on /products
   { label: "Wishlist", href: "/wishlist", icon: "wishlist", badge: "wishlist" },
   { label: "Cart", href: "/cart", icon: "cart", badge: "cart" },
-  { label: "Account", href: "/admin", icon: "account" },
+  { label: "Account", icon: "account" }, // decorative, like the header avatar — not a link
 ];
 
 export default function MobileTabBar() {
@@ -51,7 +51,7 @@ export default function MobileTabBar() {
     <nav className="tab-bar md:hidden" aria-label="Quick actions">
       <ul className="tab-bar__list">
         {tabs.map((tab) => {
-          const active = pathname === tab.href.split("#")[0];
+          const active = !!tab.href && pathname === tab.href.split("#")[0];
           const count = tab.badge ? counts[tab.badge] : 0;
 
           const content = (
@@ -83,6 +83,10 @@ export default function MobileTabBar() {
                 <button type="button" onClick={openCart} className="tab-bar__item w-full" aria-label="Open shopping bag">
                   {content}
                 </button>
+              ) : !tab.href ? (
+                <span className="tab-bar__item" aria-hidden="true">
+                  {content}
+                </span>
               ) : (
                 <Link
                   href={tab.href}

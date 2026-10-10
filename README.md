@@ -49,7 +49,7 @@ These are test-only credentials for this review.
 - Dashboard: orders, revenue, orders to fulfil, products, 7-day orders/revenue chart, to-do list, calendar, recent activity, low-stock list.
 - Orders: search (number / name / email / phone), status filter, pagination, order detail, status update, cancel with restock, resend email.
 - Products: list with stock filter and search, add / view / edit / delete, photo upload from computer or phone gallery.
-- Reviews: list with verified filter and search, delete.
+- Reviews: each product's page in the admin lists its reviews (verified badge, linked order) with a delete option.
 - Global search across orders and products; bell with orders to fulfil.
 
 ## Tech stack
@@ -96,7 +96,7 @@ Browser ──► Next.js on Vercel ──► Prisma ──► Neon Postgres
 app/
   (store)/            storefront: home, products, product page, cart, checkout, order, orders (tracking), wishlist, help
   admin/login/        admin login
-  admin/(dash)/       dashboard, orders, products, reviews (behind login)
+  admin/(dash)/       dashboard, orders, products with their reviews (behind login)
   media/[id]/         serves product photos uploaded in the admin
   styles/             custom CSS (base, components, sections, admin)
 components/           UI by area: home, product, catalog, cart, checkout, order, admin, layout

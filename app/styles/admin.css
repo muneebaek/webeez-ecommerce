@@ -1806,21 +1806,6 @@
       border-top: 1px dashed var(--line);
     }
 
-    & .adm-review__product {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      min-width: 0;
-      max-width: 100%;
-      color: var(--ink);
-      font-size: 0.8125rem;
-      font-weight: 500;
-
-      &:hover {
-        color: var(--rose);
-      }
-    }
-
     & .adm-review__delete {
       padding: 0.35rem 0.85rem;
       border: 1px solid rgb(168 95 103 / 0.45);

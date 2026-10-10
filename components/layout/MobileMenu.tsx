@@ -22,7 +22,6 @@ export default function MobileMenu() {
   const secondaryLinks = [
     { label: "Wishlist", href: "/wishlist", meta: `(${wishlistCount})` },
     { label: "Cart", href: "/cart", meta: `[${pad2(cartCount)}]` },
-    { label: "Account", href: "/admin", meta: "→" },
   ];
 
   // while open: scroll lock + Esc to close + focus the close button
