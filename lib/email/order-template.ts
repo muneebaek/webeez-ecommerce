@@ -1,10 +1,12 @@
 import { formatINR } from "@/lib/format";
+import { orderPath } from "@/lib/order-link";
 
 // Email clients (Gmail, Outlook) don't support CSS classes → table layout + inline styles.
 // Neythra palette: ivory #fcfaf5, ink #0f1e22, rose #a85f67, rule #d7d5cf, taupe #5b514e.
 
 type OrderForEmail = {
   orderNumber: string;
+  accessToken: string;
   customerName: string;
   email: string;
   phone: string;
@@ -33,7 +35,7 @@ export function orderEmailSubject(o: OrderForEmail) {
 
 export function orderEmailHtml(o: OrderForEmail, siteUrl: string) {
   const first = esc(o.customerName.split(" ")[0]);
-  const orderUrl = `${siteUrl}/order/${o.orderNumber}`;
+  const orderUrl = `${siteUrl}${orderPath(o.orderNumber, o.accessToken)}`;
   const placed = o.createdAt.toLocaleString("en-IN", {
     day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", timeZone: "Asia/Kolkata",
   });
@@ -136,5 +138,5 @@ Total (Cash on Delivery): ${formatINR(o.total)}
 
 Delivering to: ${o.customerName}, ${o.address1}${o.address2 ? ", " + o.address2 : ""}, ${o.city}, ${o.state} ${o.pincode}
 
-View your order: ${siteUrl}/order/${o.orderNumber}`;
+View your order: ${siteUrl}${orderPath(o.orderNumber, o.accessToken)}`;
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { formatINR } from "@/lib/format";
+import { isValidOrderToken } from "@/lib/order-link";
 
 export const metadata: Metadata = {
   title: "Order Confirmed — Neythra",
@@ -12,25 +13,28 @@ export const metadata: Metadata = {
 };
 
 // Every order is different — no cache, read from the database at request time. params inside Suspense (Cache Components rule).
-export default function OrderPage({ params }: PageProps<"/order/[orderNumber]">) {
+export default function OrderPage({ params, searchParams }: PageProps<"/order/[orderNumber]">) {
   return (
     <div className="bg-ivory">
       <div className="page-shell py-12 lg:py-16">
         <Suspense fallback={<div className="min-h-[50vh]" aria-busy="true" />}>
-          <OrderDetail params={params} />
+          <OrderDetail params={params} searchParams={searchParams} />
         </Suspense>
       </div>
     </div>
   );
 }
 
-async function OrderDetail({ params }: Pick<PageProps<"/order/[orderNumber]">, "params">) {
-  const { orderNumber } = await params;
+// The details (address, phone, email) are shown only with the secret token from the checkout redirect / email link.
+async function OrderDetail({ params, searchParams }: Pick<PageProps<"/order/[orderNumber]">, "params" | "searchParams">) {
+  const [{ orderNumber }, sp] = await Promise.all([params, searchParams]);
+  const token = typeof sp.t === "string" ? sp.t : undefined;
   const order = await db.order.findUnique({
     where: { orderNumber: decodeURIComponent(orderNumber) },
     include: { items: true },
   });
   if (!order) notFound();
+  if (!isValidOrderToken(token, order.accessToken)) return <PrivateOrder orderNumber={order.orderNumber} />;
 
   const placed = order.createdAt.toLocaleString("en-IN", {
     day: "numeric",
@@ -147,5 +151,22 @@ async function OrderDetail({ params }: Pick<PageProps<"/order/[orderNumber]">, "
         </Link>
       </div>
     </>
+  );
+}
+
+// Shown for a link without (or with a wrong) token — no customer details, just a way to look the order up
+function PrivateOrder({ orderNumber }: { orderNumber: string }) {
+  return (
+    <section className="mx-auto flex max-w-lg flex-col items-center py-10 text-center">
+      <p className="text-[0.625rem] font-semibold uppercase tracking-[0.25em] text-rose">[ Order ]</p>
+      <h1 className="mt-3 text-[clamp(2rem,4vw,3rem)] font-semibold uppercase leading-none text-ink">This link is private</h1>
+      <p className="mt-4 text-[0.9375rem] leading-relaxed text-taupe-dark">
+        To keep your details safe, order details open only from the link in your confirmation email. You can also check your
+        order with its number and the email you used.
+      </p>
+      <Link href={`/orders?order=${encodeURIComponent(orderNumber)}`} className="co-btn mt-8 px-10">
+        Track your order
+      </Link>
+    </section>
   );
 }

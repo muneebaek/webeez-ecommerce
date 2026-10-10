@@ -73,6 +73,7 @@ model Review {
 model Order {
   id            String      @id @default(cuid())
   orderNumber   String      @unique // NYT-260001
+  accessToken   String      @default(dbgenerated("replace(gen_random_uuid()::text, '-', '')")) // secret in the confirmation link — order numbers are guessable
   customerName  String
   email         String
   phone         String

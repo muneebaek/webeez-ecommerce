@@ -1,17 +1,19 @@
 "use server";
 
-import { randomInt } from "node:crypto";
+import { randomBytes, randomInt } from "node:crypto";
 import { updateTag } from "next/cache";
 import { after } from "next/server";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { sendOrderEmail } from "@/lib/email/send-order-email";
+import { orderPath } from "@/lib/order-link";
 import { shippingFor } from "@/lib/pricing";
 import { checkoutSchema, orderItemsSchema } from "@/lib/validators";
 
 export type CheckoutState = {
   ok: boolean;
   orderNumber?: string;
+  orderUrl?: string; // confirmation page link with the order's secret token
   message?: string; // general error shown at the top of the form
   fieldErrors?: Partial<Record<string, string>>; // field-wise errors
   values?: Record<string, string>; // form values returned on error
@@ -90,6 +92,7 @@ export async function placeOrder(_prev: CheckoutState, formData: FormData): Prom
         return tx.order.create({
           data: {
             orderNumber: makeOrderNumber(),
+            accessToken: randomBytes(24).toString("base64url"), // 192-bit secret for the confirmation link
             customerName: data.customerName,
             email: data.email,
             phone: data.phone,
@@ -122,7 +125,7 @@ export async function placeOrder(_prev: CheckoutState, formData: FormData): Prom
       // ---------- 5. Email — sent after the response reaches the user (the order is safe even if it fails) ----------
       after(() => sendOrderEmail(order.id));
 
-      return { ok: true, orderNumber: order.orderNumber };
+      return { ok: true, orderNumber: order.orderNumber, orderUrl: orderPath(order.orderNumber, order.accessToken) };
     } catch (e) {
       if (e instanceof OrderError) return { ok: false, values: fields, message: e.message };
       // duplicate orderNumber (unique constraint) — retry with a new number

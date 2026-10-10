@@ -26,9 +26,9 @@ export default function CheckoutForm() {
 
   // order success → clear the cart, go to the confirmation page
   useEffect(() => {
-    if (state.ok && state.orderNumber) {
+    if (state.ok && state.orderUrl) {
       clear();
-      router.replace(`/order/${state.orderNumber}`);
+      router.replace(state.orderUrl);
     }
   }, [state, clear, router]);
 
