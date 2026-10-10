@@ -42,14 +42,13 @@ These are test-only credentials for this review.
 - Checkout with validation; Cash on Delivery.
 - Confirmation page and HTML confirmation email.
 - Order tracking (`/orders`) by order number + email.
-- Customer reviews with star rating — only verified buyers can post (order number + email must match an order containing that product).
 - Help pages: shipping, returns, size guide, contact, privacy, terms.
 
 **Admin dashboard** (`/admin`, login required)
 - Dashboard: orders, revenue, orders to fulfil, products, 7-day orders/revenue chart, to-do list, calendar, recent activity, low-stock list.
 - Orders: search (number / name / email / phone), status filter, pagination, order detail, status update, cancel with restock, resend email.
 - Products: list with stock filter and search, add / view / edit / delete, photo upload from computer or phone gallery.
-- Reviews: each product's page in the admin lists its reviews (verified badge, linked order) with a delete option.
+- Reviews: each product's page in the admin lists its reviews with a delete option.
 - Global search across orders and products; bell with orders to fulfil.
 
 ## Tech stack
@@ -86,7 +85,7 @@ Browser ──► Next.js on Vercel ──► Prisma ──► Neon Postgres
 - **Order snapshots.** Order items store the name, photo and price at the time of purchase, so old orders stay correct
   if a product is edited or deleted later.
 - **Privacy.** The confirmation link carries a secret token (`/order/NYT-123456?t=…`), because order numbers are short and
-  guessable. Order tracking and review posting need the order number **and** the email, and never say which one was wrong.
+  guessable. Order tracking needs the order number **and** the email, and never say which one was wrong.
 - **Admin security.** `proxy.ts` redirects to the login page without a valid session cookie, and every admin page and
   Server Action checks the session again (`requireAdmin()`).
 
@@ -101,7 +100,7 @@ app/
   styles/             custom CSS (base, components, sections, admin)
 components/           UI by area: home, product, catalog, cart, checkout, order, admin, layout
 lib/
-  actions/            Server Actions (order, reviews, tracking, admin orders / products / reviews, admin login)
+  actions/            Server Actions (order, tracking, admin orders / products / reviews, admin login)
   data/               database reads (cached store reads, live admin reads)
   email/              order email template + sending
   auth/               admin session (sign / verify cookie)

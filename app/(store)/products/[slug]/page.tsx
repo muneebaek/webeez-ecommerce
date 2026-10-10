@@ -5,7 +5,6 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ProductCard from "@/components/product/ProductCard";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
-import ReviewForm from "@/components/product/ReviewForm";
 import Stars from "@/components/product/Stars";
 import { formatINR } from "@/lib/format";
 import { getProductBySlug, getProductSlugs, getReviews, getSimilarProducts } from "@/lib/data/products";
@@ -164,10 +163,9 @@ async function ProductDetail({ params }: Pick<PageProps<"/products/[slug]">, "pa
             </div>
 
             <div className="grid content-start gap-6">
-              <ReviewForm productId={product.id} />
               {reviews.length === 0 ? (
                 <p className="border-y border-rule py-6 text-[0.875rem] text-taupe-dark">
-                  No reviews yet — bought this piece? Be the first to review it.
+                  No reviews yet.
                 </p>
               ) : (
                 <ul className="divide-y divide-rule border-y border-rule">
