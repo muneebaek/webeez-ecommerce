@@ -7,11 +7,11 @@ export default function QuietlyUnexpected() {
       {/* ---------- Left: image ---------- */}
       <div className="relative aspect-4/5 overflow-hidden bg-paper-dark sm:aspect-video lg:aspect-auto lg:border-r lg:border-rule">
         <Image
-          src="/images/quietly/quietly-unexpected.jpg"
-          alt="Model in a tie-neck blouse, waistcoat and wide trousers leaning on a steel column"
+          src="/images/quietly/quietly-layered-drape.jpg"
+          alt="Model walking in layered lilac and slate linen drapes over black trousers, in a concrete courtyard"
           fill
           sizes="(min-width: 1024px) 58vw, 100vw"
-          className="object-cover object-[50%_35%]"
+          className="object-cover object-[62%_35%]"
         />
         <span className="absolute bottom-4 left-4 border-2 border-[#b9b5ad] bg-ivory px-4 py-3 text-[0.5625rem] font-semibold uppercase tracking-[0.2em] text-slate lg:bottom-6 lg:left-6 lg:text-[0.625rem]">
           Plate 07 — Atelier Jaipur

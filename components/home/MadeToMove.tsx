@@ -39,8 +39,8 @@ export default function MadeToMove() {
         <figure className="relative border-2 border-[#dfdcd6] bg-ivory p-3.5 shadow-[0_24px_48px_-20px_rgb(15_30_34/0.45)]">
           <div className="relative aspect-4/5 overflow-hidden">
             <Image
-              src="/images/made-to-move/made-to-move.jpg"
-              alt="Model in a lehenga with flowing dupatta on a palace terrace, black and white"
+              src="/images/made-to-move/made-to-move-arches.jpg"
+              alt="Model walking through a vaulted palace corridor, a long sheer drape flowing behind her, black and white"
               fill
               sizes="(min-width: 1024px) 568px, 100vw"
               className="object-cover object-[50%_60%] grayscale"

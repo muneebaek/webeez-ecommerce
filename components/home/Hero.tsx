@@ -9,8 +9,8 @@ export default function Hero() {
       {/* ---------- Left: campaign image ---------- */}
       <div className="hero__media">
         <Image
-          src="/images/hero/hero-02.jpg"
-          alt="Model in an ivory embellished kurta, sharara and dupatta in a heritage room with a chequered floor"
+          src="/images/hero/hero-wrap-dress.jpg"
+          alt="Model in a rose linen wrap dress with ivory layered panels, standing in a sunlit concrete gallery"
           fill
           priority
           sizes="(min-width: 1024px) 58vw, 100vw"
