@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { formatINR } from "@/lib/format";
+import RememberOrder from "@/components/order/RememberOrder";
 import { isValidOrderToken } from "@/lib/order-link";
 
 export const metadata: Metadata = {
@@ -47,6 +48,13 @@ async function OrderDetail({ params, searchParams }: Pick<PageProps<"/order/[ord
 
   return (
     <>
+      {/* remembers the order in this browser → "Write a review" appears on these products' pages */}
+      <RememberOrder
+        orderNumber={order.orderNumber}
+        token={order.accessToken}
+        productIds={order.items.flatMap((i) => (i.productId ? [i.productId] : []))}
+      />
+
       {/* ---------- Success header ---------- */}
       <header className="flex flex-col items-center border-b-2 border-rule pb-10 text-center">
         <span className="grid size-14 place-items-center rounded-full bg-sage text-slate" aria-hidden="true">

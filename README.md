@@ -42,6 +42,10 @@ These are test-only credentials for this review.
 - Checkout with validation; Cash on Delivery.
 - Confirmation page and HTML confirmation email.
 - Order tracking (`/orders`) by order number + email.
+- Reviews with a 1–5 star rating, **only on products the customer bought**: the browser remembers its orders from the
+  confirmation page, "Write a review" appears only on those products, and the server checks the order's secret token,
+  that it isn't cancelled and that it contains the product (one review per product per order, shown as "✓ Verified buyer").
+  The buyer can edit their review later from the same product page.
 - Help pages: shipping, returns, size guide, contact, privacy, terms.
 
 **Admin dashboard** (`/admin`, login required)
@@ -100,12 +104,12 @@ app/
   styles/             custom CSS (base, components, sections, admin)
 components/           UI by area: home, product, catalog, cart, checkout, order, admin, layout
 lib/
-  actions/            Server Actions (order, tracking, admin orders / products / reviews, admin login)
+  actions/            Server Actions (order, reviews, tracking, admin orders / products / reviews, admin login)
   data/               database reads (cached store reads, live admin reads)
   email/              order email template + sending
   auth/               admin session (sign / verify cookie)
   db.ts               Prisma client
-store/                zustand stores (cart, wishlist)
+store/                zustand stores (cart, wishlist, this browser's orders for reviews)
 prisma/               schema, migrations, seed
 proxy.ts              protects /admin
 ```
