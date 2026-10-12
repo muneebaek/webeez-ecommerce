@@ -1,9 +1,10 @@
 import ProductCard from "@/components/product/ProductCard";
-import { getProductsByCollection } from "@/lib/data/products";
+import { getAllProducts } from "@/lib/data/products";
+import { pickForSection } from "@/lib/home-sections";
 
 export default async function NewArrivals() {
   // first product = flagship (large card), the other 2 normal
-  const [flagship, ...rest] = (await getProductsByCollection("new-arrivals")).slice(0, 3);
+  const [flagship, ...rest] = pickForSection(await getAllProducts(), "new-arrivals", 3); // newest = the large card
 
   return (
     <section className="bg-paper py-14 lg:py-20">
