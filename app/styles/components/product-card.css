@@ -123,6 +123,12 @@
         white-space: nowrap;
       }
 
+      /* a fabric name longer than the whole card (admin-entered) wraps inside the card instead of overflowing */
+      & > span:last-child:not(:first-child) {
+        max-width: 100%;
+        white-space: normal;
+      }
+
       @media (min-width: 640px) {
         font-size: 0.5625rem;
         letter-spacing: 0.08em;

@@ -1,9 +1,18 @@
 import Link from "next/link";
 import ProductCard from "@/components/product/ProductCard";
-import { getProductsByCollection } from "@/lib/data/products";
+import { getAllProducts } from "@/lib/data/products";
+
+const PRICE_LIMIT = 2999;
+const SLOTS = 4;
 
 export default async function UnderPrice() {
-  const items = (await getProductsByCollection("under-2999")).slice(0, 4);
+  const all = (await getAllProducts()).filter((p) => p.price <= PRICE_LIMIT);
+  // pieces tagged "Under ₹2,999" first (store order); empty slots fill with other in-stock pieces at this price, newest first
+  const tagged = all.filter((p) => p.collections.includes("under-2999"));
+  const others = all
+    .filter((p) => !p.collections.includes("under-2999") && p.stock > 0)
+    .reverse(); // new products get the highest sortOrder
+  const items = [...tagged, ...others].slice(0, SLOTS);
 
   return (
     <section className="border-y-2 border-rule bg-sage py-14 lg:py-20">
